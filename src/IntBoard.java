@@ -7,12 +7,36 @@ import java.util.Map;
 import java.util.Set;
 
 public class IntBoard {
+	private int numRows,numColumns;
+	public int getNumRows() {
+		return numRows;
+	}
+	public int getNumColumns() {
+		return numColumns;
+	}
 	final static int BOARD_SIZE = 4;
 	BoardCell[][] gameBoard = new BoardCell[BOARD_SIZE][BOARD_SIZE];
 	public Map<BoardCell, LinkedList<BoardCell>> adjacencyList = new HashMap<BoardCell, LinkedList<BoardCell>>(); 
 	private Set<BoardCell> targets;
 	private static Map<Character, String> rooms;
+	private String boardConfigFile;
+	private String roomConfigFile;
+	public void initialize()
+	{
+		
+	}
+	public void loadRoomConfigFile(String roomConfigFile) throws BadConfigFormatException
+	{
+		
+	}
+	public void loadBoardConfigFile(String filename)throws BadConfigFormatException
+	{
+		
+	}
 	
+	public static Map<Character, String> getRooms() {
+		return null;
+	}
 	public void calcAdjancencies()
 	{
 		
