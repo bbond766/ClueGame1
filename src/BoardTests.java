@@ -1,6 +1,7 @@
 import static org.junit.Assert.*;
 
 import java.util.LinkedList;
+import java.util.Set;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -9,7 +10,7 @@ public class BoardTests {
 	IntBoard boardTest;
 	@Before
 	public void intBoardSetUp() {
-		boardTest = new IntBoard();
+		boardTest = new IntBoard("","");
 		boardTest.calcAdjancencies();
 	}
 
@@ -86,8 +87,73 @@ public class BoardTests {
 		assertTrue(doorwayTest2.contains(boardTest.getCell(17,12)));
 		
 		//Targets along walkways, at various distances
+		boardTest.calcTargets(boardTest.getCell(6,17), 2);
+		Set<BoardCell> targetDistTwoTest = boardTest.getTargets();
+		assertTrue(targetDistTwoTest.contains(boardTest.getCell(6,15)));
+		assertTrue(targetDistTwoTest.contains(boardTest.getCell(7,15)));
+		assertTrue(targetDistTwoTest.contains(boardTest.getCell(7,18)));
+		assertTrue(targetDistTwoTest.contains(boardTest.getCell(6,19)));
+		assertTrue(targetDistTwoTest.contains(boardTest.getCell(5,18)));
+		assertTrue(targetDistTwoTest.contains(boardTest.getCell(5,16)));
 		
-
+		boardTest.calcTargets(boardTest.getCell(6,17), 3);
+		Set<BoardCell> targetDistThreeTest = boardTest.getTargets();
+		assertTrue(targetDistThreeTest.contains(boardTest.getCell(5,15)));
+		assertTrue(targetDistThreeTest.contains(boardTest.getCell(7,15)));
+		assertTrue(targetDistThreeTest.contains(boardTest.getCell(5,16)));
+		assertTrue(targetDistThreeTest.contains(boardTest.getCell(6,19)));
+		assertTrue(targetDistThreeTest.contains(boardTest.getCell(8,16)));
+		assertTrue(targetDistThreeTest.contains(boardTest.getCell(5,17)));
+		assertTrue(targetDistThreeTest.contains(boardTest.getCell(7,17)));
+		assertTrue(targetDistThreeTest.contains(boardTest.getCell(6,18)));
+		assertTrue(targetDistThreeTest.contains(boardTest.getCell(5,19)));
+		assertTrue(targetDistThreeTest.contains(boardTest.getCell(7,19)));
+		assertTrue(targetDistThreeTest.contains(boardTest.getCell(6,20)));
+		
+		boardTest.calcTargets(boardTest.getCell(6,17), 4);
+		Set<BoardCell> targetDistFourTest = boardTest.getTargets();
+		assertTrue(targetDistFourTest.contains(boardTest.getCell(7,14)));
+		assertTrue(targetDistFourTest.contains(boardTest.getCell(4,15)));
+		assertTrue(targetDistFourTest.contains(boardTest.getCell(6,15)));
+		assertTrue(targetDistFourTest.contains(boardTest.getCell(8,15)));
+		assertTrue(targetDistFourTest.contains(boardTest.getCell(5,16)));
+		assertTrue(targetDistFourTest.contains(boardTest.getCell(7,16)));
+		assertTrue(targetDistFourTest.contains(boardTest.getCell(9,16)));
+		assertTrue(targetDistFourTest.contains(boardTest.getCell(5,18)));
+		assertTrue(targetDistFourTest.contains(boardTest.getCell(7,18)));
+		assertTrue(targetDistFourTest.contains(boardTest.getCell(6,19)));
+		assertTrue(targetDistFourTest.contains(boardTest.getCell(5,20)));
+		assertTrue(targetDistFourTest.contains(boardTest.getCell(6,21)));
+		assertFalse(targetDistFourTest.contains(boardTest.getCell(2,17)));
+		
+		boardTest.calcTargets(boardTest.getCell(16,10), 4);
+		Set<BoardCell> targetDistTwoTest2 = boardTest.getTargets();
+		assertTrue(targetDistTwoTest2.contains(boardTest.getCell(16,8)));
+		assertTrue(targetDistTwoTest2.contains(boardTest.getCell(17,9)));
+		assertTrue(targetDistTwoTest2.contains(boardTest.getCell(18,10)));
+		assertTrue(targetDistTwoTest2.contains(boardTest.getCell(17,11)));
+		assertTrue(targetDistTwoTest2.contains(boardTest.getCell(16,12)));
+		
+		//Targets that allow the user to enter a room
+		boardTest.calcTargets(boardTest.getCell(1,13), 1);
+		Set<BoardCell> targetRoomTest = boardTest.getTargets();
+		assertTrue(targetRoomTest.contains(boardTest.getCell(1,14)));
+		
+		boardTest.calcTargets(boardTest.getCell(16,17), 1);
+		Set<BoardCell> targetRoomTest2 = boardTest.getTargets();
+		assertTrue(targetRoomTest2.contains(boardTest.getCell(15,17)));
+		assertFalse(targetRoomTest2.contains(boardTest.getCell(16,18)));
+		
+		//Targets calculated when leaving a room
+		boardTest.calcTargets(boardTest.getCell(1,14), 1);
+		Set<BoardCell> exitRoomTest = boardTest.getTargets();
+		assertTrue(exitRoomTest.contains(boardTest.getCell(1,13)));
+		assertFalse(exitRoomTest.contains(boardTest.getCell(2,14)));
+		
+		boardTest.calcTargets(boardTest.getCell(23,14), 1);
+		Set<BoardCell> exitRoomTest2 = boardTest.getTargets();
+		assertTrue(exitRoomTest2.contains(boardTest.getCell(23,15)));
+		assertFalse(exitRoomTest2.contains(boardTest.getCell(22,14)));
 	}
 
 }
