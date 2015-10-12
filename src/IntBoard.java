@@ -11,12 +11,7 @@ import java.util.Set;
 
 public class IntBoard {
 	private int numRows,numColumns;
-	public int getNumRows() {
-		return numRows;
-	}
-	public int getNumColumns() {
-		return numColumns;
-	}
+	
 	final static int BOARD_SIZE = 26;
 	BoardCell[][] gameBoard = new BoardCell[BOARD_SIZE][BOARD_SIZE];
 	public Map<BoardCell, LinkedList<BoardCell>> adjacencyList = new HashMap<BoardCell, LinkedList<BoardCell>>(); 
@@ -29,13 +24,15 @@ public class IntBoard {
 		super();
 		this.boardConfigFile = boardConfigFile;
 		this.roomConfigFile = roomConfigFile;
+		numColumns=BOARD_SIZE;
+		numRows=BOARD_SIZE;
+		rooms = new HashMap<Character,String>();
 	}
 	public void initialize()
 	{
 		try {
 			loadBoardConfigFile(boardConfigFile);
 		} catch (BadConfigFormatException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		try {
@@ -61,7 +58,7 @@ public class IntBoard {
 				}
 				if(test[2].equals("Card"))
 					rooms.put(test[0].charAt(0), test[1]);
-				if(!test[2].equals("Card") || !test[2].equals("Other"))
+				if(!test[2].equals("Card") && !test[2].equals("Other"))
 				{
 					throw new BadConfigFormatException("Improper type for a room");
 				}
@@ -78,61 +75,68 @@ public class IntBoard {
 		try {
 			FileReader reader = new FileReader(filename);
 			Scanner in = new Scanner(reader);
-			in.useDelimiter("\\s,\\s|\\s\n\\s");
 			int i = 0;
-			while(in.hasNext())
+			
+			while(in.hasNextLine())
 			{
-				
-				String a = new String(in.next());
-				char initial = a.charAt(0);
-				if(a.charAt(0) >47 && a.charAt(0) < 58){
-					continue;
-				}
-				if(i > BOARD_SIZE*BOARD_SIZE)
-				{
+				String a = in.nextLine();
+				String[] test = a.split(",");
+				if( i == 0 && test.length != BOARD_SIZE)
 					throw new BadConfigFormatException("File length excedded expected board size.");
-				}
-				if(a.length()>1)
+				for(int j = 0; j < test.length;j++)
 				{
-					if(a.charAt(1) != 'N')
+//					System.out.print('['+test[j]+','+j+','+i+"],");
+					char initial = test[j].charAt(0);
+					if(test[j].length()>1)
 					{
-						gameBoard[i%numColumns][i/numColumns] = new BoardCell(i%numColumns,i/numColumns, initial, DoorDirection.NONE);
+						if(test[j].charAt(1) == 'N')
+						{
+							gameBoard[j][i] = new BoardCell(j,i, initial, DoorDirection.NONE);
+						}
+						else
+						{
+							switch(test[j].charAt(1))
+							{
+							case 'U':
+								gameBoard[j][i] = new BoardCell(j,i, initial, DoorDirection.UP);
+								break;
+							case 'D':
+								gameBoard[j][i] = new BoardCell(j,i, initial, DoorDirection.DOWN);
+								break;
+							case 'L':
+								gameBoard[j][i] = new BoardCell(j,i, initial, DoorDirection.LEFT);
+								break;
+							case 'R':
+								gameBoard[j][i] = new BoardCell(j,i, initial, DoorDirection.RIGHT);
+								break;
+							}
+						}
+							
 					}
 					else
 					{
-						switch(a.charAt(1))
-						{
-						case 'U':
-							gameBoard[i%numColumns][i/numColumns] = new BoardCell(i%numColumns,i/numColumns, initial, DoorDirection.UP);
-							break;
-						case 'D':
-							gameBoard[i%numColumns][i/numColumns] = new BoardCell(i%numColumns,i/numColumns, initial, DoorDirection.DOWN);
-							break;
-						case 'L':
-							gameBoard[i%numColumns][i/numColumns] = new BoardCell(i%numColumns,i/numColumns, initial, DoorDirection.LEFT);
-							break;
-						case 'R':
-							gameBoard[i%numColumns][i/numColumns] = new BoardCell(i%numColumns,i/numColumns, initial, DoorDirection.RIGHT);
-							break;
-						}
+						gameBoard[j][i] = new BoardCell(j,i, initial, DoorDirection.NONE);
 					}
-						
 				}
-				else
-				{
-					gameBoard[i%numColumns][i/numColumns] = new BoardCell(i%numColumns,i/numColumns, initial, DoorDirection.NONE);
-				}
-				
+				//System.out.println();
 				i++;
 			}
 		} catch (FileNotFoundException e) {
 			BadConfigFormatException ex = new BadConfigFormatException(e.getMessage());
 			throw ex;
 		}
+		//System.out.println();
+		//System.out.println();
 	}
 	
 	public static Map<Character, String> getRooms() {
 		return rooms;
+	}
+	public int getNumRows() {
+		return numRows;
+	}
+	public int getNumColumns() {
+		return numColumns;
 	}
 	public void calcAdjancencies()
 	{

@@ -15,7 +15,7 @@ public class loadingTest {
 	@Test
 	public void test() {
 		assertEquals(9, boardTest.getRooms().size());
-		assertEquals("Dining Room",boardTest.getRooms().get('D'));
+		assertEquals("Dining room",boardTest.getRooms().get('D'));
 		
 		assertEquals(boardTest.BOARD_SIZE, boardTest.getNumColumns());
 		assertEquals(boardTest.BOARD_SIZE, boardTest.getNumRows());
@@ -24,15 +24,13 @@ public class loadingTest {
 		assertFalse(boardTest.getCell(0, 0).isDoorway());
 	}
 	@Test(expected=BadConfigFormatException.class)
-	public void testBadConfigFormatException()
+	public void testBadConfigFormatException() throws BadConfigFormatException
 	{
 		
-		try {
+		
 			boardTest.loadBoardConfigFile("filename");
 			boardTest.loadRoomConfigFile("filename");
-		} catch (BadConfigFormatException e) {
-			fail("Throws an exception.");
-		}
+		
 		
 	}
 

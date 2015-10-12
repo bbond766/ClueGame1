@@ -33,6 +33,6 @@ public class BoardCell {
 	@Override
 	public String toString()
 	{
-		return "["+xPos+","+yPos+"]";
+		return "["+xPos+","+yPos+","+initial+","+direction+"]";
 	}
 }
