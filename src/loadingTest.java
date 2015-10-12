@@ -9,6 +9,7 @@ public class loadingTest {
 	@Before
 	public void setUpBoard()
 	{
+		boardTest = new IntBoard("board.csv", "key.txt");
 		boardTest.initialize();
 	}
 	@Test
