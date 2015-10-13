@@ -10,7 +10,7 @@ public class IntBoardTests {
 	IntBoard boardTest;
 	@Before
 	public void intBoardSetUp() {
-		boardTest = new IntBoard();
+		boardTest = new IntBoard("","");
 		boardTest.calcAdjancencies();
 	} 
 	
