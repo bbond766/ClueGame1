@@ -19,11 +19,11 @@ public class loadingTest {
 	}
 	@Test
 	public void test() {
-		assertEquals(9, boardTest.getRooms().size());
+		assertEquals(11, boardTest.getRooms().size());
 		assertEquals("Dining room",boardTest.getRooms().get('D'));
 		
-		assertEquals(boardTest.BOARD_SIZE, boardTest.getNumColumns());
-		assertEquals(boardTest.BOARD_SIZE, boardTest.getNumRows());
+		assertEquals(26, boardTest.getNumColumns());
+		assertEquals(26, boardTest.getNumRows());
 		assertEquals(DoorDirection.DOWN, boardTest.getCellAt(11, 6).getDoorDirection());
 		assertEquals(DoorDirection.NONE, boardTest.getCellAt(0, 0).getDoorDirection());
 		assertFalse(boardTest.getCellAt(0, 0).isDoorway());

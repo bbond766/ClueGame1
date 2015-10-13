@@ -13,7 +13,7 @@ import java.util.Set;
 public class Board {
 	private int numRows,numColumns;
 	
-	final static int BOARD_SIZE = 100;
+	public final static int BOARD_SIZE = 100;
 	BoardCell[][] gameBoard = new BoardCell[BOARD_SIZE][BOARD_SIZE];
 	public Map<BoardCell, LinkedList<BoardCell>> adjacencyList = new HashMap<BoardCell, LinkedList<BoardCell>>(); 
 	private Set<BoardCell> targets;
@@ -152,8 +152,7 @@ public class Board {
 			for(int j = 0; j < numRows;j++)
 			{
 				LinkedList<BoardCell> temp= new LinkedList<BoardCell>();
-				if(gameBoard[i][j].isRoom())
-					continue;
+				
 //				System.out.println("["+i+","+j+","+gameBoard[i][j].initial+"]");
 				if(j+1 < numRows )
 				{
