@@ -1,3 +1,4 @@
+package clueGame;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.ArrayList;
@@ -9,40 +10,38 @@ import java.util.Map;
 import java.util.Scanner;
 import java.util.Set;
 
-public class IntBoard {
+public class Board {
 	private int numRows,numColumns;
 	
-	final static int BOARD_SIZE = 26;
+	final static int BOARD_SIZE = 100;
 	BoardCell[][] gameBoard = new BoardCell[BOARD_SIZE][BOARD_SIZE];
 	public Map<BoardCell, LinkedList<BoardCell>> adjacencyList = new HashMap<BoardCell, LinkedList<BoardCell>>(); 
 	private Set<BoardCell> targets;
 	private static Map<Character, String> rooms;
-	private String boardConfigFile;
-	private String roomConfigFile;
-	IntBoard(String boardConfigFile, String roomConfigFile)
+	private String boardConfigFile = "ClueLayout.csv";
+	private String roomConfigFile = "ClueLegend.txt";
+	public Board()
+	{
+		super();
+		rooms = new HashMap<Character,String>();
+	}
+	public Board(String boardConfigFile, String roomConfigFile)
 	{
 		super();
 		this.boardConfigFile = boardConfigFile;
 		this.roomConfigFile = roomConfigFile;
-		numColumns=BOARD_SIZE;
-		numRows=BOARD_SIZE;
 		rooms = new HashMap<Character,String>();
 	}
 	public void initialize()
 	{
 		try {
-			loadBoardConfigFile(boardConfigFile);
+			loadRoomConfig();
+			loadBoardConfig();
 		} catch (BadConfigFormatException e) {
-			e.printStackTrace();
-		}
-		try {
-			loadRoomConfigFile(roomConfigFile);
-		} catch (BadConfigFormatException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
-	public void loadRoomConfigFile(String roomConfigFile) throws BadConfigFormatException
+	public void loadRoomConfig() throws BadConfigFormatException
 	{
 		FileReader reader;
 		try {
@@ -56,8 +55,7 @@ public class IntBoard {
 				{
 					throw new BadConfigFormatException("Improper format for key, Incorrect number of elements found on a line");
 				}
-				if(test[2].equals("Card"))
-					rooms.put(test[0].charAt(0), test[1]);
+				rooms.put(test[0].charAt(0), test[1]);
 				if(!test[2].equals("Card") && !test[2].equals("Other"))
 				{
 					throw new BadConfigFormatException("Improper type for a room");
@@ -70,10 +68,10 @@ public class IntBoard {
 		
 		
 	}
-	public void loadBoardConfigFile(String filename)throws BadConfigFormatException
+	public void loadBoardConfig()throws BadConfigFormatException
 	{
 		try {
-			FileReader reader = new FileReader(filename);
+			FileReader reader = new FileReader(boardConfigFile);
 			Scanner in = new Scanner(reader);
 			int i = 0;
 			
@@ -81,12 +79,18 @@ public class IntBoard {
 			{
 				String a = in.nextLine();
 				String[] test = a.split(",");
-				if( i == 0 && test.length != BOARD_SIZE)
-					throw new BadConfigFormatException("File length excedded expected board size.");
+				if(i==0)
+					numColumns=test.length;
+				if( test.length != numColumns)
+					throw new BadConfigFormatException("File length excedded max board size.");
 				for(int j = 0; j < test.length;j++)
 				{
 //					System.out.print('['+test[j]+','+j+','+i+"],");
 					char initial = test[j].charAt(0);
+					if(!rooms.containsKey(initial))
+					{
+						throw new BadConfigFormatException("Room initial did not match any values in the legend");
+					}
 					if(test[j].length()>1)
 					{
 						if(test[j].charAt(1) == 'N')
@@ -120,7 +124,9 @@ public class IntBoard {
 				}
 				//System.out.println();
 				i++;
+//				System.out.println(i);
 			}
+			numRows=i;
 		} catch (FileNotFoundException e) {
 			BadConfigFormatException ex = new BadConfigFormatException(e.getMessage());
 			throw ex;
@@ -141,26 +147,36 @@ public class IntBoard {
 	public void calcAdjancencies()
 	{
 		
-		for(int i = 0; i < gameBoard.length;i++)
+		for(int i = 0; i < numColumns;i++)
 		{
-			for(int j = 0; j < gameBoard[i].length;j++)
+			for(int j = 0; j < numRows;j++)
 			{
 				LinkedList<BoardCell> temp= new LinkedList<BoardCell>();
-				if(j+1 <BOARD_SIZE)
+				if(gameBoard[i][j].isRoom())
+					continue;
+//				System.out.println("["+i+","+j+","+gameBoard[i][j].initial+"]");
+				if(j+1 < numRows )
 				{
-					temp.add(gameBoard[i][j+1]);
+//					System.out.println("inside");
+					if((gameBoard[i][j].initial == gameBoard[i][j+1].initial) ||(gameBoard[i][j].getDoorDirection().equals(DoorDirection.DOWN) ||gameBoard[i][j+1].getDoorDirection().equals(DoorDirection.UP)))
+						temp.add(gameBoard[i][j+1]);
+					
 				}
-				if(i+1 < BOARD_SIZE)
+//				System.out.println(i+","+j+","+numColumns);
+				if(i+1 < numColumns)
 				{
-					temp.add(gameBoard[i+1][j]);
+					if((gameBoard[i][j].initial == gameBoard[i+1][j].initial)||(gameBoard[i][j].getDoorDirection().equals(DoorDirection.RIGHT) ||gameBoard[i+1][j].getDoorDirection().equals(DoorDirection.LEFT)))
+						temp.add(gameBoard[i+1][j]);
 				}
 				if(j-1 >=0)
 				{
-					temp.add(gameBoard[i][j-1]);
+					if((gameBoard[i][j].initial == gameBoard[i][j-1].initial) || (gameBoard[i][j].getDoorDirection().equals(DoorDirection.UP) || (gameBoard[i][j-1].getDoorDirection().equals(DoorDirection.DOWN))))
+						{temp.add(gameBoard[i][j-1]);}
 				}
 				if(i-1 >=0)
 				{
-					temp.add(gameBoard[i-1][j]);
+					if((gameBoard[i][j].initial == gameBoard[i-1][j].initial) || (gameBoard[i][j].getDoorDirection().equals(DoorDirection.LEFT) || (gameBoard[i-1][j].getDoorDirection().equals(DoorDirection.RIGHT))))
+						temp.add(gameBoard[i-1][j]);
 				}
 				
 				adjacencyList.put(gameBoard[i][j],temp);
@@ -171,12 +187,29 @@ public class IntBoard {
 		
 	}
 	
-	public BoardCell getCell(int xPos, int yPos)
+	public BoardCell getCellAt(int xPos, int yPos)
 	{
 		return gameBoard[xPos][yPos];
 	}
 	public void calcTargets(BoardCell startCell, int pathLength){
-		targets = drawLine(new HashSet<BoardCell>(),startCell, pathLength);
+		if(startCell.isDoorway())
+		{
+//			System.out.println(startCell);
+			Set<BoardCell> usedSpaces = new HashSet<BoardCell>();
+			usedSpaces.add(startCell);
+			for(BoardCell i: adjacencyList.get(startCell))
+			{
+				if(!i.isRoom())
+				{
+					targets = drawLine(usedSpaces,i, pathLength-1);
+				}
+			}
+		}
+		else
+		{
+			targets = drawLine(new HashSet<BoardCell>(),startCell, pathLength);
+		}
+		
 		
 	}
 	public Set<BoardCell> getTargets()
@@ -188,7 +221,7 @@ public class IntBoard {
 	{
 		usedSpaces.add(currentLocation);
 		Set<BoardCell> targetsList = new HashSet<BoardCell>();
-		if(spacesLeft==0)
+		if(spacesLeft==0 || currentLocation.isDoorway())
 		{
 			targetsList.add(currentLocation);
 			usedSpaces.remove(currentLocation);
@@ -199,7 +232,8 @@ public class IntBoard {
 			if(!usedSpaces.contains(i)){
 				Set<BoardCell> temp = drawLine(usedSpaces, i, spacesLeft-1);
 				for(BoardCell j : temp)
-					targetsList.add(j);
+					if(!j.isRoom() || j.isDoorway())
+						targetsList.add(j);
 			}
 		}
 		usedSpaces.remove(currentLocation);
@@ -207,7 +241,11 @@ public class IntBoard {
 	}
 	public LinkedList<BoardCell>getAdjList(int xPos, int yPos)
 	{
-		LinkedList<BoardCell> temp = new LinkedList<BoardCell>(adjacencyList.get(getCell(xPos,yPos)));
+		LinkedList<BoardCell> temp = new LinkedList<BoardCell>(adjacencyList.get(getCellAt(xPos,yPos)));
 		return temp;
+	}
+	public void calcTargets(int i, int j, int k) {
+		calcTargets(getCellAt(i,j),k);
+		
 	}
 }

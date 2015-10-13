@@ -1,24 +1,28 @@
+package clueGame;
 
 public class BoardCell {
 	int xPos;
 	int yPos;
 	char initial;
-
+	boolean room;
 	private DoorDirection direction;
-	public DoorDirection getDirection() {
+	public DoorDirection getDoorDirection() {
 		return direction;
+	}
+	public char getInitial() {
+		return initial;
 	}
 	boolean isWalkway()
 	{
-		return false;
+		return initial == 'W';
 	}
 	boolean isRoom()
 	{
-		return false;
+		return (initial != 'X' && initial != 'W');
 	}
-	boolean isDoorway()
+	public boolean isDoorway()
 	{
-		return false;
+		return (direction != DoorDirection.NONE);
 	}
 	public BoardCell(int xPos, int yPos, char initial, DoorDirection direction) {
 		super();
