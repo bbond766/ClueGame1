@@ -24,7 +24,7 @@ public class loadingTest {
 		
 		assertEquals(26, boardTest.getNumColumns());
 		assertEquals(26, boardTest.getNumRows());
-		assertEquals(DoorDirection.DOWN, boardTest.getCellAt(11, 6).getDoorDirection());
+		assertEquals(DoorDirection.RIGHT, boardTest.getCellAt(11, 6).getDoorDirection());
 		assertEquals(DoorDirection.NONE, boardTest.getCellAt(0, 0).getDoorDirection());
 		assertFalse(boardTest.getCellAt(0, 0).isDoorway());
 	}

@@ -37,6 +37,7 @@ public class Board {
 		try {
 			loadRoomConfig();
 			loadBoardConfig();
+			calcAdjancencies();
 		} catch (BadConfigFormatException e) {
 			e.printStackTrace();
 		}
@@ -95,23 +96,23 @@ public class Board {
 					{
 						if(test[j].charAt(1) == 'N')
 						{
-							gameBoard[j][i] = new BoardCell(j,i, initial, DoorDirection.NONE);
+							gameBoard[i][j] = new BoardCell(i,j, initial, DoorDirection.NONE);
 						}
 						else
 						{
 							switch(test[j].charAt(1))
 							{
 							case 'U':
-								gameBoard[j][i] = new BoardCell(j,i, initial, DoorDirection.UP);
+								gameBoard[i][j] = new BoardCell(i,j, initial, DoorDirection.UP);
 								break;
 							case 'D':
-								gameBoard[j][i] = new BoardCell(j,i, initial, DoorDirection.DOWN);
+								gameBoard[i][j] = new BoardCell(i,j, initial, DoorDirection.DOWN);
 								break;
 							case 'L':
-								gameBoard[j][i] = new BoardCell(j,i, initial, DoorDirection.LEFT);
+								gameBoard[i][j] = new BoardCell(i,j, initial, DoorDirection.LEFT);
 								break;
 							case 'R':
-								gameBoard[j][i] = new BoardCell(j,i, initial, DoorDirection.RIGHT);
+								gameBoard[i][j] = new BoardCell(i,j, initial, DoorDirection.RIGHT);
 								break;
 							}
 						}
@@ -119,7 +120,7 @@ public class Board {
 					}
 					else
 					{
-						gameBoard[j][i] = new BoardCell(j,i, initial, DoorDirection.NONE);
+						gameBoard[i][j] = new BoardCell(i,j, initial, DoorDirection.NONE);
 					}
 				}
 				//System.out.println();
@@ -147,34 +148,38 @@ public class Board {
 	public void calcAdjancencies()
 	{
 		
-		for(int i = 0; i < numColumns;i++)
+		for(int i = 0; i < numRows;i++)
 		{
-			for(int j = 0; j < numRows;j++)
+			for(int j = 0; j < numColumns;j++)
 			{
 				LinkedList<BoardCell> temp= new LinkedList<BoardCell>();
 				
+				if(gameBoard[i][j].isRoom() && !gameBoard[i][j].isDoorway()){
+					adjacencyList.put(gameBoard[i][j],temp);
+					continue;
+				}
 //				System.out.println("["+i+","+j+","+gameBoard[i][j].initial+"]");
-				if(j+1 < numRows )
+				if(j+1 < numColumns )
 				{
 //					System.out.println("inside");
-					if((gameBoard[i][j].initial == gameBoard[i][j+1].initial) ||(gameBoard[i][j].getDoorDirection().equals(DoorDirection.DOWN) ||gameBoard[i][j+1].getDoorDirection().equals(DoorDirection.UP)))
+					if(((gameBoard[i][j].initial == gameBoard[i][j+1].initial)&& !gameBoard[i][j].isRoom()) ||(gameBoard[i][j].getDoorDirection().equals(DoorDirection.RIGHT) ||gameBoard[i][j+1].getDoorDirection().equals(DoorDirection.LEFT)))
 						temp.add(gameBoard[i][j+1]);
 					
 				}
 //				System.out.println(i+","+j+","+numColumns);
-				if(i+1 < numColumns)
+				if(i+1 < numRows)
 				{
-					if((gameBoard[i][j].initial == gameBoard[i+1][j].initial)||(gameBoard[i][j].getDoorDirection().equals(DoorDirection.RIGHT) ||gameBoard[i+1][j].getDoorDirection().equals(DoorDirection.LEFT)))
+					if(((gameBoard[i][j].initial == gameBoard[i+1][j].initial)&& !gameBoard[i][j].isRoom())||(gameBoard[i][j].getDoorDirection().equals(DoorDirection.DOWN) ||gameBoard[i+1][j].getDoorDirection().equals(DoorDirection.UP)))
 						temp.add(gameBoard[i+1][j]);
 				}
 				if(j-1 >=0)
 				{
-					if((gameBoard[i][j].initial == gameBoard[i][j-1].initial) || (gameBoard[i][j].getDoorDirection().equals(DoorDirection.UP) || (gameBoard[i][j-1].getDoorDirection().equals(DoorDirection.DOWN))))
+					if(((gameBoard[i][j].initial == gameBoard[i][j-1].initial)&& !gameBoard[i][j].isRoom()) || (gameBoard[i][j].getDoorDirection().equals(DoorDirection.LEFT) || (gameBoard[i][j-1].getDoorDirection().equals(DoorDirection.RIGHT))))
 						{temp.add(gameBoard[i][j-1]);}
 				}
 				if(i-1 >=0)
 				{
-					if((gameBoard[i][j].initial == gameBoard[i-1][j].initial) || (gameBoard[i][j].getDoorDirection().equals(DoorDirection.LEFT) || (gameBoard[i-1][j].getDoorDirection().equals(DoorDirection.RIGHT))))
+					if(((gameBoard[i][j].initial == gameBoard[i-1][j].initial)&& !gameBoard[i][j].isRoom()) || (gameBoard[i][j].getDoorDirection().equals(DoorDirection.UP) || (gameBoard[i-1][j].getDoorDirection().equals(DoorDirection.DOWN))))
 						temp.add(gameBoard[i-1][j]);
 				}
 				
@@ -193,7 +198,7 @@ public class Board {
 	public void calcTargets(BoardCell startCell, int pathLength){
 		if(startCell.isDoorway())
 		{
-			targets = new Set<BoardCell>();
+			targets = new HashSet<BoardCell>();
 			/*Line above is only used when the start cell is a non doorway inside of a room, 
 				in current gameplay this would never happen but some tests need this line, 
 			*/
@@ -224,14 +229,22 @@ public class Board {
 	{
 		usedSpaces.add(currentLocation);
 		Set<BoardCell> targetsList = new HashSet<BoardCell>();
+//		System.out.println(currentLocation+","+currentLocation.isDoorway());
+		//System.out.println(usedSpaces+","+currentLocation+","+spacesLeft);
 		if(spacesLeft==0 || currentLocation.isDoorway())
 		{
 			targetsList.add(currentLocation);
 			usedSpaces.remove(currentLocation);
+//			System.out.println(currentLocation);
 			return targetsList;
 		}
+//		System.out.println("something");
+//		System.out.println(currentLocation.xPos+","+ currentLocation.yPos);
+//		System.out.println(getAdjList(currentLocation.xPos, currentLocation.yPos));
 		for(BoardCell i : getAdjList(currentLocation.xPos, currentLocation.yPos))
 		{
+			
+			//System.out.println(i);
 			if(!usedSpaces.contains(i)){
 				Set<BoardCell> temp = drawLine(usedSpaces, i, spacesLeft-1);
 				for(BoardCell j : temp)
