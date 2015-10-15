@@ -193,12 +193,16 @@ public class Board {
 	public void calcTargets(BoardCell startCell, int pathLength){
 		if(startCell.isDoorway())
 		{
+			targets = new Set<BoardCell>();
+			/*Line above is only used when the start cell is a non doorway inside of a room, 
+				in current gameplay this would never happen but some tests need this line, 
+			*/
 //			System.out.println(startCell);
 			Set<BoardCell> usedSpaces = new HashSet<BoardCell>();
 			usedSpaces.add(startCell);
 			for(BoardCell i: adjacencyList.get(startCell))
 			{
-				if(!i.isRoom())
+				if(!i.isRoom())//TODO: Remove condition to allow movement through a room
 				{
 					targets = drawLine(usedSpaces,i, pathLength-1);
 				}
