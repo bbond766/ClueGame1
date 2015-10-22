@@ -264,4 +264,18 @@ public class Board {
 		calcTargets(getCellAt(i,j),k);
 		
 	}
+	public void loadConfigFiles(){
+		//load people file
+		//TO DO
+	}
+
+	public void selectAnswer(){
+		
+	}
+	public Card handleSuggestion(Solution suggestion, String accusingPlayer, BoardCell clicked){
+		return null;
+	}
+	public boolean checkAccusation(Solution accusation){
+		return false;
+	}
 }
