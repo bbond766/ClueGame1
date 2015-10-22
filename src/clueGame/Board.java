@@ -268,15 +268,74 @@ public class Board {
 		return temp;
 	}
 	public void loadPlayerConfig() throws BadConfigFormatException {
-//		try{
-//			FileReader reader = new FileReader(boardConfigFile);
-//			Scanner in = new Scanner(reader);
-//			int i = 0; 
-//			
-//		}
-//		} catch (BadConfigFormatException e){
-//			e.printStackTrace();
-//		}
+		try {
+			FileReader reader = new FileReader(playerConfigFile);
+			Scanner in = new Scanner(reader);
+			int i = 0;
+			
+			while(in.hasNextLine())
+			{
+				String a = in.nextLine();
+				String[] test = a.split(",");
+//				if(i==0)
+//					numColumns=test.length;
+				if( test.length != 4)
+					throw new BadConfigFormatException("Player config file is not formatted correctly.");
+//				for(int j = 0; j < test.length;j++)
+//				{
+//					System.out.print('['+test[j]+','+j+','+i+"],");
+					System.out.println("Test length (player file) = " + test.length);
+					String playerName = test[0];
+					String color = test[1];
+					int column = Integer.parseInt(test[2]);
+					int row = Integer.parseInt(test[3]);
+					
+					
+					
+					if(!rooms.containsKey(initial))
+					{
+						throw new BadConfigFormatException("Room initial did not match any values in the legend");
+					}
+					if(test[j].length()>1)
+					{
+						if(test[j].charAt(1) == 'N')
+						{
+							gameBoard[i][j] = new BoardCell(i,j, initial, DoorDirection.NONE);
+						}
+						else
+						{
+							switch(test[j].charAt(1))
+							{
+							case 'U':
+								gameBoard[i][j] = new BoardCell(i,j, initial, DoorDirection.UP);
+								break;
+							case 'D':
+								gameBoard[i][j] = new BoardCell(i,j, initial, DoorDirection.DOWN);
+								break;
+							case 'L':
+								gameBoard[i][j] = new BoardCell(i,j, initial, DoorDirection.LEFT);
+								break;
+							case 'R':
+								gameBoard[i][j] = new BoardCell(i,j, initial, DoorDirection.RIGHT);
+								break;
+							}
+						}
+							
+					}
+					else
+					{
+						gameBoard[i][j] = new BoardCell(i,j, initial, DoorDirection.NONE);
+					}
+				}
+				//System.out.println();
+				i++;
+//				System.out.println(i);
+			}
+			numRows=i;
+		} catch (FileNotFoundException e) {
+			BadConfigFormatException ex = new BadConfigFormatException(e.getMessage());
+			throw ex;
+		}
 	}
 	
 	public void loadCards() throws BadConfigFormatException {
