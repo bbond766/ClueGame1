@@ -14,12 +14,17 @@ public class Board {
 	private int numRows,numColumns;
 	
 	public final static int BOARD_SIZE = 100;
+	public final static int PLAYER_NUM = 6;
 	BoardCell[][] gameBoard = new BoardCell[BOARD_SIZE][BOARD_SIZE];
 	public Map<BoardCell, LinkedList<BoardCell>> adjacencyList = new HashMap<BoardCell, LinkedList<BoardCell>>(); 
 	private Set<BoardCell> targets;
 	private static Map<Character, String> rooms;
+	private ArrayList<Player> players;
+	private ArrayList<Card> deck;
 	private String boardConfigFile = "ClueLayout.csv";
 	private String roomConfigFile = "ClueLegend.txt";
+	private String playerConfigFile = "playerLoad.csv";
+	private String cardDeckFile = "cardDeck.csv";
 	public Board()
 	{
 		super();
@@ -37,7 +42,9 @@ public class Board {
 		try {
 			loadRoomConfig();
 			loadBoardConfig();
+			loadPlayerConfig();
 			calcAdjancencies();
+			loadCards();
 		} catch (BadConfigFormatException e) {
 			e.printStackTrace();
 		}
@@ -260,13 +267,30 @@ public class Board {
 		LinkedList<BoardCell> temp = new LinkedList<BoardCell>(adjacencyList.get(getCellAt(xPos,yPos)));
 		return temp;
 	}
+	public void loadPlayerConfig() throws BadConfigFormatException {
+//		try{
+//			FileReader reader = new FileReader(boardConfigFile);
+//			Scanner in = new Scanner(reader);
+//			int i = 0; 
+//			
+//		}
+//		} catch (BadConfigFormatException e){
+//			e.printStackTrace();
+//		}
+	}
+	
+	public void loadCards() throws BadConfigFormatException {
+		//cardDeckFile.csv
+	}
+	public ArrayList<Card> getCards(){
+		return deck;
+	}
 	public void calcTargets(int i, int j, int k) {
 		calcTargets(getCellAt(i,j),k);
 		
 	}
-	public void loadConfigFiles(){
-		//load people file
-		//TO DO
+	public ArrayList<Player> getPlayers(){
+		return players;
 	}
 
 	public void selectAnswer(){
