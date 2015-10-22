@@ -1,4 +1,5 @@
 package clueGame;
+import java.awt.Color;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.ArrayList;
@@ -29,6 +30,7 @@ public class Board {
 	{
 		super();
 		rooms = new HashMap<Character,String>();
+		players = new ArrayList<Player>();
 	}
 	public Board(String boardConfigFile, String roomConfigFile)
 	{
@@ -275,6 +277,7 @@ public class Board {
 			
 			while(in.hasNextLine())
 			{
+				System.out.println("READING NEXT LINE");
 				String a = in.nextLine();
 				String[] test = a.split(",");
 //				if(i==0)
@@ -286,52 +289,42 @@ public class Board {
 //					System.out.print('['+test[j]+','+j+','+i+"],");
 					System.out.println("Test length (player file) = " + test.length);
 					String playerName = test[0];
+					System.out.println(test[0] + " " + test[1] + " " + test[2] + " " + test[3]);
 					String color = test[1];
+					color = color.toUpperCase();
+					Color colorPlayer = null;
+					
+					switch (color){
+					case "BLUE":
+						colorPlayer = Color.BLUE;
+						break;
+					case "WHITE":
+						colorPlayer = Color.WHITE;
+						break;
+					case "RED":
+						colorPlayer = Color.RED;
+						break;
+					case "YELLOW":
+						colorPlayer = Color.YELLOW;
+						break;
+					case "GREEN":
+						colorPlayer = Color.GREEN;
+						break;
+					case "PURPLE":
+						colorPlayer = Color.MAGENTA;
+						break;
+					default:
+						System.out.println("Color not found.");
+					}
 					int column = Integer.parseInt(test[2]);
 					int row = Integer.parseInt(test[3]);
-					
-					
-					
-					if(!rooms.containsKey(initial))
-					{
-						throw new BadConfigFormatException("Room initial did not match any values in the legend");
-					}
-					if(test[j].length()>1)
-					{
-						if(test[j].charAt(1) == 'N')
-						{
-							gameBoard[i][j] = new BoardCell(i,j, initial, DoorDirection.NONE);
-						}
-						else
-						{
-							switch(test[j].charAt(1))
-							{
-							case 'U':
-								gameBoard[i][j] = new BoardCell(i,j, initial, DoorDirection.UP);
-								break;
-							case 'D':
-								gameBoard[i][j] = new BoardCell(i,j, initial, DoorDirection.DOWN);
-								break;
-							case 'L':
-								gameBoard[i][j] = new BoardCell(i,j, initial, DoorDirection.LEFT);
-								break;
-							case 'R':
-								gameBoard[i][j] = new BoardCell(i,j, initial, DoorDirection.RIGHT);
-								break;
-							}
-						}
-							
-					}
-					else
-					{
-						gameBoard[i][j] = new BoardCell(i,j, initial, DoorDirection.NONE);
-					}
-				}
-				//System.out.println();
-				i++;
-//				System.out.println(i);
+					ComputerPlayer next = new ComputerPlayer(playerName, row, column, colorPlayer);
+					System.out.println(next.getColor());	//PROBLEM HERE
+					players.add(next);
 			}
-			numRows=i;
+			if (players.size() != PLAYER_NUM){
+				throw new BadConfigFormatException("The number of players read in from file is incorrect.");
+			}
 		} catch (FileNotFoundException e) {
 			BadConfigFormatException ex = new BadConfigFormatException(e.getMessage());
 			throw ex;
