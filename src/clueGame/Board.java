@@ -285,19 +285,11 @@ public class Board {
 			
 			while(in.hasNextLine())
 			{
-				System.out.println("READING NEXT LINE");
 				String a = in.nextLine();
 				String[] test = a.split(",");
-//				if(i==0)
-//					numColumns=test.length;
 				if( test.length != 4)
 					throw new BadConfigFormatException("Player config file is not formatted correctly.");
-//				for(int j = 0; j < test.length;j++)
-//				{
-//					System.out.print('['+test[j]+','+j+','+i+"],");
-					System.out.println("Test length (player file) = " + test.length);
 					String playerName = test[0];
-					System.out.println(test[0] + " " + test[1] + " " + test[2] + " " + test[3]);
 					String color = test[1];
 					color = color.toUpperCase();
 					Color colorPlayer = null;
@@ -327,7 +319,6 @@ public class Board {
 					int column = Integer.parseInt(test[2]);
 					int row = Integer.parseInt(test[3]);
 					ComputerPlayer next = new ComputerPlayer(playerName, row, column, colorPlayer);
-					System.out.println(next.getColor());	//PROBLEM HERE
 					players.add(next);
 			}
 			if (players.size() != PLAYER_NUM){
