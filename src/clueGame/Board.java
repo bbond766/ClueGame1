@@ -17,12 +17,17 @@ public class Board {
 	public final static int BOARD_SIZE = 100;
 	public final static int PLAYER_NUM = 6;
 	public final static int DECK_SIZE = 21;
+	public final static int NUM_PEOPLE_CARDS = 6;
+	public final static int NUM_ROOM_CARDS = 9;
+	public final static int NUM_WEAPON_CARDS = 6;
+	
 	BoardCell[][] gameBoard = new BoardCell[BOARD_SIZE][BOARD_SIZE];
 	public Map<BoardCell, LinkedList<BoardCell>> adjacencyList = new HashMap<BoardCell, LinkedList<BoardCell>>(); 
 	private Set<BoardCell> targets;
 	private static Map<Character, String> rooms;
 	private ArrayList<Player> players;
 	private ArrayList<Card> deck;
+	private Solution solution;
 	private String boardConfigFile = "ClueLayout.csv";
 	private String roomConfigFile = "ClueLegend.txt";
 	private String playerConfigFile = "playerLoad.csv";
@@ -33,6 +38,7 @@ public class Board {
 		rooms = new HashMap<Character,String>();
 		players = new ArrayList<Player>();
 		deck = new ArrayList<Card>();
+		solution = new Solution();
 	}
 	public Board(String boardConfigFile, String roomConfigFile)
 	{
@@ -41,6 +47,7 @@ public class Board {
 		this.roomConfigFile = roomConfigFile;
 		rooms = new HashMap<Character,String>();
 		deck = new ArrayList<Card>();
+		solution = new Solution();
 	}
 	public ArrayList<Card> getDeck() {
 		return deck;
@@ -372,6 +379,28 @@ public class Board {
 	}
 	public void dealCards(){
 		ArrayList<Card> copyDeck = new ArrayList<Card>(deck);
+		String solnPerson;
+		String solnRoom;
+		String solnWeapon;
+		
+		//rand card from index 0 to NUM_PEOPLE_CARDS - 1
+		int index = (int)(Math.random() % NUM_PEOPLE_CARDS);
+		solnPerson = deck.get(index).getCardName();
+		copyDeck.remove(index);
+		
+		//rand card from index NUM_PEOPLE_CARDS to (NUM_PEOPLE_CARDS + (NUM_ROOM_CARDS - 1))
+		index = (int)(Math.random() % NUM_ROOM_CARDS) + (NUM_PEOPLE_CARDS - 1);
+		solnRoom = deck.get(index).getCardName();
+		copyDeck.remove(index);
+		//rand card from index (NUM_PEOPLE_CARDS + (NUM_ROOM_CARDS)) to DECK_SIZE - 1
+		index = (int)(Math.random() % NUM_WEAPON_CARDS) + (DECK_SIZE - (NUM_WEAPON_CARDS - 1));
+		solnWeapon = deck.get(index).getCardName();
+		
+		solution.setPerson(solnPerson);
+		solution.setRoom(solnRoom);
+		solution.setWeapon(solnWeapon);
+		
+	
 		while (copyDeck.size() != 0){
 			for (int i = 0; i < players.size(); i++){
 				if (copyDeck.size() == 0){
@@ -381,6 +410,9 @@ public class Board {
 				copyDeck.remove(0);
 			}
 		}
+	}
+	public Solution getSolution(){
+		return this.solution;
 	}
 	public ArrayList<Card> getCards(){
 		return deck;
