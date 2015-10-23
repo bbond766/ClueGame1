@@ -16,6 +16,7 @@ public class Board {
 	
 	public final static int BOARD_SIZE = 100;
 	public final static int PLAYER_NUM = 6;
+	public final static int DECK_SIZE = 21;
 	BoardCell[][] gameBoard = new BoardCell[BOARD_SIZE][BOARD_SIZE];
 	public Map<BoardCell, LinkedList<BoardCell>> adjacencyList = new HashMap<BoardCell, LinkedList<BoardCell>>(); 
 	private Set<BoardCell> targets;
@@ -25,12 +26,13 @@ public class Board {
 	private String boardConfigFile = "ClueLayout.csv";
 	private String roomConfigFile = "ClueLegend.txt";
 	private String playerConfigFile = "playerLoad.csv";
-	private String cardDeckFile = "cardDeck.csv";
+	private String cardDeckFile = "cardDeckFile.csv";
 	public Board()
 	{
 		super();
 		rooms = new HashMap<Character,String>();
 		players = new ArrayList<Player>();
+		deck = new ArrayList<Card>();
 	}
 	public Board(String boardConfigFile, String roomConfigFile)
 	{
@@ -38,7 +40,12 @@ public class Board {
 		this.boardConfigFile = boardConfigFile;
 		this.roomConfigFile = roomConfigFile;
 		rooms = new HashMap<Character,String>();
+		deck = new ArrayList<Card>();
 	}
+	public ArrayList<Card> getDeck() {
+		return deck;
+	}
+
 	public void initialize()
 	{
 		try {
@@ -47,6 +54,7 @@ public class Board {
 			loadPlayerConfig();
 			calcAdjancencies();
 			loadCards();
+//			dealCards();
 		} catch (BadConfigFormatException e) {
 			e.printStackTrace();
 		}
@@ -333,6 +341,43 @@ public class Board {
 	
 	public void loadCards() throws BadConfigFormatException {
 		//cardDeckFile.csv
+		try {
+			FileReader reader = new FileReader(cardDeckFile);
+			Scanner in = new Scanner(reader);
+			int i = 0;
+			while(in.hasNextLine())
+			{
+				CardType cardType = null;
+				String a = in.nextLine();
+				String[] test = a.split(",");
+				if( test.length != 2)
+					throw new BadConfigFormatException("Player config file is not formatted correctly.");
+					String cardName = test[0];
+					String type = test[1];
+					
+					switch (type){
+					case "PERSON":
+						cardType = CardType.PERSON;
+						break;
+					case "ROOM":
+						cardType = CardType.ROOM;
+						break;
+					case "WEAPON":
+						cardType = CardType.WEAPON;
+						break;
+					default:
+						System.out.println("Type not found.");
+					}
+					Card next = new Card(cardName, cardType);
+					deck.add(next);
+			}
+			if (deck.size() != DECK_SIZE){
+				throw new BadConfigFormatException("The number of cards read in from file is incorrect.");
+			}
+		} catch (FileNotFoundException e) {
+			BadConfigFormatException ex = new BadConfigFormatException(e.getMessage());
+			throw ex;
+		}
 	}
 	public ArrayList<Card> getCards(){
 		return deck;
