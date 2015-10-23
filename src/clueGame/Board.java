@@ -395,6 +395,7 @@ public class Board {
 		//rand card from index (NUM_PEOPLE_CARDS + (NUM_ROOM_CARDS)) to DECK_SIZE - 1
 		index = (int)(Math.random() % NUM_WEAPON_CARDS) + (DECK_SIZE - (NUM_WEAPON_CARDS - 1));
 		solnWeapon = deck.get(index).getCardName();
+		copyDeck.remove(index);
 		
 		solution.setPerson(solnPerson);
 		solution.setRoom(solnRoom);
@@ -432,6 +433,9 @@ public class Board {
 		return null;
 	}
 	public boolean checkAccusation(Solution accusation){
-		return false;
+		if (accusation.getPerson() == solution.getPerson() && accusation.getRoom() == solution.getRoom() && accusation.getWeapon() == solution.getWeapon())
+			return true;
+		else
+			return false;
 	}
 }
