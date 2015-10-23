@@ -54,7 +54,7 @@ public class Board {
 			loadPlayerConfig();
 			calcAdjancencies();
 			loadCards();
-//			dealCards();
+			dealCards();
 		} catch (BadConfigFormatException e) {
 			e.printStackTrace();
 		}
@@ -377,6 +377,18 @@ public class Board {
 		} catch (FileNotFoundException e) {
 			BadConfigFormatException ex = new BadConfigFormatException(e.getMessage());
 			throw ex;
+		}
+	}
+	public void dealCards(){
+		ArrayList<Card> copyDeck = new ArrayList<Card>(deck);
+		while (copyDeck.size() != 0){
+			for (int i = 0; i < players.size(); i++){
+				if (copyDeck.size() == 0){
+					return;
+				}
+				players.get(i).addCardToHand(copyDeck.get(0));
+				copyDeck.remove(0);
+			}
 		}
 	}
 	public ArrayList<Card> getCards(){
