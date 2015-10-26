@@ -385,16 +385,17 @@ public class Board {
 		
 		//rand card from index 0 to NUM_PEOPLE_CARDS - 1
 		int index = (int)(Math.random() % NUM_PEOPLE_CARDS);
-		solnPerson = deck.get(index).getCardName();
+		solnPerson = copyDeck.get(index).getCardName();
 		copyDeck.remove(index);
 		
 		//rand card from index NUM_PEOPLE_CARDS to (NUM_PEOPLE_CARDS + (NUM_ROOM_CARDS - 1))
-		index = (int)(Math.random() % NUM_ROOM_CARDS) + (NUM_PEOPLE_CARDS - 1);
-		solnRoom = deck.get(index).getCardName();
+		index = (int)(Math.random() % NUM_ROOM_CARDS) + (NUM_PEOPLE_CARDS);
+		solnRoom = copyDeck.get(index).getCardName();
 		copyDeck.remove(index);
+		
 		//rand card from index (NUM_PEOPLE_CARDS + (NUM_ROOM_CARDS)) to DECK_SIZE - 1
-		index = (int)(Math.random() % NUM_WEAPON_CARDS) + (DECK_SIZE - (NUM_WEAPON_CARDS - 1));
-		solnWeapon = deck.get(index).getCardName();
+		index = (int)(Math.random() % NUM_WEAPON_CARDS) + (NUM_ROOM_CARDS + NUM_PEOPLE_CARDS);
+		solnWeapon = copyDeck.get(index).getCardName();
 		copyDeck.remove(index);
 		
 		solution.setPerson(solnPerson);
