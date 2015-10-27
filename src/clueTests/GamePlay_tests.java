@@ -7,6 +7,7 @@ import org.junit.Test;
 
 import clueGame.Board;
 import clueGame.Player;
+import clueGame.Solution;
 
 public class GamePlay_tests {
 
@@ -27,16 +28,27 @@ public class GamePlay_tests {
 		board = new Board();
 		// Initialize will load BOTH config files 
 		board.initialize();
+		
 	}
 
 	@Test
 	public void testAccusationCorrectness() {
 		//solution finalized during deal, which is called by initialize method
+		Solution solution = new Solution("Ms. White", "Library", "Lead Pipe");
+		
 		Player player = board.getPlayers().get(0);
+		player.makeSuggestion(board, board.getCellAt(player.getColumn(), player.getRow()));
+		Solution suggestion = player.getSuggestion();
+		
 		if (board.getCellAt(player.getColumn(), player.getRow()).isRoom()){
-			
+			char i = board.getCellAt(player.getColumn(), player.getRow()).getInitial();
+			String val = board.getRooms().get(i);
+			assertEquals(val, suggestion.getRoom());
+			assertTrue(suggestion.getPerson() == solution.getPerson());
+			assertTrue(suggestion.getRoom() == solution.getRoom());
+			assertTrue(suggestion.getWeapon() == solution.getWeapon());
 		}
-
+		
 	}
 	
 	//Tests that player returns the one card to disprove the suggestion

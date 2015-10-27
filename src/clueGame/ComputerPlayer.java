@@ -103,7 +103,7 @@ public class ComputerPlayer extends Player {
 		Solution guess = new Solution(personGuess, currentRoom, weaponGuess);
 		suggestion = guess;	
 	}
-
+	@Override
 	public Card disproveSuggestion(Solution suggestion){
 		boolean inHand = false;
 		Card cardShown = new Card();

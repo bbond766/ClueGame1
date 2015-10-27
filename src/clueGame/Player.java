@@ -21,7 +21,11 @@ public abstract class Player {
 		this.isComputerPlayer = false;
 		this.suggestion = null;
 	}
-	
+	public Card disproveSuggestion(Solution suggestion){return null;}
+	public void makeAccusation(){}
+	public void makeAccusation(String p, String r, String w){}
+	public void makeSuggestion(Board board, BoardCell location){}
+	public void makeSuggestion(Board b, BoardCell bc, String p, String w){}
 	public Player(String playerName, int row, int column, Color color, char roomIn) {
 		super();
 		this.playerName = playerName;
@@ -52,7 +56,7 @@ public abstract class Player {
 		
 	}
 	public void pickLocation(Set<BoardCell> targets){}
-	public void makeSuggestion(Board board, BoardCell location){}
+	
 
 	public ArrayList<Card> getCardsInHand() {
 		return this.cardsInHand;
@@ -64,9 +68,7 @@ public abstract class Player {
 	public void addCardToHand(Card card) {
 		this.cardsInHand.add(card);
 	}
-	public Card disproveSuggestion(Solution suggestion){//TODO
-		return null;
-	}
+
 	
 	public String getName(){
 		return playerName;
@@ -108,5 +110,10 @@ public abstract class Player {
 	}
 	public Solution getSuggestion(){
 		return suggestion;
+	}
+	
+	//for testing purposes only
+	public void setAccusation(String p, String r, String w){
+		suggestion = new Solution (p, r, w);
 	}
 }
