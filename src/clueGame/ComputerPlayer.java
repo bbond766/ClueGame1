@@ -10,9 +10,10 @@ public class ComputerPlayer extends Player {
 	private int column;
 	private Color color;
 	private ArrayList<Card> cardsInHand;
+	private char lastRoomVisited;
 	
 	public ComputerPlayer(){
-		
+		super();
 	}
 	
 	public ComputerPlayer(String playerName, int row, int column, Color color) {
@@ -24,7 +25,29 @@ public class ComputerPlayer extends Player {
 	}
 
 	public void pickLocation(Set<BoardCell> targets){
-		
+		boolean moved = false;
+		for(BoardCell x : targets){
+			if (x.isDoorway() && x.getInitial()!=lastRoomVisited){
+				row = x.yPos;
+				column = x.xPos;
+				lastRoomVisited = x.getInitial();
+				moved = true;
+			}
+		}
+		if(!moved){
+			int index = (int) (Math.random()%targets.size());
+			int i = 0;
+			for(BoardCell x : targets){
+				if(i<index){
+					i++;
+				}
+				else{
+					row = x.yPos;
+					column =x.xPos;
+					moved = true;
+				}
+			}
+		}
 	}
 	
 	public void makeAccusation(){

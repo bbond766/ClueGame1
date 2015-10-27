@@ -9,9 +9,11 @@ public abstract class Player {
 	private int column;
 	private Color color;
 	private ArrayList<Card> cardsInHand;
+	private ArrayList<Card> cardsSeen;
 	
 	public Player(){
 		this.cardsInHand = new ArrayList<Card>();
+		this.cardsSeen = new ArrayList<Card>();
 	}
 	
 	public Player(String playerName, int row, int column, Color color) {
@@ -21,10 +23,51 @@ public abstract class Player {
 		this.column = column;
 		this.color = color;
 		this.cardsInHand = new ArrayList<Card>();
+		this.cardsSeen = new ArrayList<Card>();
 	}
 	public void printCardsInHand(){
 		for (int i = 0; i < cardsInHand.size(); i++){
 			System.out.println(cardsInHand.get(i).getCardName() + " i " + i);
+		}
+	}
+	//Add newly seen card to ArrayList detailing all cards that this player has seen, and therefore knows are not part of possible solution
+	public void addSeenCard(Card seen){
+		cardsSeen.add(seen);
+	}
+	//HELPER FUNCTION: Check if a given card has been seen already and therefore cannot be part of a solution. 
+	public boolean checkIfSeen(Card check){
+		return (cardsSeen.contains(check));
+	}
+	public void generatePossibleSolution(){	//TO DO
+		//should it be based on what room the player is in?
+		int room = 0;
+		int person = 0;
+		int weapon = 0;
+		String roomGuess, personGuess, weaponGuess;
+		for (int i = 0; i < cardsSeen.size(); i++){
+			if (cardsSeen.get(i).getType() == CardType.ROOM){
+				room++;
+			}
+			else if (cardsSeen.get(i).getType() == CardType.PERSON){
+				person++;
+			}
+			else if (cardsSeen.get(i).getType() == CardType.WEAPON){
+				weapon++;
+			}
+			else{
+				System.out.println("Invalid card type held in cardsSeen hand.");
+			}
+		}
+		if (room == 8){
+			//room soln known
+//			roomGuess = 
+			
+		}
+		if (person == 5){
+			
+		}
+		if (weapon == 5){
+			
 		}
 	}
 	public ArrayList<Card> getCardsInHand() {

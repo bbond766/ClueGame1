@@ -1,11 +1,11 @@
 package clueGame;
 
 public class BoardCell {
-	int xPos;
-	int yPos;
-	char initial;
-	boolean room;
-	private DoorDirection direction;
+	protected int xPos;
+	protected int yPos;
+	protected char initial;
+	protected boolean room;
+	protected DoorDirection direction;
 	public DoorDirection getDoorDirection() {
 		return direction;
 	}

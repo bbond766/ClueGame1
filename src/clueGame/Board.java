@@ -66,6 +66,7 @@ public class Board {
 			e.printStackTrace();
 		}
 	}
+	
 	public void loadRoomConfig() throws BadConfigFormatException
 	{
 		FileReader reader;
@@ -413,9 +414,6 @@ public class Board {
 			}
 		}
 	}
-	public Solution getSolution(){
-		return this.solution;
-	}
 	public ArrayList<Card> getCards(){
 		return deck;
 	}
@@ -439,4 +437,11 @@ public class Board {
 		else
 			return false;
 	}
+	
+	//ONLY INTENDED FOR TESTING
+	public Solution getSolution(){
+		return this.solution;
+	}
 }
+
+//TODO add main function
