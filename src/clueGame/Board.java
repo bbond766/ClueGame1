@@ -326,7 +326,8 @@ public class Board {
 					}
 					int column = Integer.parseInt(test[2]);
 					int row = Integer.parseInt(test[3]);
-					ComputerPlayer next = new ComputerPlayer(playerName, row, column, colorPlayer);
+					char roomIn = getCellAt(column, row).getInitial();
+					ComputerPlayer next = new ComputerPlayer(playerName, row, column, colorPlayer, roomIn);
 					players.add(next);
 			}
 			if (players.size() != PLAYER_NUM){
@@ -424,12 +425,39 @@ public class Board {
 	public ArrayList<Player> getPlayers(){
 		return players;
 	}
-
+	public void movePlayer(int index){
+		int moveLength = (int) Math.random() % 6 + 1;
+		BoardCell bc = getCellAt(players.get(index).getColumn(), players.get(index).getRow());
+		calcTargets(bc, moveLength); //targets updated
+		if(players.get(index).getPlayerType()){
+			//comp player
+			players.get(index).pickLocation(targets);
+			players.get(index).setRoomIn(bc.getInitial());
+	//		players.makeSuggestion();
+			
+		}
+	}
 	public void selectAnswer(){
 		
 	}
 	public Card handleSuggestion(Solution suggestion, String accusingPlayer, BoardCell clicked){
-		return null;
+		int indexAP = players.indexOf(accusingPlayer);
+		Card cardToShow = new Card();
+		for (int i = 0; i < (players.size() - 1); i++){
+			if (indexAP + i < players.size()){
+				cardToShow = players.get(indexAP++).disproveSuggestion(suggestion);
+				return cardToShow;
+			}
+			else{
+				indexAP = 0;
+				cardToShow = players.get(indexAP).disproveSuggestion(suggestion);
+				return cardToShow;
+			}
+		}
+//		if (cardToShow == null){
+			System.out.println("No players have cards to show to disprove this accusation.");
+			return null;
+//		}
 	}
 	public boolean checkAccusation(Solution accusation){
 		if (accusation.getPerson() == solution.getPerson() && accusation.getRoom() == solution.getRoom() && accusation.getWeapon() == solution.getWeapon())
@@ -438,6 +466,7 @@ public class Board {
 			return false;
 	}
 	
+	
 	//ONLY INTENDED FOR TESTING
 	public Solution getSolution(){
 		return this.solution;
@@ -445,3 +474,5 @@ public class Board {
 }
 
 //TODO add main function
+//pick fn in player class called AFTER player is moved in board class; player's dice roll and calculation of targets
+//calculated here 

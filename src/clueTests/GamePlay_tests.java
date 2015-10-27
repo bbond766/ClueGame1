@@ -1,9 +1,12 @@
-package clueGame;
+package clueTests;
 
 import static org.junit.Assert.*;
 
 import org.junit.Before;
 import org.junit.Test;
+
+import clueGame.Board;
+import clueGame.Player;
 
 public class GamePlay_tests {
 
@@ -34,6 +37,49 @@ public class GamePlay_tests {
 			
 		}
 
+	}
+	
+	//Tests that player returns the one card to disprove the suggestion
+	@Test
+	public void testDisproveSuggestionOnePossible(){
+		
+	}
+	
+	//Tests that player randomly returns one of the cards to disprove the suggestion
+	@Test
+	public void testDisproveSuggestionTwoPossible(){
+		
+	}
+	
+	@Test
+	public void testOrder(){
+		
+	}
+	
+	//Tests that the current player does not attempt to disprove suggestion
+	@Test
+	public void testAccusingPlayerNoCardReturn(){
+		
+	}
+	
+	@Test
+	public void testHumanPlayer(){
+		
+	}
+	
+	@Test
+	public void testTargetSelection(){
+		
+	}
+	
+	@Test
+	public void testCompPlayerOneSuggestion(){
+		
+	}
+	
+	@Test
+	public void testCompPlayerRandPossible(){
+		
 	}
 
 }

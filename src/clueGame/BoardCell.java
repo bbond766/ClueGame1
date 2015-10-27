@@ -12,11 +12,11 @@ public class BoardCell {
 	public char getInitial() {
 		return initial;
 	}
-	boolean isWalkway()
+	public boolean isWalkway()
 	{
 		return initial == 'W';
 	}
-	boolean isRoom()
+	public boolean isRoom()
 	{
 		return (initial != 'X' && initial != 'W');
 	}
