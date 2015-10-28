@@ -23,7 +23,7 @@ public class ComputerPlayer extends Player {
 		this.suggestion = null;
 	}
 	
-	public ComputerPlayer(String playerName, int row, int column, Color color, char roomIn) {
+	public ComputerPlayer(String playerName, int row, int column, Color color) {
 		super();
 		this.playerName = playerName;
 		this.row = row;

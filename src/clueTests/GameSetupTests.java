@@ -32,6 +32,7 @@ public class GameSetupTests {
 		board = new Board();
 		// Initialize will load BOTH config files 
 		board.initialize();
+		board.dealCards();
 	}
 
 	@Test

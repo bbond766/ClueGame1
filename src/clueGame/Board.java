@@ -50,7 +50,7 @@ public class Board {
 		solution = new Solution();
 	}
 	public ArrayList<Card> getDeck() {
-		return deck;
+		return this.deck;
 	}
 
 	public void initialize()
@@ -61,7 +61,7 @@ public class Board {
 			loadPlayerConfig();
 			calcAdjancencies();
 			loadCards();
-			dealCards();
+//			dealCards();
 		} catch (BadConfigFormatException e) {
 			e.printStackTrace();
 		}
@@ -326,8 +326,8 @@ public class Board {
 					}
 					int column = Integer.parseInt(test[2]);
 					int row = Integer.parseInt(test[3]);
-					char roomIn = getCellAt(column, row).getInitial();
-					ComputerPlayer next = new ComputerPlayer(playerName, row, column, colorPlayer, roomIn);
+					//char roomIn = getCellAt(column, row).getInitial();
+					ComputerPlayer next = new ComputerPlayer(playerName, row, column, colorPlayer);
 					players.add(next);
 			}
 			if (players.size() != PLAYER_NUM){
@@ -372,7 +372,7 @@ public class Board {
 					deck.add(next);
 			}
 			if (deck.size() != DECK_SIZE){
-				throw new BadConfigFormatException("The number of cards read in from file is incorrect.");
+				throw new BadConfigFormatException("The number of cards read in from file is incorrect; deck size = " + deck.size());
 			}
 		} catch (FileNotFoundException e) {
 			BadConfigFormatException ex = new BadConfigFormatException(e.getMessage());
@@ -384,7 +384,7 @@ public class Board {
 		String solnPerson;
 		String solnRoom;
 		String solnWeapon;
-		
+	
 		//rand card from index 0 to NUM_PEOPLE_CARDS - 1
 		int index = (int)(Math.random() % NUM_PEOPLE_CARDS);
 		solnPerson = copyDeck.get(index).getCardName();
@@ -414,6 +414,7 @@ public class Board {
 				copyDeck.remove(0);
 			}
 		}
+		System.out.println(deck.size() + "deck size");
 	}
 	public ArrayList<Card> getCards(){
 		return deck;
