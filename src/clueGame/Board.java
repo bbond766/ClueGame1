@@ -148,17 +148,13 @@ public class Board {
 						gameBoard[i][j] = new BoardCell(i,j, initial, DoorDirection.NONE);
 					}
 				}
-				//System.out.println();
 				i++;
-//				System.out.println(i);
 			}
 			numRows=i;
 		} catch (FileNotFoundException e) {
 			BadConfigFormatException ex = new BadConfigFormatException(e.getMessage());
 			throw ex;
 		}
-		//System.out.println();
-		//System.out.println();
 	}
 	
 	public static Map<Character, String> getRooms() {
@@ -183,15 +179,12 @@ public class Board {
 					adjacencyList.put(gameBoard[i][j],temp);
 					continue;
 				}
-//				System.out.println("["+i+","+j+","+gameBoard[i][j].initial+"]");
 				if(j+1 < numColumns )
 				{
-//					System.out.println("inside");
 					if(((gameBoard[i][j].initial == gameBoard[i][j+1].initial)&& !gameBoard[i][j].isRoom()) ||(gameBoard[i][j].getDoorDirection().equals(DoorDirection.RIGHT) ||gameBoard[i][j+1].getDoorDirection().equals(DoorDirection.LEFT)))
 						temp.add(gameBoard[i][j+1]);
 					
 				}
-//				System.out.println(i+","+j+","+numColumns);
 				if(i+1 < numRows)
 				{
 					if(((gameBoard[i][j].initial == gameBoard[i+1][j].initial)&& !gameBoard[i][j].isRoom())||(gameBoard[i][j].getDoorDirection().equals(DoorDirection.DOWN) ||gameBoard[i+1][j].getDoorDirection().equals(DoorDirection.UP)))
@@ -207,13 +200,9 @@ public class Board {
 					if(((gameBoard[i][j].initial == gameBoard[i-1][j].initial)&& !gameBoard[i][j].isRoom()) || (gameBoard[i][j].getDoorDirection().equals(DoorDirection.UP) || (gameBoard[i-1][j].getDoorDirection().equals(DoorDirection.DOWN))))
 						temp.add(gameBoard[i-1][j]);
 				}
-				
 				adjacencyList.put(gameBoard[i][j],temp);
-				
 			}
 		}
-		
-		
 	}
 	
 	public BoardCell getCellAt(int xPos, int yPos)
@@ -241,9 +230,7 @@ public class Board {
 		else
 		{
 			targets = drawLine(new HashSet<BoardCell>(),startCell, pathLength);
-		}
-		
-		
+		}	
 	}
 	public Set<BoardCell> getTargets()
 	{
@@ -254,22 +241,14 @@ public class Board {
 	{
 		usedSpaces.add(currentLocation);
 		Set<BoardCell> targetsList = new HashSet<BoardCell>();
-//		System.out.println(currentLocation+","+currentLocation.isDoorway());
-		//System.out.println(usedSpaces+","+currentLocation+","+spacesLeft);
 		if(spacesLeft==0 || currentLocation.isDoorway())
 		{
 			targetsList.add(currentLocation);
 			usedSpaces.remove(currentLocation);
-//			System.out.println(currentLocation);
 			return targetsList;
 		}
-//		System.out.println("something");
-//		System.out.println(currentLocation.xPos+","+ currentLocation.yPos);
-//		System.out.println(getAdjList(currentLocation.xPos, currentLocation.yPos));
 		for(BoardCell i : getAdjList(currentLocation.xPos, currentLocation.yPos))
 		{
-			
-			//System.out.println(i);
 			if(!usedSpaces.contains(i)){
 				Set<BoardCell> temp = drawLine(usedSpaces, i, spacesLeft-1);
 				for(BoardCell j : temp)
@@ -290,7 +269,7 @@ public class Board {
 			FileReader reader = new FileReader(playerConfigFile);
 			Scanner in = new Scanner(reader);
 			int i = 0;
-			
+			boolean humanPlayerAssigned = false;
 			while(in.hasNextLine())
 			{
 				String a = in.nextLine();
@@ -326,9 +305,16 @@ public class Board {
 					}
 					int column = Integer.parseInt(test[2]);
 					int row = Integer.parseInt(test[3]);
-					//char roomIn = getCellAt(column, row).getInitial();
-					ComputerPlayer next = new ComputerPlayer(playerName, row, column, colorPlayer);
-					players.add(next);
+					//human player always at index 0; can randomize; set in this way so can use in tests
+					if (!humanPlayerAssigned){
+						HumanPlayer next = new HumanPlayer(playerName, row, column, colorPlayer);
+						players.add(next);
+					}
+					else{
+						ComputerPlayer next = new ComputerPlayer(playerName, row, column, colorPlayer);
+						players.add(next);
+					}
+					
 			}
 			if (players.size() != PLAYER_NUM){
 				throw new BadConfigFormatException("The number of players read in from file is incorrect.");
@@ -414,7 +400,6 @@ public class Board {
 				copyDeck.remove(0);
 			}
 		}
-		System.out.println(deck.size() + "deck size");
 	}
 	public ArrayList<Card> getCards(){
 		return deck;

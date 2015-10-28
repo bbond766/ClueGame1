@@ -20,9 +20,9 @@ public class HumanPlayer extends Player {
 		super();
 		this.isComputerPlayer = false;
 		this.suggestion = null;
+		this.cardsInHand = new ArrayList<Card>();
 	}
-	
-	public HumanPlayer(String playerName, int row, int column, Color color, char roomIn) {
+	public HumanPlayer(String playerName, int row, int column, Color color) {
 		super();
 		this.playerName = playerName;
 		this.row = row;
@@ -30,6 +30,7 @@ public class HumanPlayer extends Player {
 		this.color = color;
 		this.isComputerPlayer = false;
 		this.suggestion = null;
+		this.cardsInHand = new ArrayList<Card>();
 	}
 	@Override
 	public void pickLocation(Set<BoardCell> targets){
@@ -51,12 +52,16 @@ public class HumanPlayer extends Player {
 		Solution guess = new Solution(p, r, w);
 		suggestion = guess;	
 	}
-	
+	@Override
+	public boolean isComputerPlayer(){
+		return false;
+	}
 	@Override
 	public Card disproveSuggestion(Solution suggestion){
 		boolean inHand = false;
 		Card cardShown = new Card();
 		ArrayList<Card> cardsToShow = new ArrayList<Card>();
+		System.out.println("Cards in hand size : " + this.cardsInHand.size());
 		for (int i = 0; i < cardsInHand.size(); i++){
 			if (cardsInHand.get(i).getCardName() == suggestion.person || cardsInHand.get(i).getCardName() == suggestion.weapon
 					|| cardsInHand.get(i).getCardName() == suggestion.room){
@@ -66,8 +71,14 @@ public class HumanPlayer extends Player {
 		}
 		if (inHand){
 			int index = (int) Math.random() % cardsToShow.size();
+			System.out.println(index + "CARDS TO SHOW");
 			return cardsToShow.get(index);
 		}
 		return null;
 	}
+	public Solution getSuggestion() {
+		return suggestion;
+	}
+	
+	
 }

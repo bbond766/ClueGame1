@@ -23,6 +23,7 @@ public abstract class Player {
 	}
 	public Card disproveSuggestion(Solution suggestion){return null;}
 	public void makeAccusation(){}
+	public boolean isComputerPlayer(){return false;}
 	public void makeAccusation(String p, String r, String w){}
 	public void makeSuggestion(Board board, BoardCell location){}
 	public void makeSuggestion(Board b, BoardCell bc, String p, String w){}

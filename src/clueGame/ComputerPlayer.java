@@ -21,6 +21,7 @@ public class ComputerPlayer extends Player {
 		super();
 		this.isComputerPlayer = true;
 		this.suggestion = null;
+		this.cardsInHand = new ArrayList<Card>();
 	}
 	
 	public ComputerPlayer(String playerName, int row, int column, Color color) {
@@ -31,6 +32,7 @@ public class ComputerPlayer extends Player {
 		this.color = color;
 		this.isComputerPlayer = true;
 		this.suggestion = null;
+		this.cardsInHand = new ArrayList<Card>();
 	}
 	@Override
 	public void pickLocation(Set<BoardCell> targets){
@@ -104,10 +106,15 @@ public class ComputerPlayer extends Player {
 		suggestion = guess;	
 	}
 	@Override
+	public boolean isComputerPlayer(){
+		return true;
+	}
+	@Override
 	public Card disproveSuggestion(Solution suggestion){
 		boolean inHand = false;
 		Card cardShown = new Card();
 		ArrayList<Card> cardsToShow = new ArrayList<Card>();
+		System.out.println("CARDS IN HAND SIZE " + this.cardsInHand().size());
 		for (int i = 0; i < cardsInHand.size(); i++){
 			if (cardsInHand.get(i).getCardName() == suggestion.person || cardsInHand.get(i).getCardName() == suggestion.weapon
 					|| cardsInHand.get(i).getCardName() == suggestion.room){
@@ -116,9 +123,10 @@ public class ComputerPlayer extends Player {
 			}	
 		}
 		if (inHand){
-			int index = (int) Math.random() % cardsToShow.size();
-			return cardsToShow.get(index);
+		//	int index = (int) Math.random() % cardsToShow.size();
+			return cardsToShow.get(0);
 		}
+		
 		return null;
 	}
 	
