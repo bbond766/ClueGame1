@@ -126,7 +126,6 @@ public class ComputerPlayer extends Player {
 		//	int index = (int) Math.random() % cardsToShow.size();
 			return cardsToShow.get(0);
 		}
-		
 		return null;
 	}
 	

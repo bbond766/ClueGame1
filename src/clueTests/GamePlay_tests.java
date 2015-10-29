@@ -2,13 +2,19 @@ package clueTests;
 
 import static org.junit.Assert.*;
 
+import java.awt.Color;
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.Set;
 
 import org.junit.Before;
 import org.junit.Test;
 
 import clueGame.Board;
+import clueGame.BoardCell;
 import clueGame.Card;
+import clueGame.ComputerPlayer;
+import clueGame.DoorDirection;
 import clueGame.Player;
 import clueGame.Solution;
 
@@ -147,7 +153,7 @@ public class GamePlay_tests {
 //		System.out.println(respondingPlayer.getCardsInHand().get(0).getCardName());
 		Card cardShown = new Card();
 		cardShown = respondingPlayer.disproveSuggestion(suggestion);	//getCardsInHand().get(0); //
-		System.out.println("NAME + " + cardShown.getCardName());
+//		System.out.println("NAME + " + cardShown.getCardName());
 		System.out.println("here");
 		
 		for (int i = 1; i < players.size(); i++){
@@ -196,7 +202,46 @@ public class GamePlay_tests {
 	//tests that a room is selected if possible
 	@Test
 	public void testTargetSelectionRoom(){
+		//Pass in a list that includes a room, and check that the room is selected. Is it sufficient to call one time? No, the method might randomly choose the room one time. You should put the call in a loop and assert in the body of the loop that the room is chosen every time.
+		//set position of player
+		//set move
+		//public BoardCell(int xPos, int yPos, char initial, DoorDirection direction)
+		Color color = Color.RED;
+		int row = 4;
+		int column = 3;
+		String name = "Ms. Scarlet";
+		int pathLength = 1;
+		boolean thereIsRoom = false;
+		ArrayList<BoardCell> roomsToMoveInto = new ArrayList<BoardCell>();
 		
+		ComputerPlayer cp = new ComputerPlayer(name, row, column, color);
+		BoardCell bc = (board.getCellAt(row, column));
+		System.out.println(bc.isDoorway() + "dd isroom " + bc.isRoom());
+
+		
+		board.calcTargets(bc, pathLength);
+		Set<BoardCell> targets = board.getTargets();
+		System.out.println(targets.size() + " size");
+
+		cp.pickLocation(targets);
+		int chosenRow = cp.getRow();
+		int chosenColumn = cp.getColumn();
+		BoardCell chosenCell = board.getCellAt(chosenColumn, chosenRow);
+		System.out.println(chosenRow + " cr cc " + chosenColumn);
+		
+	     Iterator<BoardCell> it = targets.iterator();
+	     while(it.hasNext()){
+	    	 if (it.next().isRoom()){
+	    		 roomsToMoveInto.add(it.next());
+	    		 thereIsRoom = true;
+	    	 }
+	    	 else{
+	    		 continue;
+	    	 }
+//	        System.out.println(it.next().isRoom());
+	     }
+	     assertTrue(roomsToMoveInto.contains(chosenCell));
+
 	}
 	
 	//tests that if no room, that a target is selected randomly
