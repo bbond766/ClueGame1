@@ -67,6 +67,7 @@ public class ComputerPlayer extends Player {
 					row = x.yPos;
 					column =x.xPos;
 					moved = true;
+					break;
 				}
 			}
 		}
@@ -147,6 +148,7 @@ public class ComputerPlayer extends Player {
 		}
 		if (inHand){
 			int index = (int) Math.floor(Math.random()* cardsToShow.size());
+			System.out.println("Cards to show size " + cardsToShow.size());
 			return cardsToShow.get(index);
 		}
 		else{

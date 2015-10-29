@@ -351,12 +351,12 @@ public class GamePlay_tests {
 	//tests that if no room, that a target is selected randomly
 	@Test
 	public void testTargetSelectionRandom(){
-		int row = 3, column = 22;
+		int row = 7, column = 19;
 		ComputerPlayer cp = new ComputerPlayer("test1", row, column, Color.BLACK);
-		BoardCell Target1 = board.getCellAt(22, 5);
-		BoardCell Target2 = board.getCellAt(21, 4);
+		BoardCell Target1 = board.getCellAt(19, 6);
+		BoardCell Target2 = board.getCellAt(18, 7);
 		int target1 = 0, target2 = 0;
-		//board.calcTargets(bc, 2);
+		//board.calcTargets(bc, 1);
 		HashSet<BoardCell> targets = new HashSet<BoardCell>();
 		targets.add(Target1);
 		targets.add(Target2);
@@ -364,13 +364,15 @@ public class GamePlay_tests {
 			cp.pickLocation(targets);
 			int chosenRow = cp.getRow();
 			int chosenColumn = cp.getColumn();
-			if(chosenColumn == 22){
+			if(chosenColumn == 19||chosenRow == 6){
 				target1++;
 			}
-			else{ target2++;}
-			assertTrue(target1>25);
-			assertTrue(target2>25);
+			else{target2++;}
 		}
+		System.out.println("target1 " + target1);
+		System.out.println("target2 " + target2);
+		assertTrue(target1>25);
+		assertTrue(target2>25);
 	}
 	
 	//test that takes a previously considered room in to consideration
