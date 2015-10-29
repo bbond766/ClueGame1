@@ -291,7 +291,32 @@ public class GamePlay_tests {
 	//test that takes a previously considered room in to consideration
 	@Test
 	public void testTargetSelectionPreviousRoom(){
+		Color color = Color.RED;
+		int row = 4;
+		int column = 4;
+		String name = "Ms. Scarlet";
+		int pathLength = 6;
 		
+		ComputerPlayer cp = new ComputerPlayer(name, row, column, color);
+		BoardCell bc = (board.getCellAt(row, column));
+	
+		board.calcTargets(bc, pathLength);
+		Set<BoardCell> targets = board.getTargets();
+//		System.out.println(targets.size() + " size");
+
+		cp.pickLocation(targets);
+		int chosenRow = cp.getRow();
+		int chosenColumn = cp.getColumn();
+		BoardCell chosenCell = board.getCellAt(chosenColumn, chosenRow);
+//		System.out.println(chosenCell.isDoorway() + "dd isroom " + chosenCell.isRoom());
+	     
+		//there is one possible square that a player could select to move into that is a room if the player is located on [4][3]
+		//verify that the chosenCell, chosen by the pickLocation method, is a room
+		assertEquals(chosenCell.getDoorDirection(), DoorDirection.RIGHT);
+		assertEquals(chosenCell.getInitial(), 'C');
+		assertEquals(chosenCell.getRow(), 3);
+		assertEquals(chosenCell.getColumn(), 4);
+	    assertTrue(chosenCell.isRoom());
 	}
 	
 	//tests the computer player making a suggestion with only one possibility
