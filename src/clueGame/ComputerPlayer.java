@@ -46,7 +46,7 @@ public class ComputerPlayer extends Player {
 			}
 		}
 		if(!moved){
-			int index = (int) (Math.random()%targets.size());
+			int index = (int) Math.floor(Math.random()*targets.size());
 			int i = 0;
 			for(BoardCell x : targets){
 				if(i<index){
@@ -92,9 +92,10 @@ public class ComputerPlayer extends Player {
 		HashMap<Character, String> roomsCopy = new HashMap<Character, String>(board.getRooms());
 		String currentRoom = roomsCopy.get(initial);
 		String weaponGuess;
-		int i = (int) Math.random() % cardsNotSeenCopy.size();
+		int i = (int) Math.floor(Math.random()*cardsNotSeenCopy.size());
+		System.out.println(cardsNotSeenCopy.size() + " size");
 		while (cardsNotSeenCopy.get(i).getType() != CardType.PERSON){
-			i = (int) Math.random() % cardsNotSeenCopy.size();
+			i = (int) Math.floor(Math.random()*cardsNotSeenCopy.size());
 		}
 		String personGuess = cardsNotSeenCopy.get(i).getCardName();
 		cardsNotSeenCopy.remove(i);
@@ -102,12 +103,11 @@ public class ComputerPlayer extends Player {
 			weaponGuess = cardsNotSeenCopy.get(0).getCardName();
 		}
 		else{
-			i = (int) Math.random() % cardsNotSeenCopy.size();;
+			i = (int) Math.floor(Math.random()*cardsNotSeenCopy.size());
 			while (cardsNotSeenCopy.get(i).getType() != CardType.WEAPON){
 				cardsNotSeenCopy.remove(i);
-				i = (int) Math.random() % cardsNotSeenCopy.size();
+				i = (int) Math.floor(Math.random()*cardsNotSeenCopy.size());
 			}
-			System.out.println("Here 2");
 			weaponGuess = cardsNotSeenCopy.get(i).getCardName();
 		}
 		
@@ -124,7 +124,7 @@ public class ComputerPlayer extends Player {
 		boolean inHand = false;
 		Card cardShown = new Card();
 		ArrayList<Card> cardsToShow = new ArrayList<Card>();
-		System.out.println("CARDS IN HAND SIZE " + cardsInHand.size());
+		//System.out.println("CARDS IN HAND SIZE " + cardsInHand.size());
 		for (int i = 0; i < cardsInHand.size(); i++){
 			if (cardsInHand.get(i).getCardName() == suggestion.person || cardsInHand.get(i).getCardName() == suggestion.weapon
 					|| cardsInHand.get(i).getCardName() == suggestion.room){

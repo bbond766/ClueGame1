@@ -135,7 +135,7 @@ public class GamePlay_tests {
 		Player player = board.getPlayers().get(0);	//this is a human player
 		player.makeAccusation("Ms. Peacock", "Conservatory", "Lead Pipe");
 		Solution suggestion = player.getSuggestion();
-		System.out.println(suggestion.getRoom());
+//		System.out.println(suggestion.getRoom());
 		
 		assertEquals(solution.getRoom(), suggestion.getRoom());
 		assertEquals(solution.getPerson(), suggestion.getPerson());
@@ -153,11 +153,11 @@ public class GamePlay_tests {
 		Player respondingPlayer = players.get(1);
 		Card showCard = new Card("Ms. Scarlet", CardType.PERSON);
 		respondingPlayer.addCardToHand(showCard);
-		System.out.println(respondingPlayer.getCardsInHand().get(0).getCardName());
+//		System.out.println(respondingPlayer.getCardsInHand().get(0).getCardName());
 		Card cardShown = new Card();
 		cardShown = respondingPlayer.disproveSuggestion(suggestion);	//getCardsInHand().get(0); //
 //		System.out.println("NAME + " + cardShown.getCardName());
-		System.out.println("here");
+//		System.out.println("here");
 		
 		for (int i = 1; i < players.size(); i++){
 
@@ -272,13 +272,14 @@ public class GamePlay_tests {
 	@Test
 	public void testCompPlayerRandPossible(){
 		int row = 0, column = 0;
-		int numColMustard = 0, numProfPlum = 0;
+		int numMsScarlette = 0, numProfPlum = 0;
 		ComputerPlayer cp = new ComputerPlayer("Col. Mustard", 0, 0, Color.BLACK);
 		ArrayList<Card> cardsNotSeenTest = new ArrayList<Card>();
 		BoardCell bc = (board.getCellAt(row, column));
 		Card person = new Card("Ms. Scarlette", CardType.PERSON);
 		cardsNotSeenTest.add(person);
 		Card person2 = new Card("Prof. Plum", CardType.PERSON);
+		cardsNotSeenTest.add(person2);
 		Card weapon = new Card("Lead Pipe", CardType.WEAPON);
 		cardsNotSeenTest.add(weapon);
 		cp.setCardsNotSeen(cardsNotSeenTest);
@@ -286,17 +287,16 @@ public class GamePlay_tests {
 		for(int i = 0; i<50; i++){
 			cp.makeSuggestion(board, bc);
 			if(cp.getSuggestion().person == "Ms. Scarlette"){
-				numColMustard++;
+				numMsScarlette++;
 			}
-			else if(cp.getSuggestion().person == "Prof. Plum"){
+			else{
 				numProfPlum++;
 			}
 		}
-		
 		assertEquals(cp.getSuggestion().weapon, "Lead Pipe");
 		assertEquals(cp.getSuggestion().room, "Conservatory");
-		System.out.println("Num " + numColMustard);
-		assertTrue(numColMustard>5);
+		System.out.println("Num " + numProfPlum);
+		assertTrue(numMsScarlette>5);
 		assertTrue(numProfPlum>5);
 	}
 
