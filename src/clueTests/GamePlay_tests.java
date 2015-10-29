@@ -146,43 +146,58 @@ public class GamePlay_tests {
 	//Tests that player returns the one card to disprove the suggestion
 	@Test
 	public void testDisproveSuggestionOnePossible(){
-		Player player = players.get(0);	//this is a human player
-		player.makeAccusation("Ms. Scarlet", "Conservatory", "Lead Pipe");	//player 1 should show Scarlet card to disprove
+		Player player = board.getPlayers().get(0);	//this is a human player
+		player.makeAccusation("Ms. Peacock", "Conservatory", "Lead Pipe");
 		Solution suggestion = player.getSuggestion();
-//		System.out.println(suggestion.getPerson());
-
-		Player respondingPlayer = players.get(1);
-		Card showCard = new Card("Ms. Scarlet", CardType.PERSON);
-		respondingPlayer.addCardToHand(showCard);
-//		System.out.println(respondingPlayer.getCardsInHand().get(0).getCardName());
-		Card cardShown = new Card();
-		cardShown = respondingPlayer.disproveSuggestion(suggestion);	//getCardsInHand().get(0); //
-		System.out.println("NAME + " + cardShown.getCardName());
-//		System.out.println("here");
-		
-		for (int i = 1; i < players.size(); i++){
-
-			Player play = board.getPlayers().get(i);
-			if (play.disproveSuggestion(suggestion) != null){
-				System.out.println("Card found.");
-				return;
-			}
-			else{
-				continue;
-			}
-		}
-		Player play = board.getPlayers().get(1);
-		cardShown = play.disproveSuggestion(suggestion);
-		
-		assertEquals(cardShown.getCardName(), "Ms. Scarlet");
+//		System.out.println(suggestion.getRoom());
+		Player player2 = board.getPlayers().get(1);
+//		System.out.println(player2.getCardsInHand().get(0).getCardName() + "cc");
+		Card card2 = player2.disproveSuggestion(suggestion);
+		System.out.println(player2.getCardsInHand().get(0).getCardName());
+		System.out.println(card2.getCardName() + "card2");
+		assertEquals(solution.getRoom(), suggestion.getRoom());
 		assertEquals(solution.getPerson(), suggestion.getPerson());
 		assertEquals(solution.getWeapon(), suggestion.getWeapon());
+//		
+//		
+//		
+//		Player player = players.get(0);	//this is a human player
+//		player.makeAccusation("Ms. Scarlet", "Conservatory", "Lead Pipe");	//player 1 should show Scarlet card to disprove
+//		Solution suggestion = player.getSuggestion();
+////		System.out.println(suggestion.getPerson());
+//
+//		Player respondingPlayer = players.get(1);
+//		Card showCard = new Card("Ms. Scarlet", CardType.PERSON);
+//		respondingPlayer.addCardToHand(showCard);
+////		System.out.println(respondingPlayer.getCardsInHand().get(0).getCardName());
+//		Card cardShown = new Card();
+//		cardShown = respondingPlayer.disproveSuggestion(suggestion);	//getCardsInHand().get(0); //
+//		System.out.println("NAME + " + cardShown.getCardName());
+////		System.out.println("here");
+//		
+//		for (int i = 1; i < players.size(); i++){
+//
+//			Player play = board.getPlayers().get(i);
+//			if (play.disproveSuggestion(suggestion) != null){
+//				System.out.println("Card found.");
+//				return;
+//			}
+//			else{
+//				continue;
+//			}
+//		}
+//		Player play = board.getPlayers().get(1);
+//		cardShown = play.disproveSuggestion(suggestion);
+//		
+//		assertEquals(cardShown.getCardName(), "Ms. Scarlet");
+//		assertEquals(solution.getPerson(), suggestion.getPerson());
+//		assertEquals(solution.getWeapon(), suggestion.getWeapon());
 	}
 	
 	//Tests that player randomly returns one of the cards to disprove the suggestion
 	@Test
 	public void testDisproveSuggestionTwoPossible(){
-		
+		assertTrue(false);
 	}
 	
 	//tests that the players are queried in the correct order
@@ -285,7 +300,7 @@ public class GamePlay_tests {
 	//tests that if no room, that a target is selected randomly
 	@Test
 	public void testTargetSelectionRandom(){
-		
+		assertTrue(false);
 	}
 	
 	//test that takes a previously considered room in to consideration
@@ -317,6 +332,7 @@ public class GamePlay_tests {
 		assertEquals(chosenCell.getRow(), 3);
 		assertEquals(chosenCell.getColumn(), 4);
 	    assertTrue(chosenCell.isRoom());
+	    assertTrue(false);
 	}
 	
 	//tests the computer player making a suggestion with only one possibility
@@ -326,13 +342,13 @@ public class GamePlay_tests {
 		ComputerPlayer cp = new ComputerPlayer("Col. Mustard", 0, 0, Color.BLACK);
 		ArrayList<Card> cardsNotSeenTest = new ArrayList<Card>();
 		BoardCell bc = (board.getCellAt(row, column));
-		Card person = new Card("Ms. Scarlette", CardType.PERSON);
+		Card person = new Card("Ms. Scarlet", CardType.PERSON);
 		cardsNotSeenTest.add(person);
 		Card weapon = new Card("Lead Pipe", CardType.WEAPON);
 		cardsNotSeenTest.add(weapon);
 		cp.setCardsNotSeen(cardsNotSeenTest);
 		cp.makeSuggestion(board, bc);
-		assertEquals(cp.getSuggestion().person, "Ms. Scarlette");
+		assertEquals(cp.getSuggestion().person, "Ms. Scarlet");
 		assertEquals(cp.getSuggestion().weapon, "Lead Pipe");
 		assertEquals(cp.getSuggestion().room, "Conservatory");
 	}
@@ -344,7 +360,7 @@ public class GamePlay_tests {
 		ComputerPlayer cp = new ComputerPlayer("Col. Mustard", 0, 0, Color.BLACK);
 		ArrayList<Card> cardsNotSeenTest = new ArrayList<Card>();
 		BoardCell bc = (board.getCellAt(row, column));
-		Card person = new Card("Ms. Scarlette", CardType.PERSON);
+		Card person = new Card("Ms. Scarlet", CardType.PERSON);
 		cardsNotSeenTest.add(person);
 		Card person2 = new Card("Prof. Plum", CardType.PERSON);
 		cardsNotSeenTest.add(person2);
@@ -354,7 +370,7 @@ public class GamePlay_tests {
 		
 		for(int i = 0; i<50; i++){
 			cp.makeSuggestion(board, bc);
-			if(cp.getSuggestion().person == "Ms. Scarlette"){
+			if(cp.getSuggestion().person == "Ms. Scarlet"){
 				numMsScarlette++;
 			}
 			else{

@@ -144,6 +144,7 @@ public class ComputerPlayer extends Player {
 			if (cardsInHand.get(i).getCardName() == suggestion.person || cardsInHand.get(i).getCardName() == suggestion.weapon || cardsInHand.get(i).getCardName() == suggestion.room){
 				cardsToShow.add(cardsInHand.get(i));
 				inHand = true;
+				return this.cardsInHand.get(i);
 			}	
 		}
 		if (inHand){
