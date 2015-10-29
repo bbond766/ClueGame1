@@ -375,7 +375,7 @@ public class GamePlay_tests {
 		assertTrue(target2>25);
 	}
 	
-	//test that takes a previously considered room in to consideration
+	//test that takes computer player ignores/avoids a room the player was previously in
 	@Test
 	public void testTargetSelectionPreviousRoom(){
 		Color color = Color.RED;
@@ -399,11 +399,11 @@ public class GamePlay_tests {
 	     
 		//there is one possible square that a player could select to move into that is a room if the player is located on [4][3]
 		//verify that the chosenCell, chosen by the pickLocation method, is a room
-		assertEquals(chosenCell.getDoorDirection(), DoorDirection.RIGHT);
-		assertEquals(chosenCell.getInitial(), 'C');
-		assertEquals(chosenCell.getRow(), 3);
-		assertEquals(chosenCell.getColumn(), 4);
-	    assertTrue(chosenCell.isRoom());
+		assertFalse(chosenCell.getDoorDirection() == DoorDirection.RIGHT);
+		assertFalse(chosenCell.getInitial() == 'C');
+		assertFalse(chosenCell.getRow() == 4);
+		assertFalse(chosenCell.getColumn() == 3);
+		assertFalse(chosenCell.isRoom());
 	}
 	
 	//tests the computer player making a suggestion with only one possibility
