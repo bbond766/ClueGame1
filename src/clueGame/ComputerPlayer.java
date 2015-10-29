@@ -87,20 +87,30 @@ public class ComputerPlayer extends Player {
 	}
 	
 	public void makeSuggestion(Board board, BoardCell location){
+		ArrayList<Card> cardsNotSeenCopy = new ArrayList<Card>(cardsNotSeen);
 		char initial = location.getInitial();
 		HashMap<Character, String> roomsCopy = new HashMap<Character, String>(board.getRooms());
 		String currentRoom = roomsCopy.get(initial);
+		String weaponGuess;
+		int i = (int) Math.random() % cardsNotSeenCopy.size();
+		while (cardsNotSeenCopy.get(i).getType() != CardType.PERSON){
+			i = (int) Math.random() % cardsNotSeenCopy.size();
+		}
+		String personGuess = cardsNotSeenCopy.get(i).getCardName();
+		cardsNotSeenCopy.remove(i);
+		if(cardsNotSeenCopy.size() == 1){
+			weaponGuess = cardsNotSeenCopy.get(0).getCardName();
+		}
+		else{
+			i = (int) Math.random() % cardsNotSeenCopy.size();;
+			while (cardsNotSeenCopy.get(i).getType() != CardType.WEAPON){
+				cardsNotSeenCopy.remove(i);
+				i = (int) Math.random() % cardsNotSeenCopy.size();
+			}
+			System.out.println("Here 2");
+			weaponGuess = cardsNotSeenCopy.get(i).getCardName();
+		}
 		
-		int i = (int) Math.random() % cardsNotSeen.size();
-		while (cardsNotSeen.get(i).getType() != CardType.PERSON){
-			i = (int) Math.random() % cardsNotSeen.size();
-		}
-		String personGuess = cardsNotSeen.get(i).getCardName();
-		i = (int) Math.random() % cardsNotSeen.size();;
-		while (cardsNotSeen.get(i).getType() != CardType.WEAPON){
-			i = (int) Math.random() % cardsNotSeen.size();
-		}
-		String weaponGuess = cardsNotSeen.get(i).getCardName();
 		
 		Solution guess = new Solution(personGuess, currentRoom, weaponGuess);
 		suggestion = guess;	
@@ -126,7 +136,6 @@ public class ComputerPlayer extends Player {
 		//	int index = (int) Math.random() % cardsToShow.size();
 			return cardsToShow.get(0);
 		}
-		
 		return null;
 	}
 	

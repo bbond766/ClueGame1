@@ -4,6 +4,8 @@ import static org.junit.Assert.*;
 
 import java.awt.Color;
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.Set;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -154,7 +156,7 @@ public class GamePlay_tests {
 		System.out.println(respondingPlayer.getCardsInHand().get(0).getCardName());
 		Card cardShown = new Card();
 		cardShown = respondingPlayer.disproveSuggestion(suggestion);	//getCardsInHand().get(0); //
-		System.out.println("NAME + " + cardShown.getCardName());
+//		System.out.println("NAME + " + cardShown.getCardName());
 		System.out.println("here");
 		
 		for (int i = 1; i < players.size(); i++){
@@ -203,6 +205,37 @@ public class GamePlay_tests {
 	//tests that a room is selected if possible
 	@Test
 	public void testTargetSelectionRoom(){
+		//Pass in a list that includes a room, and check that the room is selected. Is it sufficient to call one time? No, the method might randomly choose the room one time. You should put the call in a loop and assert in the body of the loop that the room is chosen every time.
+		//set position of player
+		//set move
+		//public BoardCell(int xPos, int yPos, char initial, DoorDirection direction)
+		Color color = Color.RED;
+		int row = 4;
+		int column = 4;
+		String name = "Ms. Scarlet";
+		int pathLength = 1;
+		
+		ComputerPlayer cp = new ComputerPlayer(name, row, column, color);
+		BoardCell bc = (board.getCellAt(row, column));
+	
+		
+		board.calcTargets(bc, pathLength);
+		Set<BoardCell> targets = board.getTargets();
+//		System.out.println(targets.size() + " size");
+
+		cp.pickLocation(targets);
+		int chosenRow = cp.getRow();
+		int chosenColumn = cp.getColumn();
+		BoardCell chosenCell = board.getCellAt(chosenColumn, chosenRow);
+//		System.out.println(chosenCell.isDoorway() + "dd isroom " + chosenCell.isRoom());
+	     
+		//there is one possible square that a player could select to move into that is a room if the player is located on [4][3]
+		//verify that the chosenCell, chosen by the pickLocation method, is a room
+		assertEquals(chosenCell.getDoorDirection(), DoorDirection.RIGHT);
+		assertEquals(chosenCell.getInitial(), 'C');
+		assertEquals(chosenCell.getRow(), 3);
+		assertEquals(chosenCell.getColumn(), 4);
+	    assertTrue(chosenCell.isRoom());
 	}
 	
 	
@@ -221,22 +254,50 @@ public class GamePlay_tests {
 	//tests the computer player making a suggestion with only one possibility
 	@Test
 	public void testCompPlayerOneSuggestion(){
+		int row = 0, column = 0;
 		ComputerPlayer cp = new ComputerPlayer("Col. Mustard", 0, 0, Color.BLACK);
 		ArrayList<Card> cardsNotSeenTest = new ArrayList<Card>();
+		BoardCell bc = (board.getCellAt(row, column));
 		Card person = new Card("Ms. Scarlette", CardType.PERSON);
 		cardsNotSeenTest.add(person);
 		Card weapon = new Card("Lead Pipe", CardType.WEAPON);
 		cardsNotSeenTest.add(weapon);
 		cp.setCardsNotSeen(cardsNotSeenTest);
-		//cp.makeSuggestion(board, cp.);
+		cp.makeSuggestion(board, bc);
 		assertEquals(cp.getSuggestion().person, "Ms. Scarlette");
 		assertEquals(cp.getSuggestion().weapon, "Lead Pipe");
-		assertEquals(cp.getSuggestion().room, "Dining Room");
+		assertEquals(cp.getSuggestion().room, "Conservatory");
 	}
 	
 	@Test
 	public void testCompPlayerRandPossible(){
+		int row = 0, column = 0;
+		int numColMustard = 0, numProfPlum = 0;
+		ComputerPlayer cp = new ComputerPlayer("Col. Mustard", 0, 0, Color.BLACK);
+		ArrayList<Card> cardsNotSeenTest = new ArrayList<Card>();
+		BoardCell bc = (board.getCellAt(row, column));
+		Card person = new Card("Ms. Scarlette", CardType.PERSON);
+		cardsNotSeenTest.add(person);
+		Card person2 = new Card("Prof. Plum", CardType.PERSON);
+		Card weapon = new Card("Lead Pipe", CardType.WEAPON);
+		cardsNotSeenTest.add(weapon);
+		cp.setCardsNotSeen(cardsNotSeenTest);
 		
+		for(int i = 0; i<50; i++){
+			cp.makeSuggestion(board, bc);
+			if(cp.getSuggestion().person == "Ms. Scarlette"){
+				numColMustard++;
+			}
+			else if(cp.getSuggestion().person == "Prof. Plum"){
+				numProfPlum++;
+			}
+		}
+		
+		assertEquals(cp.getSuggestion().weapon, "Lead Pipe");
+		assertEquals(cp.getSuggestion().room, "Conservatory");
+		System.out.println("Num " + numColMustard);
+		assertTrue(numColMustard>5);
+		assertTrue(numProfPlum>5);
 	}
 
 }
