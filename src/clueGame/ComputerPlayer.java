@@ -167,4 +167,7 @@ public class ComputerPlayer extends Player {
 	public Solution getSuggestion(){
 		return suggestion;
 	}
+	public void setCardsNotSeen(ArrayList<Card> cardsNotSeen) {
+		this.cardsNotSeen = cardsNotSeen;
+	}
 }

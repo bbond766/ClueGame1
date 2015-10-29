@@ -2,13 +2,18 @@ package clueTests;
 
 import static org.junit.Assert.*;
 
+import java.awt.Color;
 import java.util.ArrayList;
 
 import org.junit.Before;
 import org.junit.Test;
 
 import clueGame.Board;
+import clueGame.BoardCell;
 import clueGame.Card;
+import clueGame.CardType;
+import clueGame.ComputerPlayer;
+import clueGame.DoorDirection;
 import clueGame.Player;
 import clueGame.Solution;
 
@@ -144,7 +149,9 @@ public class GamePlay_tests {
 //		System.out.println(suggestion.getPerson());
 
 		Player respondingPlayer = players.get(1);
-//		System.out.println(respondingPlayer.getCardsInHand().get(0).getCardName());
+		Card showCard = new Card("Ms. Scarlet", CardType.PERSON);
+		respondingPlayer.addCardToHand(showCard);
+		System.out.println(respondingPlayer.getCardsInHand().get(0).getCardName());
 		Card cardShown = new Card();
 		cardShown = respondingPlayer.disproveSuggestion(suggestion);	//getCardsInHand().get(0); //
 		System.out.println("NAME + " + cardShown.getCardName());
@@ -196,8 +203,8 @@ public class GamePlay_tests {
 	//tests that a room is selected if possible
 	@Test
 	public void testTargetSelectionRoom(){
-		
 	}
+	
 	
 	//tests that if no room, that a target is selected randomly
 	@Test
@@ -211,10 +218,20 @@ public class GamePlay_tests {
 		
 	}
 	
-	//tests
+	//tests the computer player making a suggestion with only one possibility
 	@Test
 	public void testCompPlayerOneSuggestion(){
-		
+		ComputerPlayer cp = new ComputerPlayer("Col. Mustard", 0, 0, Color.BLACK);
+		ArrayList<Card> cardsNotSeenTest = new ArrayList<Card>();
+		Card person = new Card("Ms. Scarlette", CardType.PERSON);
+		cardsNotSeenTest.add(person);
+		Card weapon = new Card("Lead Pipe", CardType.WEAPON);
+		cardsNotSeenTest.add(weapon);
+		cp.setCardsNotSeen(cardsNotSeenTest);
+		//cp.makeSuggestion(board, cp.);
+		assertEquals(cp.getSuggestion().person, "Ms. Scarlette");
+		assertEquals(cp.getSuggestion().weapon, "Lead Pipe");
+		assertEquals(cp.getSuggestion().room, "Dining Room");
 	}
 	
 	@Test
