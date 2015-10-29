@@ -12,6 +12,12 @@ public class BoardCell {
 	public char getInitial() {
 		return initial;
 	}
+	public int getRow() {
+		return yPos;
+	}
+	public int getColumn() {
+		return xPos;
+	}
 	public boolean isWalkway()
 	{
 		return initial == 'W';

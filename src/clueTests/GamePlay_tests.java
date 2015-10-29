@@ -208,40 +208,31 @@ public class GamePlay_tests {
 		//public BoardCell(int xPos, int yPos, char initial, DoorDirection direction)
 		Color color = Color.RED;
 		int row = 4;
-		int column = 3;
+		int column = 4;
 		String name = "Ms. Scarlet";
 		int pathLength = 1;
-		boolean thereIsRoom = false;
-		ArrayList<BoardCell> roomsToMoveInto = new ArrayList<BoardCell>();
 		
 		ComputerPlayer cp = new ComputerPlayer(name, row, column, color);
 		BoardCell bc = (board.getCellAt(row, column));
-		System.out.println(bc.isDoorway() + "dd isroom " + bc.isRoom());
-
+	
 		
 		board.calcTargets(bc, pathLength);
 		Set<BoardCell> targets = board.getTargets();
-		System.out.println(targets.size() + " size");
+//		System.out.println(targets.size() + " size");
 
 		cp.pickLocation(targets);
 		int chosenRow = cp.getRow();
 		int chosenColumn = cp.getColumn();
 		BoardCell chosenCell = board.getCellAt(chosenColumn, chosenRow);
-		System.out.println(chosenRow + " cr cc " + chosenColumn);
-		
-	     Iterator<BoardCell> it = targets.iterator();
-	     while(it.hasNext()){
-	    	 if (it.next().isRoom()){
-	    		 roomsToMoveInto.add(it.next());
-	    		 thereIsRoom = true;
-	    	 }
-	    	 else{
-	    		 continue;
-	    	 }
-//	        System.out.println(it.next().isRoom());
-	     }
-	     assertTrue(roomsToMoveInto.contains(chosenCell));
-
+//		System.out.println(chosenCell.isDoorway() + "dd isroom " + chosenCell.isRoom());
+	     
+		//there is one possible square that a player could select to move into that is a room if the player is located on [4][3]
+		//verify that the chosenCell, chosen by the pickLocation method, is a room
+		assertEquals(chosenCell.getDoorDirection(), DoorDirection.RIGHT);
+		assertEquals(chosenCell.getInitial(), 'C');
+		assertEquals(chosenCell.getRow(), 3);
+		assertEquals(chosenCell.getColumn(), 4);
+	    assertTrue(chosenCell.isRoom());
 	}
 	
 	//tests that if no room, that a target is selected randomly
