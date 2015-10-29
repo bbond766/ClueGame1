@@ -4,6 +4,7 @@ import static org.junit.Assert.*;
 
 import java.awt.Color;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
@@ -46,41 +47,41 @@ public class GamePlay_tests {
 		// Initialize will load BOTH config files 
 		board.initialize();
 
-		ArrayList<Card> copyDeck = new ArrayList<Card>(board.getDeck());
-		
-		int index = 0;
-		solnPerson = board.getDeck().get(index).getCardName();
-		copyDeck.remove(index);
-		index = 6;
-		solnRoom = board.getDeck().get(index).getCardName();
-		copyDeck.remove(index-1);
-		index = 15;
-		solnWeapon = board.getDeck().get(index).getCardName();
-		copyDeck.remove(index-2);
-		
-		solution.setPerson(solnPerson);
-		solution.setRoom(solnRoom);
-		solution.setWeapon(solnWeapon);
-//		System.out.println(solnPerson + " " + solnRoom + " " + solnWeapon);
-		players =  new ArrayList<Player>(board.getPlayers());
-		
-		while (copyDeck.size() != 0){
-			for (int i = 0; i < players.size(); i++){
-				if (copyDeck.size() == 0){
-					return;
-				}
-				players.get(i).addCardToHand(copyDeck.get(0));
-				copyDeck.remove(0);
-			}
-		}
-		for (int i = 0; i < players.size(); i++){
-			for (int j = 0; j < players.get(i).getCardsInHand().size(); j++){
-//				System.out.println("player ith " + i + players.get(i).getCardsInHand().get(j).getCardName() + " j " + j);
-			}
-		}
+//		ArrayList<Card> copyDeck = new ArrayList<Card>(board.getDeck());
+//		
+//		int index = 0;
+//		solnPerson = board.getDeck().get(index).getCardName();
+//		copyDeck.remove(index);
+//		index = 6;
+//		solnRoom = board.getDeck().get(index).getCardName();
+//		copyDeck.remove(index-1);
+//		index = 15;
+//		solnWeapon = board.getDeck().get(index).getCardName();
+//		copyDeck.remove(index-2);
+//		
+//		solution.setPerson(solnPerson);
+//		solution.setRoom(solnRoom);
+//		solution.setWeapon(solnWeapon);
+////		System.out.println(solnPerson + " " + solnRoom + " " + solnWeapon);
+//		players =  new ArrayList<Player>(board.getPlayers());
+//		
+//		while (copyDeck.size() != 0){
+//			for (int i = 0; i < players.size(); i++){
+//				if (copyDeck.size() == 0){
+//					return;
+//				}
+//				players.get(i).addCardToHand(copyDeck.get(0));
+//				copyDeck.remove(0);
+//			}
+//		}
+//		for (int i = 0; i < players.size(); i++){
+//			for (int j = 0; j < players.get(i).getCardsInHand().size(); j++){
+////				System.out.println("player ith " + i + players.get(i).getCardsInHand().get(j).getCardName() + " j " + j);
+//			}
+//		}
 	}
 	
-	@Test
+/*	@Test
 	public void testDeal(){
 		//tests that the whole deck is dealt
 		int totalDealt = 3;
@@ -127,7 +128,7 @@ public class GamePlay_tests {
 			numPlayersHave.add(count);
 		}
 	}
-	
+
 	@Test
 	public void testAccusationCorrectness() {
 		//solution finalized during deal, which is called by initialize method
@@ -142,22 +143,43 @@ public class GamePlay_tests {
 		assertEquals(solution.getPerson(), suggestion.getPerson());
 		assertEquals(solution.getWeapon(), suggestion.getWeapon());
 	}
-	
+	*/
 	//Tests that player returns the one card to disprove the suggestion
 	@Test
 	public void testDisproveSuggestionOnePossible(){
-		Player player = board.getPlayers().get(0);	//this is a human player
-		player.makeAccusation("Ms. Peacock", "Conservatory", "Lead Pipe");
-		Solution suggestion = player.getSuggestion();
-//		System.out.println(suggestion.getRoom());
-		Player player2 = board.getPlayers().get(1);
-//		System.out.println(player2.getCardsInHand().get(0).getCardName() + "cc");
-		Card card2 = player2.disproveSuggestion(suggestion);
-		System.out.println(player2.getCardsInHand().get(0).getCardName());
-		System.out.println(card2.getCardName() + "card2");
-		assertEquals(solution.getRoom(), suggestion.getRoom());
-		assertEquals(solution.getPerson(), suggestion.getPerson());
-		assertEquals(solution.getWeapon(), suggestion.getWeapon());
+		ComputerPlayer p1 = new ComputerPlayer("Test1",0,0, Color.BLACK);
+		ComputerPlayer p2 = new ComputerPlayer("Test2",0,0, Color.GREEN);
+		ArrayList<Player> players = new ArrayList<Player>();
+		int row = 0, column = 0;
+		ArrayList<Card> cardsNotSeenTest = new ArrayList<Card>();
+		BoardCell bc = (board.getCellAt(row, column));
+		Card person = new Card("Ms. Scarlet", CardType.PERSON);
+		cardsNotSeenTest.add(person);
+		Card weapon = new Card("Lead Pipe", CardType.WEAPON);
+		cardsNotSeenTest.add(weapon);
+		players.add(p1);
+		players.add(p2);
+		p1.setCardsNotSeen(cardsNotSeenTest);
+		p2.addCardToHand(person);
+		p1.makeSuggestion(board, bc);
+		board.setPlayers(players);
+		Card returnCard = new Card();
+		returnCard = board.handleSuggestion(p1.getSuggestion(), p1.getName(), bc);
+		assertEquals(returnCard.getCardName(), person.getCardName());
+		
+		
+//		Player player = board.getPlayers().get(0);	//this is a human player
+//		player.makeAccusation("Ms. Peacock", "Conservatory", "Lead Pipe");
+//		Solution suggestion = player.getSuggestion();
+////		System.out.println(suggestion.getRoom());
+//		Player player2 = board.getPlayers().get(1);
+////		System.out.println(player2.getCardsInHand().get(0).getCardName() + "cc");
+//		Card card2 = player2.disproveSuggestion(suggestion);
+//		System.out.println(player2.getCardsInHand().get(0).getCardName());
+//		System.out.println(card2.getCardName() + "card2");
+//		assertEquals(solution.getRoom(), suggestion.getRoom());
+//		assertEquals(solution.getPerson(), suggestion.getPerson());
+//		assertEquals(solution.getWeapon(), suggestion.getWeapon());
 //		
 //		
 //		
@@ -197,7 +219,36 @@ public class GamePlay_tests {
 	//Tests that player randomly returns one of the cards to disprove the suggestion
 	@Test
 	public void testDisproveSuggestionTwoPossible(){
-		assertTrue(false);
+		ComputerPlayer p1 = new ComputerPlayer("Test1",0,0, Color.BLACK);
+		ComputerPlayer p2 = new ComputerPlayer("Test2",0,0, Color.GREEN);
+		ArrayList<Player> players = new ArrayList<Player>();
+		int row = 0, column = 0;
+		ArrayList<Card> cardsNotSeenTest = new ArrayList<Card>();
+		BoardCell bc = (board.getCellAt(row, column));
+		Card person = new Card("Ms. Scarlet", CardType.PERSON);
+		cardsNotSeenTest.add(person);
+		Card weapon = new Card("Lead Pipe", CardType.WEAPON);
+		cardsNotSeenTest.add(weapon);
+		players.add(p1);
+		players.add(p2);
+		p1.setCardsNotSeen(cardsNotSeenTest);
+		p2.addCardToHand(person);
+		p2.addCardToHand(weapon);
+		p1.makeSuggestion(board, bc);
+		board.setPlayers(players);
+		Card returnCard = new Card();
+		int personCount = 0, weaponCount = 0;
+		for(int i = 0; i<50; i++){
+			returnCard = board.handleSuggestion(p1.getSuggestion(), p1.getName(), bc);
+			if(returnCard.getCardName() == person.getCardName()){
+				personCount++;
+			}
+			else{
+				weaponCount++;
+			}
+		}
+		assertTrue(personCount>10);
+		assertTrue(weaponCount>10);
 	}
 	
 	//tests that the players are queried in the correct order
@@ -300,7 +351,26 @@ public class GamePlay_tests {
 	//tests that if no room, that a target is selected randomly
 	@Test
 	public void testTargetSelectionRandom(){
-		assertTrue(false);
+		int row = 3, column = 22;
+		ComputerPlayer cp = new ComputerPlayer("test1", row, column, Color.BLACK);
+		BoardCell Target1 = board.getCellAt(22, 5);
+		BoardCell Target2 = board.getCellAt(21, 4);
+		int target1 = 0, target2 = 0;
+		//board.calcTargets(bc, 2);
+		HashSet<BoardCell> targets = new HashSet<BoardCell>();
+		targets.add(Target1);
+		targets.add(Target2);
+		for(int i = 0; i<100; i++){
+			cp.pickLocation(targets);
+			int chosenRow = cp.getRow();
+			int chosenColumn = cp.getColumn();
+			if(chosenColumn == 22){
+				target1++;
+			}
+			else{ target2++;}
+			assertTrue(target1>25);
+			assertTrue(target2>25);
+		}
 	}
 	
 	//test that takes a previously considered room in to consideration
@@ -332,7 +402,7 @@ public class GamePlay_tests {
 		assertEquals(chosenCell.getRow(), 3);
 		assertEquals(chosenCell.getColumn(), 4);
 	    assertTrue(chosenCell.isRoom());
-	    assertTrue(false);
+	 //   assertTrue(false);
 	}
 	
 	//tests the computer player making a suggestion with only one possibility

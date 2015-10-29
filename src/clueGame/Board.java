@@ -412,7 +412,7 @@ public class Board {
 		return players;
 	}
 	public void movePlayer(int index){
-		int moveLength = (int) Math.random() % 6 + 1;
+		int moveLength = (int) Math.floor(Math.random()* 6 + 1);
 		BoardCell bc = getCellAt(players.get(index).getColumn(), players.get(index).getRow());
 		calcTargets(bc, moveLength); //targets updated
 		if(players.get(index).getPlayerType()){
