@@ -1,5 +1,7 @@
 package clueGame;
+import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.GridLayout;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.ArrayList;
@@ -10,6 +12,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.Set;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.border.EtchedBorder;
+import javax.swing.border.TitledBorder;
 
 public class Board {
 	private int numRows,numColumns;
@@ -469,9 +479,11 @@ public class Board {
 	public Solution getSolution(){
 		return this.solution;
 	}
+	
+	//TODO add main function
+	public static void main(String [] args){
+	}
 
 }
-
-//TODO add main function
 //pick fn in player class called AFTER player is moved in board class; player's dice roll and calculation of targets
 //calculated here 
