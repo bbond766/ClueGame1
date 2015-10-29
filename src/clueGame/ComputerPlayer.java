@@ -114,7 +114,7 @@ public class ComputerPlayer extends Player {
 		boolean inHand = false;
 		Card cardShown = new Card();
 		ArrayList<Card> cardsToShow = new ArrayList<Card>();
-		System.out.println("CARDS IN HAND SIZE " + this.cardsInHand().size());
+		System.out.println("CARDS IN HAND SIZE " + cardsInHand.size());
 		for (int i = 0; i < cardsInHand.size(); i++){
 			if (cardsInHand.get(i).getCardName() == suggestion.person || cardsInHand.get(i).getCardName() == suggestion.weapon
 					|| cardsInHand.get(i).getCardName() == suggestion.room){
