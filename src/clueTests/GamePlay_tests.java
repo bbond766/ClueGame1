@@ -16,6 +16,7 @@ import clueGame.Card;
 import clueGame.CardType;
 import clueGame.ComputerPlayer;
 import clueGame.DoorDirection;
+import clueGame.HumanPlayer;
 import clueGame.Player;
 import clueGame.Solution;
 
@@ -156,26 +157,26 @@ public class GamePlay_tests {
 //		System.out.println(respondingPlayer.getCardsInHand().get(0).getCardName());
 		Card cardShown = new Card();
 		cardShown = respondingPlayer.disproveSuggestion(suggestion);	//getCardsInHand().get(0); //
-//		System.out.println("NAME + " + cardShown.getCardName());
+		System.out.println("NAME + " + cardShown.getCardName());
 //		System.out.println("here");
 		
 		for (int i = 1; i < players.size(); i++){
 
-//			Player play = board.getPlayers().get(i);
-//			if (play.disproveSuggestion(suggestion) != null){
-//				System.out.println("Card found.");
-//				return;
-//			}
-//			else{
-//				continue;
-//			}
+			Player play = board.getPlayers().get(i);
+			if (play.disproveSuggestion(suggestion) != null){
+				System.out.println("Card found.");
+				return;
+			}
+			else{
+				continue;
+			}
 		}
-//		Player play = board.getPlayers().get(1);
-//		Card cardShown = play.disproveSuggestion(suggestion);
+		Player play = board.getPlayers().get(1);
+		cardShown = play.disproveSuggestion(suggestion);
 		
-//		assertEquals(cardShown.getCardName(), "Ms. Scarlet");
-//		assertEquals(solution.getPerson(), suggestion.getPerson());
-//		assertEquals(solution.getWeapon(), suggestion.getWeapon());
+		assertEquals(cardShown.getCardName(), "Ms. Scarlet");
+		assertEquals(solution.getPerson(), suggestion.getPerson());
+		assertEquals(solution.getWeapon(), suggestion.getWeapon());
 	}
 	
 	//Tests that player randomly returns one of the cards to disprove the suggestion
@@ -187,19 +188,61 @@ public class GamePlay_tests {
 	//tests that the players are queried in the correct order
 	@Test
 	public void testOrder(){
+		ArrayList<Player> players = new ArrayList<Player>();
+		ComputerPlayer p1 = new ComputerPlayer("Test1",0,0, Color.BLACK);
+		ComputerPlayer p2 = new ComputerPlayer("Test2",0,1, Color.BLUE);
+		ComputerPlayer p3 = new ComputerPlayer("Test3",1,0, Color.GREEN);
+		players.add(p1);
+		players.add(p2);
+		players.add(p3);
+		board.setPlayers(players);
+		BoardCell bc = board.getCellAt(0, 0);
+		Solution s = new Solution("Ms. Scarlette", "Library", "Rope");
+		assertEquals(board.handleSuggestion(s, p1.getName(),bc), null);
 		
+		assertFalse(p1.isHasBeenQueried());
+		assertTrue(p2.isHasBeenQueried());
+		assertTrue(p3.isHasBeenQueried());
 	}
 	
 	//Tests that the current player does not attempt to disprove suggestion
 	@Test
 	public void testAccusingPlayerNoCardReturn(){
-		
+		ArrayList<Player> players = new ArrayList<Player>();
+		ComputerPlayer p1 = new ComputerPlayer("Test1",0,0, Color.BLACK);
+		ComputerPlayer p2 = new ComputerPlayer("Test2",0,1, Color.BLUE);
+		ComputerPlayer p3 = new ComputerPlayer("Test3",1,0, Color.GREEN);
+		players.add(p1);
+		players.add(p2);
+		players.add(p3);
+		board.setPlayers(players);
+		BoardCell bc = board.getCellAt(0, 0);
+		Solution s = new Solution("Ms. Scarlette", "Library", "Rope");
+		Card card = new Card("Rope", CardType.WEAPON);
+		p1.addCardToHand(card);
+		assertEquals(board.handleSuggestion(s, p1.getName(),bc), null);
 	}
 	
 	//tests the human player disproving a suggestion
 	@Test
 	public void testHumanPlayer(){
+		ArrayList<Player> players = new ArrayList<Player>();
+		HumanPlayer p1 = new HumanPlayer("Test1",0,0, Color.BLACK);
+		ComputerPlayer p2 = new ComputerPlayer("Test2",0,1, Color.BLUE);
+		ComputerPlayer p3 = new ComputerPlayer("Test3",1,0, Color.GREEN);
+		players.add(p1);
+		players.add(p2);
+		players.add(p3);
+		board.setPlayers(players);
+		BoardCell bc = board.getCellAt(0, 0);
+		Solution s = new Solution("Ms. Scarlette", "Library", "Rope");
+		Card card = new Card("Rope", CardType.WEAPON);
+		p1.addCardToHand(card);
+		assertEquals(board.handleSuggestion(s, p1.getName(),bc), null);
 		
+		assertFalse(p1.isHasBeenQueried());
+		assertTrue(p2.isHasBeenQueried());
+		assertTrue(p3.isHasBeenQueried());
 	}
 	
 	//tests that a room is selected if possible
@@ -295,7 +338,6 @@ public class GamePlay_tests {
 		}
 		assertEquals(cp.getSuggestion().weapon, "Lead Pipe");
 		assertEquals(cp.getSuggestion().room, "Conservatory");
-		System.out.println("Num " + numProfPlum);
 		assertTrue(numMsScarlette>5);
 		assertTrue(numProfPlum>5);
 	}

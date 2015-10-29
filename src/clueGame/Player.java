@@ -14,12 +14,14 @@ public abstract class Player {
 	private char roomIn;
 	private boolean isComputerPlayer;
 	private Solution suggestion;
+	private boolean hasBeenQueried;
 	
 	public Player(){
 		this.cardsInHand = new ArrayList<Card>();
 		this.cardsNotSeen = new ArrayList<Card>();
 		this.isComputerPlayer = false;
 		this.suggestion = null;
+		this.setHasBeenQueried(false);
 	}
 	public Card disproveSuggestion(Solution suggestion){return null;}
 	public void makeAccusation(){}
@@ -116,5 +118,11 @@ public abstract class Player {
 	//for testing purposes only
 	public void setAccusation(String p, String r, String w){
 		suggestion = new Solution (p, r, w);
+	}
+	public boolean isHasBeenQueried() {
+		return hasBeenQueried;
+	}
+	public void setHasBeenQueried(boolean hasBeenQueried) {
+		this.hasBeenQueried = hasBeenQueried;
 	}
 }

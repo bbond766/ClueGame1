@@ -16,12 +16,14 @@ public class ComputerPlayer extends Player {
 	private ArrayList<Card> cardsNotSeen;
 	private boolean isComputerPlayer;
 	private Solution suggestion;
+	private boolean hasBeenQueried;
 	
 	public ComputerPlayer(){
 		super();
 		this.isComputerPlayer = true;
 		this.suggestion = null;
 		this.cardsInHand = new ArrayList<Card>();
+		this.hasBeenQueried = false;
 	}
 	
 	public ComputerPlayer(String playerName, int row, int column, Color color) {
@@ -33,7 +35,16 @@ public class ComputerPlayer extends Player {
 		this.isComputerPlayer = true;
 		this.suggestion = null;
 		this.cardsInHand = new ArrayList<Card>();
+		this.hasBeenQueried = false;
 	}
+	public boolean isHasBeenQueried() {
+		return hasBeenQueried;
+	}
+
+	public void setHasBeenQueried(boolean hasBeenQueried) {
+		this.hasBeenQueried = hasBeenQueried;
+	}
+
 	@Override
 	public void pickLocation(Set<BoardCell> targets){
 		boolean moved = false;
@@ -93,7 +104,6 @@ public class ComputerPlayer extends Player {
 		String currentRoom = roomsCopy.get(initial);
 		String weaponGuess;
 		int i = (int) Math.floor(Math.random()*cardsNotSeenCopy.size());
-		System.out.println(cardsNotSeenCopy.size() + " size");
 		while (cardsNotSeenCopy.get(i).getType() != CardType.PERSON){
 			i = (int) Math.floor(Math.random()*cardsNotSeenCopy.size());
 		}
@@ -119,6 +129,11 @@ public class ComputerPlayer extends Player {
 	public boolean isComputerPlayer(){
 		return true;
 	}
+	
+	public void addCardToHand(Card card) {
+		this.cardsInHand.add(card);
+	}
+	
 	@Override
 	public Card disproveSuggestion(Solution suggestion){
 		boolean inHand = false;
@@ -126,17 +141,18 @@ public class ComputerPlayer extends Player {
 		ArrayList<Card> cardsToShow = new ArrayList<Card>();
 		//System.out.println("CARDS IN HAND SIZE " + cardsInHand.size());
 		for (int i = 0; i < cardsInHand.size(); i++){
-			if (cardsInHand.get(i).getCardName() == suggestion.person || cardsInHand.get(i).getCardName() == suggestion.weapon
-					|| cardsInHand.get(i).getCardName() == suggestion.room){
+			if (cardsInHand.get(i).getCardName() == suggestion.person || cardsInHand.get(i).getCardName() == suggestion.weapon || cardsInHand.get(i).getCardName() == suggestion.room){
 				cardsToShow.add(cardsInHand.get(i));
 				inHand = true;
 			}	
 		}
 		if (inHand){
-		//	int index = (int) Math.random() % cardsToShow.size();
-			return cardsToShow.get(0);
+			int index = (int) Math.floor(Math.random()* cardsToShow.size());
+			return cardsToShow.get(index);
 		}
-		return null;
+		else{
+			return null;
+		}
 	}
 	
 	public String getName(){

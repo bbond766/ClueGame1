@@ -429,21 +429,32 @@ public class Board {
 	public Card handleSuggestion(Solution suggestion, String accusingPlayer, BoardCell clicked){
 		int indexAP = players.indexOf(accusingPlayer);
 		Card cardToShow = new Card();
+		indexAP+=2;
 		for (int i = 0; i < (players.size() - 1); i++){
-			if (indexAP + i < players.size()){
-				cardToShow = players.get(indexAP++).disproveSuggestion(suggestion);
-				return cardToShow;
+			indexAP+=i;
+			if (indexAP < players.size()){
+				cardToShow = players.get(indexAP).disproveSuggestion(suggestion);
+				players.get(indexAP).setHasBeenQueried(true);
+				if (cardToShow != null){
+					return cardToShow;
+				}
 			}
 			else{
 				indexAP = 0;
 				cardToShow = players.get(indexAP).disproveSuggestion(suggestion);
-				return cardToShow;
+				players.get(indexAP).setHasBeenQueried(true);
+				if (cardToShow != null){
+					return cardToShow;
+				}
 			}
 		}
-//		if (cardToShow == null){
-			System.out.println("No players have cards to show to disprove this accusation.");
-			return null;
-//		}
+		//		if (cardToShow == null){
+		System.out.println("No players have cards to show to disprove this accusation.");
+		return null;
+		//		}
+	}
+	public void setPlayers(ArrayList<Player> players) {
+		this.players = players;
 	}
 	public boolean checkAccusation(Solution accusation){
 		if (accusation.getPerson() == solution.getPerson() && accusation.getRoom() == solution.getRoom() && accusation.getWeapon() == solution.getWeapon())
@@ -457,6 +468,7 @@ public class Board {
 	public Solution getSolution(){
 		return this.solution;
 	}
+
 }
 
 //TODO add main function

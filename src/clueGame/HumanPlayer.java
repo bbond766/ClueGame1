@@ -15,12 +15,14 @@ public class HumanPlayer extends Player {
 	private ArrayList<Card> cardsNotSeen;
 	private boolean isComputerPlayer;
 	private Solution suggestion;
+	private boolean hasBeenQueried;
 	
 	public HumanPlayer(){
 		super();
 		this.isComputerPlayer = false;
 		this.suggestion = null;
 		this.cardsInHand = new ArrayList<Card>();
+		this.hasBeenQueried = false;
 	}
 	public HumanPlayer(String playerName, int row, int column, Color color) {
 		super();
@@ -31,6 +33,14 @@ public class HumanPlayer extends Player {
 		this.isComputerPlayer = false;
 		this.suggestion = null;
 		this.cardsInHand = new ArrayList<Card>();
+		this.hasBeenQueried = false;
+	}
+	
+	public boolean isHasBeenQueried() {
+		return hasBeenQueried;
+	}
+	public void setHasBeenQueried(boolean hasBeenQueried) {
+		this.hasBeenQueried = hasBeenQueried;
 	}
 	@Override
 	public void pickLocation(Set<BoardCell> targets){
@@ -61,17 +71,18 @@ public class HumanPlayer extends Player {
 		boolean inHand = false;
 		Card cardShown = new Card();
 		ArrayList<Card> cardsToShow = new ArrayList<Card>();
-		System.out.println("Cards in hand size : " + this.cardsInHand.size());
+		//System.out.println("Cards in hand size : " + this.cardsInHand.size());
 		for (int i = 0; i < cardsInHand.size(); i++){
 			if (cardsInHand.get(i).getCardName() == suggestion.person || cardsInHand.get(i).getCardName() == suggestion.weapon
 					|| cardsInHand.get(i).getCardName() == suggestion.room){
 				cardsToShow.add(cardsInHand.get(i));
 				inHand = true;
 			}	
-		}
+		}		
+		//System.out.println(cardsToShow.size() + " size");
 		if (inHand){
-			int index = (int) Math.random() % cardsToShow.size();
-			System.out.println(index + "CARDS TO SHOW");
+			int index = (int) Math.floor(Math.random()* cardsToShow.size());
+//			System.out.println(index + "CARDS TO SHOW");
 			return cardsToShow.get(index);
 		}
 		return null;
