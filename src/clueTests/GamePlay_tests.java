@@ -380,7 +380,7 @@ public class GamePlay_tests {
 	public void testTargetSelectionPreviousRoom(){
 		Color color = Color.RED;
 		int row = 4;
-		int column = 4;
+		int column = 3;
 		String name = "Ms. Scarlet";
 		int pathLength = 6;
 		
@@ -404,7 +404,6 @@ public class GamePlay_tests {
 		assertEquals(chosenCell.getRow(), 3);
 		assertEquals(chosenCell.getColumn(), 4);
 	    assertTrue(chosenCell.isRoom());
-	 //   assertTrue(false);
 	}
 	
 	//tests the computer player making a suggestion with only one possibility

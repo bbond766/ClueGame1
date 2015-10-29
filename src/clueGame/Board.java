@@ -25,7 +25,7 @@ public class Board {
 	public Map<BoardCell, LinkedList<BoardCell>> adjacencyList = new HashMap<BoardCell, LinkedList<BoardCell>>(); 
 	private Set<BoardCell> targets;
 	private static Map<Character, String> rooms;
-	private ArrayList<Player> players;
+	private static ArrayList<Player> players;
 	private ArrayList<Card> deck;
 	private Solution solution;
 	private String boardConfigFile = "ClueLayout.csv";
@@ -43,6 +43,7 @@ public class Board {
 	public Board(String boardConfigFile, String roomConfigFile)
 	{
 		super();
+		this.players = new ArrayList<Player>();
 		this.boardConfigFile = boardConfigFile;
 		this.roomConfigFile = roomConfigFile;
 		rooms = new HashMap<Character,String>();
