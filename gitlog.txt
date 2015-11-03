@@ -1,0 +1,47 @@
+8f18f21c996f8bcf08c80972ec1e80d754e6d3e7 testTargetSelectionPreviousRoom passes.
+255e4eebe502f5c465df340a1976fd2c31dea1be updated board class to ensure board tests pass.
+8b3d5c98fba00121c07f0ead985519a284863201 Got the target selects random test to pass. All tests now pass
+cbdf3e0e09aac449253730e358783f54bf94f706 Got disprove suggestion one and two working, as well as target selection and previous room remain working.
+2a83ae4dadc6edace5da265507a762824c1c901d target selection, random and previous room remain, as do disproving guggestion one and two. All other tests pass.
+2e52b59c79c1eb23d5aca3893256312071e8d469 Merge branch 'master' of https://github.com/bbond766/ClueGame-1
+8d3c7790cc3e259e9ce33b9521a39f0485af3fca Got test order to pass, got test human player to pass, and got test that accusing player is not queried to pass
+829172524a036c7811fbc9ec72b2e02b9edde726 test
+4b3c96c50cbda65455c88114104adf13103969ab Got testCompPlayerRandPossible passing
+3fb2be421f929a13888222b75eddd2735bc87da2 testCompPlayerOneSuggestion passes
+4464a11f6ee7933d5a0b13494049142fbcc23a3e Working towards making the testCompPlayerOneSuggestion pass
+a4ae88859f8bbbbe1ed22e7eb32f6e497bf67c3c testTargetSelectionRoom() passes and the methods it tests are implemented correctly.
+d43202a176c767e6816c383695b97d4b5a4f8d96 nearly completed the testTargetSelectionRoom
+692ac464a9d0a99c411ec12c514e5758a3f90d4d Working on disprovingSuggestion
+18b54440946b423b659e71054459f9632da37d1a got the testAccusationCorrectness test to pass by altering method; working on testDisproveSuggestion test and method now.
+9b3e7c570c4abdc2022aba7d3c567a91bb54e338 Working on testing suite setup and implimentation
+42bec1a26b5c965617c8565c25917cb347666237 began working on implementing the gamePlay tests.
+7f26e75db3d4e9b3c07a88623f9bf78df167c1d1 wrote tests to test suggestions, disproving suggestions, and selection of target for game play. Wrote implimentatoins for making suggestion, disproving suggestion, and selecting target.
+1492446bccf83129a5614d8556d78dbf7264f98d Created test casses and skeleton methods
+d554c655af0355a8d1fa2fe3d8936ab8ce13ffcc Added untracked files.
+bc80337280b372f8d24e99b916ee69c11dc48d98 fixed the deal method to correctly deal the cards to the Solution.
+c3d0da1f8160322b6d1336fe897e30bd45dc68bb updated testDeal and testAccusations now pass; implemations tested by these methods now are complete. Must return to testDeal to logic through solution testing.
+6b3ef811911a80d0df4b74bcfc9514b27296d539 testAccusation test written; fails for all currently.
+2cb9db99396b32e825ead17e7973d3bd141d834f Removed previous sysos from earlier debugging; left necessary sysos for remaining deal method.
+2d2aa3c17326f76461c7778f5e6a000936fb2a03 Implemented deal card method; testDeal junit method failing because getCardsInHand() method does not appear to be returning the ArrayList<Card> cardsInHand accurately.
+b1604408d339a16ef8e2403f14e0731b6550c461 Test cards junit test now passes; loadCards method now implemented.
+1c6f080fb04306ae56c0b49e96482cd5f799c05f loadPeopleTest now passes; loadPeopleConfig method now implemented.
+4793d2952ca108134f4658502157056444ad401a Woring on loadPlayerConfig; need to save to switch workspaces.
+34582c5483d71e163fc43aff61fa790aedfe8d00 Created GameSetupTests to fail
+b090716f05b017dad69907b7767254f73967a1e1 Created skeleton classes and methods based on UML diagram.
+cbdc96bdb526fb6f32e2e563dcf490f81278de7f Merge branch 'master' of https://github.com/tmcclure911/ClueGame
+6fc9b0463bfd0dc98f3759766e79a69c9038bfe6 Added updated excel board file
+1bd451d3984cdb3b03f26187b72ccc57d7442861 finalized code to work with all tests updates csv to be transverse
+61345078518d8500b093d09b67c6eea6669b3bfd added condition to handle targets for startcells inside a room(creates an empty set before running the target finder)
+dfc15bca2a2a5708402f987b9d35fa52d2ed7af7 fixed our tests to work with design changes, decided to not make CR test work because they make vastly different design decisions, such as flipping x and y
+9bb9f4a20736e475bcb2e7f946d2dd367dd60cca updated to work with some tests, most fail currently
+0ab96d5046710f2d4fcac49528d2190d6375163d fixed error from old junit test
+f2065453956667943bb8b05b6f4d85531c6d46d1 Added target failing tests
+0b96d51d93273e0bdcce9118a699f4bbf2378a71 finalized loading test success for part 2
+e33da8efce4d74d02b0bdce3c67d251185c1d1a6 Added adjacency tests for board
+f1d4cfc40e7eeba2a4324724f82c3ff82cee1efe Added Adjacency Tests for Board
+43df2ba1af999485ebea7f5fc0817f544b833d7e added functionality to loading functions
+875e8f590bdee45e78352335786a0ec4aec53ecf Merge branch 'master' of https://github.com/tmcclure911/ClueGame
+c80e422e7482c2e6897808c0a5dbd7ca778e10ba added unit test for loadig stuff
+264ef2cc2084754e0ee862e06c85c2af6d8560f2 Added Board Files
+c69c2c5f7685c93b06f16e8213276595a19f7aff initial commit of clue project
+3fad263c96b56fcfef889cc8798122657ef25440 Initial commit
