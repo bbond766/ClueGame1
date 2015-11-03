@@ -1,6 +1,7 @@
 package clueGame;
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -21,17 +22,18 @@ import javax.swing.JTextField;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 
-public class Board {
+public class Board extends JPanel{
 	private int numRows,numColumns;
 	
-	public final static int BOARD_SIZE = 100;
+	public final static int BOARD_SIZE = 26;
+	public final static int PIXEL_BOARD_SIZE = BOARD_SIZE*20;
 	public final static int PLAYER_NUM = 6;
 	public final static int DECK_SIZE = 21;
 	public final static int NUM_PEOPLE_CARDS = 6;
 	public final static int NUM_ROOM_CARDS = 9;
 	public final static int NUM_WEAPON_CARDS = 6;
 	
-	BoardCell[][] gameBoard = new BoardCell[BOARD_SIZE][BOARD_SIZE];
+	static BoardCell[][] gameBoard = new BoardCell[BOARD_SIZE][BOARD_SIZE];
 	public Map<BoardCell, LinkedList<BoardCell>> adjacencyList = new HashMap<BoardCell, LinkedList<BoardCell>>(); 
 	private Set<BoardCell> targets;
 	private static Map<Character, String> rooms;
@@ -42,6 +44,7 @@ public class Board {
 	private String roomConfigFile = "ClueLegend.txt";
 	private String playerConfigFile = "playerLoad.csv";
 	private String cardDeckFile = "cardDeckFile.csv";
+	public DrawPanel dp;
 	public Board()
 	{
 		super();
@@ -473,17 +476,36 @@ public class Board {
 		else
 			return false;
 	}
-	
+	@Override
+	public void paintComponent(Graphics g){
+		super.paintComponent(g);
+		g.setColor(Color.gray);
+		for(int i = 0; i < BOARD_SIZE; i++){
+			for(int j = 0; j<BOARD_SIZE; j++){
+				gameBoard[i][j].Draw(g);
+			}
+		}
+	}	
+	public static BoardCell getGameBoard(int i, int j) {
+		return gameBoard[i][j];
+	}
 	
 	//ONLY INTENDED FOR TESTING
 	public Solution getSolution(){
 		return this.solution;
 	}
 	
+	
 	//TODO add main function
 	public static void main(String [] args){
+		JFrame frame = new JFrame();
+		DrawPanel dp = new DrawPanel();
+		frame.add(dp, BorderLayout.CENTER);
+		frame.setSize(1000, 1000);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setVisible(true);
 	}
-
+	
 }
 //pick fn in player class called AFTER player is moved in board class; player's dice roll and calculation of targets
 //calculated here 
