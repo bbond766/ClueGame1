@@ -30,7 +30,6 @@ public abstract class Player {
 	public void makeSuggestion(Board board, BoardCell location){}
 	public void makeSuggestion(Board b, BoardCell bc, String p, String w){}
 	public Player(String playerName, int row, int column, Color color, char roomIn) {
-		super();
 		this.playerName = playerName;
 		this.row = row;
 		this.column = column;

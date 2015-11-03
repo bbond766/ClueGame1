@@ -279,7 +279,6 @@ public class Board {
 		try {
 			FileReader reader = new FileReader(playerConfigFile);
 			Scanner in = new Scanner(reader);
-			int i = 0;
 			boolean humanPlayerAssigned = false;
 			while(in.hasNextLine())
 			{
@@ -320,6 +319,7 @@ public class Board {
 					if (!humanPlayerAssigned){
 						HumanPlayer next = new HumanPlayer(playerName, row, column, colorPlayer);
 						players.add(next);
+						humanPlayerAssigned = true;
 					}
 					else{
 						ComputerPlayer next = new ComputerPlayer(playerName, row, column, colorPlayer);
