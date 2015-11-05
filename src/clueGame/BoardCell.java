@@ -13,6 +13,14 @@ public class BoardCell {
 	public static final int DIMENSION_X = Board.PIXEL_BOARD_SIZE/26;
 	public static final int DIMENSION_Y = Board.PIXEL_BOARD_SIZE/26;
 	
+	public BoardCell(int xPos, int yPos, char initial, DoorDirection direction) {
+		super();
+		this.xPos = xPos;
+		this.yPos = yPos;
+		this.initial = initial;
+		this.direction = direction;
+	}
+	
 	public DoorDirection getDoorDirection() {
 		return direction;
 	}
@@ -37,13 +45,6 @@ public class BoardCell {
 	{
 		return (direction != DoorDirection.NONE);
 	}
-	public BoardCell(int xPos, int yPos, char initial, DoorDirection direction) {
-		super();
-		this.xPos = xPos;
-		this.yPos = yPos;
-		this.initial = initial;
-		this.direction = direction;
-	}
 	public void setDirection(DoorDirection direction) {
 		this.direction = direction;
 	}
@@ -64,26 +65,28 @@ public class BoardCell {
 	public void setColPixel(int colPixel) {
 		this.colPixel = colPixel;
 	}
-	public void Draw(Graphics g){
-		if(!room){
+	public void draw(Graphics g){
+		if(!isRoom()){
 			g.setColor(Color.YELLOW);
-			g.drawRect(colPixel, rowPixel, DIMENSION_Y, DIMENSION_X);
+			g.fillRect(xPos*DIMENSION_X, yPos*DIMENSION_Y, DIMENSION_Y, DIMENSION_X);
+			g.setColor(Color.BLACK);
+			g.drawRect(xPos*DIMENSION_X, yPos*DIMENSION_Y, DIMENSION_Y, DIMENSION_X);
 		}
 		else if(direction == DoorDirection.LEFT){
 			g.setColor(Color.BLUE);
-			g.drawLine(colPixel, rowPixel, colPixel, rowPixel+DIMENSION_Y);
+			g.drawLine(xPos*DIMENSION_X, yPos*DIMENSION_Y, xPos*DIMENSION_X, yPos*DIMENSION_Y+DIMENSION_Y);
 		}
 		else if(direction == DoorDirection.RIGHT){
 			g.setColor(Color.BLUE);
-			g.drawLine(colPixel, rowPixel, colPixel, rowPixel-DIMENSION_Y);
+			g.drawLine(xPos*DIMENSION_X, yPos*DIMENSION_Y, xPos*DIMENSION_X, yPos*DIMENSION_Y-DIMENSION_Y);
 		}
 		else if(direction == DoorDirection.UP){
 			g.setColor(Color.BLUE);
-			g.drawLine(colPixel, rowPixel, colPixel+DIMENSION_X, rowPixel);
+			g.drawLine(xPos*DIMENSION_X, yPos*DIMENSION_Y, xPos*DIMENSION_X+DIMENSION_X, yPos*DIMENSION_Y);
 		}
 		else if(direction == DoorDirection.DOWN){
 			g.setColor(Color.BLUE);
-			g.drawLine(colPixel, rowPixel, colPixel-DIMENSION_X, rowPixel);
+			g.drawLine(xPos*DIMENSION_X, yPos*DIMENSION_Y, xPos*DIMENSION_X-DIMENSION_X, yPos*DIMENSION_Y);
 		}
 	}
 

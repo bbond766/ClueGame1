@@ -24,6 +24,7 @@ import javax.swing.border.TitledBorder;
 
 public class Board extends JPanel{
 	private int numRows,numColumns;
+	protected int rowPixel, colPixel;
 	
 	public final static int BOARD_SIZE = 26;
 	public final static int PIXEL_BOARD_SIZE = BOARD_SIZE*20;
@@ -32,6 +33,8 @@ public class Board extends JPanel{
 	public final static int NUM_PEOPLE_CARDS = 6;
 	public final static int NUM_ROOM_CARDS = 9;
 	public final static int NUM_WEAPON_CARDS = 6;
+	public static final int DIMENSION_X = Board.PIXEL_BOARD_SIZE/26;
+	public static final int DIMENSION_Y = Board.PIXEL_BOARD_SIZE/26;
 	
 	static BoardCell[][] gameBoard = new BoardCell[BOARD_SIZE][BOARD_SIZE];
 	public Map<BoardCell, LinkedList<BoardCell>> adjacencyList = new HashMap<BoardCell, LinkedList<BoardCell>>(); 
@@ -40,11 +43,10 @@ public class Board extends JPanel{
 	private static ArrayList<Player> players;
 	private ArrayList<Card> deck;
 	private Solution solution;
-	private String boardConfigFile = "ClueLayout.csv";
+	private String boardConfigFile = "board.csv";
 	private String roomConfigFile = "ClueLegend.txt";
 	private String playerConfigFile = "playerLoad.csv";
 	private String cardDeckFile = "cardDeckFile.csv";
-	public DrawPanel dp;
 	public Board()
 	{
 		super();
@@ -79,6 +81,8 @@ public class Board extends JPanel{
 		} catch (BadConfigFormatException e) {
 			e.printStackTrace();
 		}
+		this.rowPixel = 0;
+		this.colPixel = 0;
 	}
 	
 	public void loadRoomConfig() throws BadConfigFormatException
@@ -479,15 +483,13 @@ public class Board extends JPanel{
 	@Override
 	public void paintComponent(Graphics g){
 		super.paintComponent(g);
-		g.setColor(Color.gray);
-		for(int i = 0; i < BOARD_SIZE; i++){
-			for(int j = 0; j<BOARD_SIZE; j++){
-				gameBoard[i][j].Draw(g);
+//		g.setColor(Color.gray);
+//		g.fillRect(0, 0, 26*26, 26*26);
+		for(int i = 0; i < Board.BOARD_SIZE; i++){
+			for(int j = 0; j<Board.BOARD_SIZE; j++){
+				getCellAt(i,j).draw(g);
 			}
 		}
-	}	
-	public static BoardCell getGameBoard(int i, int j) {
-		return gameBoard[i][j];
 	}
 	
 	//ONLY INTENDED FOR TESTING
@@ -495,15 +497,7 @@ public class Board extends JPanel{
 		return this.solution;
 	}
 	
-	
-	//TODO add main function
 	public static void main(String [] args){
-		JFrame frame = new JFrame();
-		DrawPanel dp = new DrawPanel();
-		frame.add(dp, BorderLayout.CENTER);
-		frame.setSize(1000, 1000);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setVisible(true);
 	}
 	
 }
