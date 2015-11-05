@@ -8,6 +8,7 @@ public class BoardCell {
 	protected int yPos;
 	protected char initial;
 	protected boolean room;
+	protected boolean displayName;
 	protected DoorDirection direction;
 	protected int rowPixel, colPixel;
 	public static final int DIMENSION_X = Board.PIXEL_BOARD_SIZE/26;
@@ -15,12 +16,23 @@ public class BoardCell {
 	
 	public BoardCell(int xPos, int yPos, char initial, DoorDirection direction) {
 		super();
-		this.xPos = xPos;
-		this.yPos = yPos;
+		this.yPos = xPos;
+		this.xPos = yPos;
 		this.initial = initial;
 		this.direction = direction;
+		this.displayName = false;
 	}
 	
+	public boolean isDisplayName() {
+		return displayName;
+	}
+
+
+	public void setDisplayName(boolean displayName) {
+		this.displayName = displayName;
+	}
+
+
 	public DoorDirection getDoorDirection() {
 		return direction;
 	}
@@ -66,6 +78,10 @@ public class BoardCell {
 		this.colPixel = colPixel;
 	}
 	public void draw(Graphics g){
+		if(displayName){
+			String name = Board.getRooms().get(initial);
+			g.drawString(name, xPos*DIMENSION_X, yPos*DIMENSION_Y);
+		}
 		if(!isRoom()){
 			g.setColor(Color.YELLOW);
 			g.fillRect(xPos*DIMENSION_X, yPos*DIMENSION_Y, DIMENSION_Y, DIMENSION_X);
@@ -78,7 +94,7 @@ public class BoardCell {
 		}
 		else if(direction == DoorDirection.RIGHT){
 			g.setColor(Color.BLUE);
-			g.drawLine(xPos*DIMENSION_X, yPos*DIMENSION_Y, xPos*DIMENSION_X, yPos*DIMENSION_Y-DIMENSION_Y);
+			g.drawLine(xPos*DIMENSION_X+ DIMENSION_X, yPos*DIMENSION_Y, xPos*DIMENSION_X + DIMENSION_X, yPos*DIMENSION_Y-DIMENSION_Y);
 		}
 		else if(direction == DoorDirection.UP){
 			g.setColor(Color.BLUE);
@@ -86,7 +102,7 @@ public class BoardCell {
 		}
 		else if(direction == DoorDirection.DOWN){
 			g.setColor(Color.BLUE);
-			g.drawLine(xPos*DIMENSION_X, yPos*DIMENSION_Y, xPos*DIMENSION_X-DIMENSION_X, yPos*DIMENSION_Y);
+			g.drawLine(xPos*DIMENSION_X, yPos*DIMENSION_Y + DIMENSION_Y, xPos*DIMENSION_X-DIMENSION_X, yPos*DIMENSION_Y + DIMENSION_Y);
 		}
 	}
 

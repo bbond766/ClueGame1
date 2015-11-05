@@ -141,6 +141,10 @@ public class Board extends JPanel{
 						{
 							gameBoard[i][j] = new BoardCell(i,j, initial, DoorDirection.NONE);
 						}
+						else if(test[j].charAt(1) == 'T'){
+							gameBoard[i][j] = new BoardCell(i,j, initial, DoorDirection.NONE);
+							gameBoard[i][j].setDisplayName(true);
+						}
 						else
 						{
 							switch(test[j].charAt(1))
