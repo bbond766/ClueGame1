@@ -6,6 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
@@ -37,50 +38,25 @@ public class DectiveNotes extends JPanel{
 	JCheckBox Knife;
 	JCheckBox Revolver;
 	JCheckBox Wrench;
+	JComboBox<String> personGuess, weaponGuess, roomGuess;
+	
 	public DectiveNotes(){
 		setLayout(new GridLayout(3,2));
 		JPanel panel = createPeople();
 		JMenuBar menuBar = new JMenuBar();
-		setJMenuBar(menuBar);
-		menuBar.add(createFileMenu());
-//		JPanel panel1 = createPersonGuess();
-//		JPanel panel2 = createRooms();
-//		JPanel panel3 = createRoomGuess();
-//		JPanel panel4 = createWeapons();
-//		JPanel panel5 = createWeaponGuess();
-//		add(panel1);
-//		add(panel2);
-//		add(panel3);
+
+		this.personGuess = personGuess();
+		this.weaponGuess = weaponGuess();
+		this.roomGuess = roomGuess();
+		JPanel panel1 = createRooms();
+		JPanel panel4 = createWeapons();
 		add(panel);
-//		add(panel4);
-//		add(panel5);
-		
-		
-		
-		
-//		CandleStick = new JCheckBox("Candle Stick");
-//		LeadPipe = new JCheckBox("Lead Pipe");
-//		Rope = new JCheckBox("Rope");
-//		Knife = new JCheckBox("Knife");
-//		Revolver = new JCheckBox("Revolver");
-//		Wrench = new JCheckBox("Wrench");
-//		
-//		
-//		add(Kitchen);
-//		add(Lounge);
-//		add(Conservatory);
-//		add(Study);
-//		add(BillardRoom);
-//		add(DiningRoom);
-//		add(Ballroom);
-//		add(Hall);
-//		add(Library);
-//		add(CandleStick);
-//		add(LeadPipe);
-//		add(Rope);
-//		add(Knife);
-//		add(Revolver);
-//		add(Wrench);
+		add(personGuess);
+		add(panel1);
+		add(roomGuess);
+		add(panel4);
+		add(weaponGuess);
+		setVisible(true);
 	}
 	private JPanel createPeople(){
 		JPanel panel = new JPanel();
@@ -102,59 +78,105 @@ public class DectiveNotes extends JPanel{
 		return panel;
 		
 	}
-//	private JPanel createPersonGuess(){
-//		
-//	}
-	
-	private JMenu createFileMenu()
-	{
-		JMenu menu = new JMenu("File"); 
-		menu.add(createFileExitItem());
-		return menu;
-	}
 
-	private JMenuItem createFileExitItem()
-	{
-		JMenuItem item = new JMenuItem("Exit");
-		class MenuItemListener implements ActionListener {
-			public void actionPerformed(ActionEvent e)
-			{
-				System.exit(0);
-			}
+	public JComboBox<String> personGuess() {
+		JComboBox<String> combo = new JComboBox<String>();
+		combo.addItem("Ms. Scarlet");
+		combo.addItem("Ms. White");
+		combo.addItem("Ms. Peacock");
+		combo.addItem("Mr. Greeen");
+		combo.addItem("Mr. Plum");
+		combo.addItem("Col. Mustard");
+		combo.setBorder(new TitledBorder(new EtchedBorder(), "Person Guess"));
+
+		return combo;
+
+	}
+	private class ComboListener implements ActionListener {
+		  public void actionPerformed(ActionEvent e)
+		  {
+//		    if (e.getSource() == personGuess)
+//		      dp.setToCity(toCity.getSelectedItem().toString());
+//		    else
+//		      dp.setFromCity(fromCity.getSelectedItem().toString());
+		  }
 		}
-		item.addActionListener(new MenuItemListener());
-
-		return item;
+	private JPanel createWeapons(){
+		JPanel panel = new JPanel();
+		CandleStick = new JCheckBox("Candle Stick");
+		LeadPipe = new JCheckBox("Lead Pipe");
+		Rope = new JCheckBox("Rope");
+		Knife = new JCheckBox("Knife");
+		Revolver = new JCheckBox("Revolver");
+		Wrench = new JCheckBox("Wrench");
+		
+		panel.add(CandleStick);
+		panel.add(LeadPipe);
+		panel.add(Rope);
+		panel.add(Knife);
+		panel.add(Revolver);
+		panel.add(Wrench);
+		panel.setBorder(new TitledBorder(new EtchedBorder(), "Weapons"));
+		return panel;
 	}
 
-//	
-//	private JPanel createRooms(){
-//		JPanel panel = new JPanel();
-//		Kitchen = new JCheckBox("Kitchen");
-//		Lounge = new JCheckBox("Lounge");
-//		Conservatory = new JCheckBox("Conservatory");
-//		Study = new JCheckBox("Study");
-//		BillardRoom = new JCheckBox("Billard Room");
-//		DiningRoom = new JCheckBox("Dinning Room");
-//		Ballroom = new JCheckBox("Ball Room");
-//		Hall = new JCheckBox("Mrs. Scarlet");
-//		Library = new JCheckBox("Library");
-//
-//		add(Kitchen);
-//		add(Lounge);
-//		add(Conservatory);
-//		add(Study);
-//		add(BillardRoom);
-//		add(DiningRoom);
-//		add(Ballroom);
-//		add(Hall);
-//		add(Library);
-//		return panel;
-//	}
+	public JComboBox<String> weaponGuess() {
+		JComboBox<String> combo = new JComboBox<String>();
+		combo.addItem("Candle Stick");
+		combo.addItem("Lead Pipe");
+		combo.addItem("Rope");
+		combo.addItem("Knife");
+		combo.addItem("Revolver");
+		combo.addItem("Wrench");
+		combo.setBorder(new TitledBorder(new EtchedBorder(), "Weapon Guess"));
+		return combo;
+
+	}
+	private JPanel createRooms(){
+		JPanel panel = new JPanel();
+		Kitchen = new JCheckBox("Kitchen");
+		Lounge = new JCheckBox("Lounge");
+		Conservatory = new JCheckBox("Conservatory");
+		Study = new JCheckBox("Study");
+		BillardRoom = new JCheckBox("Billard Room");
+		DiningRoom = new JCheckBox("Dinning Room");
+		Ballroom = new JCheckBox("Ball Room");
+		Hall = new JCheckBox("Mrs. Scarlet");
+		Library = new JCheckBox("Library");
+
+		panel.add(Kitchen);
+		panel.add(Lounge);
+		panel.add(Conservatory);
+		panel.add(Study);
+		panel.add(BillardRoom);
+		panel.add(DiningRoom);
+		panel.add(Ballroom);
+		panel.add(Hall);
+		panel.add(Library);
+		
+		panel.setBorder(new TitledBorder(new EtchedBorder(), "Rooms"));
+		return panel;
+	}
+	public JComboBox<String> roomGuess() {
+		JComboBox<String> combo = new JComboBox<String>();
+		combo.addItem("Kitchen");
+		combo.addItem("Lounge");
+		combo.addItem("Conservatory");
+		combo.addItem("Study");
+		combo.addItem("BillardRoom");
+		combo.addItem("DiningRoom");
+		combo.addItem("Ballroom");
+		combo.addItem("Hall");
+		combo.addItem("Library");
+		combo.setBorder(new TitledBorder(new EtchedBorder(), "Room Guess"));
+
+		return combo;
+
+	}
 
 	public static void main(String[] args) {
 		JFrame frame = new JFrame();
-		frame.setSize(500, 500);
+		frame.setSize(550, 550);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		DectiveNotes gui = new DectiveNotes();
 		frame.add(gui, BorderLayout.CENTER);

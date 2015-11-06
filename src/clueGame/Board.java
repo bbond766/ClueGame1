@@ -494,6 +494,13 @@ public class Board extends JPanel{
 				getCellAt(i,j).draw(g);
 			}
 		}
+		for (int i = 0; i < NUM_PEOPLE_CARDS; i++){
+			Color color = players.get(i).getColor();
+			int col = players.get(i).getColumn();
+			int row = players.get(i).getRow();
+			g.setColor(color);
+			g.fillOval(col * (DIMENSION_X), row * (DIMENSION_Y), DIMENSION_X, DIMENSION_Y);
+		}
 	}
 	
 	//ONLY INTENDED FOR TESTING

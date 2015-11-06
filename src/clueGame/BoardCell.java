@@ -83,7 +83,7 @@ public class BoardCell {
 			g.drawString(name, xPos*DIMENSION_X, yPos*DIMENSION_Y);
 		}
 		if(!isRoom()){
-			g.setColor(Color.YELLOW);
+			g.setColor(Color.ORANGE);
 			g.fillRect(xPos*DIMENSION_X, yPos*DIMENSION_Y, DIMENSION_Y, DIMENSION_X);
 			g.setColor(Color.BLACK);
 			g.drawRect(xPos*DIMENSION_X, yPos*DIMENSION_Y, DIMENSION_Y, DIMENSION_X);
