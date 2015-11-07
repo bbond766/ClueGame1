@@ -1,3 +1,5 @@
+All for this part was done via pair programming
+
 8f18f21c996f8bcf08c80972ec1e80d754e6d3e7 testTargetSelectionPreviousRoom passes.
 255e4eebe502f5c465df340a1976fd2c31dea1be updated board class to ensure board tests pass.
 8b3d5c98fba00121c07f0ead985519a284863201 Got the target selects random test to pass. All tests now pass
@@ -45,3 +47,355 @@ c80e422e7482c2e6897808c0a5dbd7ca778e10ba added unit test for loadig stuff
 264ef2cc2084754e0ee862e06c85c2af6d8560f2 Added Board Files
 c69c2c5f7685c93b06f16e8213276595a19f7aff initial commit of clue project
 3fad263c96b56fcfef889cc8798122657ef25440 Initial commit
+commit e7c47704fc588510a50e71d297e12ba2ef7375f1
+Author: bbond766 <bradleybond766@gmail.com>
+Date:   Fri Nov 6 19:45:54 2015 -0700
+
+    Got the players to display in the correct locations and made the doors more visable
+
+commit 05b488dc6f1b3884dee8038e575302dacff93e82
+Author: Jennifer Ryan & Bradley Bond <jryan@mymail.mines.edu>
+Date:   Fri Nov 6 11:49:55 2015 -0700
+
+    PLayers display and detective notes gui complete.
+
+commit 46b33733e4c2277bab4997e8728d804dae66bea0
+Author: Bradley Bond and Jennifer Ryan <bbond@mymail.mines.edu>
+Date:   Thu Nov 5 12:53:44 2015 -0700
+
+    Began working on the detective notes GUI
+
+commit 99ebb3f1d5be5a3d0acbb2ffbea91d0b70995e24
+Author: Bradley Bond and Jennifer Ryan <bbond@mymail.mines.edu>
+Date:   Thu Nov 5 12:39:09 2015 -0700
+
+    Board now displays correctly
+
+commit aaef2c710e5faea8086f7073103aee44e0af9afd
+Author: Bradley Bond and Jennifer Ryan <bbond@mymail.mines.edu>
+Date:   Thu Nov 5 12:10:07 2015 -0700
+
+    Board now diplays walkways correctly
+
+commit ceabfbfa52847d33515dfbd5c4f5bc19645f46b6
+Author: Bradley Bond and Jennifer Ryan <bbond@mymail.mines.edu>
+Date:   Tue Nov 3 12:44:20 2015 -0700
+
+    Set up detective notes and game board gui
+
+commit f0f599442c7e844870ea23ad0ae411a8cafd6c46
+Author: Bradley Bond and Jennifer Ryan <bbond@mymail.mines.edu>
+Date:   Tue Nov 3 11:27:32 2015 -0700
+
+    Trying to fix player load test error
+
+commit 57fe479b8e90d98b3fb25bd4500566ada3a44156
+Author: Jennifer Ryan & Bradley Bond <jryan@mymail.mines.edu>
+Date:   Tue Nov 3 11:04:18 2015 -0700
+
+    test
+
+commit 66f6c463536bde833d072f84077c4e7661457fd8
+Author: Bradley Bond and Jennifer Ryan <bbond@mymail.mines.edu>
+Date:   Tue Nov 3 11:03:22 2015 -0700
+
+    Added GUI file
+
+commit ef94aa06b29cd31d00420614b79a41463ebf01a5
+Merge: 8c97832 8f18f21
+Author: Bradley Bond and Jennifer Ryan <bbond@mymail.mines.edu>
+Date:   Thu Oct 29 12:23:22 2015 -0600
+
+    Merge branch 'master' of https://github.com/bbond766/ClueGame-1 into GUI
+
+commit 8c9783287f7fcc3894ebe71d2af72e237f9a045e
+Author: Bradley Bond and Jennifer Ryan <bbond@mymail.mines.edu>
+Date:   Thu Oct 29 12:22:58 2015 -0600
+
+    Created control GUI JFrame.
+
+commit 8f18f21c996f8bcf08c80972ec1e80d754e6d3e7
+Author: Jennifer Ryan & Bradley Bond <jryan@mymail.mines.edu>
+Date:   Thu Oct 29 12:12:13 2015 -0600
+
+    testTargetSelectionPreviousRoom passes.
+
+commit 255e4eebe502f5c465df340a1976fd2c31dea1be
+Author: Jennifer Ryan & Bradley Bond <jryan@mymail.mines.edu>
+Date:   Thu Oct 29 10:57:39 2015 -0600
+
+    updated board class to ensure board tests pass.
+
+commit 8b3d5c98fba00121c07f0ead985519a284863201
+Author: bbond766 <bradleybond766@gmail.com>
+Date:   Thu Oct 29 10:35:17 2015 -0600
+
+    Got the target selects random test to pass. All tests now pass
+
+commit cbdf3e0e09aac449253730e358783f54bf94f706
+Author: bbond766 <bradleybond766@gmail.com>
+Date:   Thu Oct 29 09:07:45 2015 -0600
+
+    Got disprove suggestion one and two working, as well as target selection and previous room remain working.
+
+commit 2a83ae4dadc6edace5da265507a762824c1c901d
+Author: JenniferRyan BradBond <jryan@mymail.mines.edu>
+Date:   Wed Oct 28 23:37:10 2015 -0600
+
+    target selection, random and previous room remain, as do disproving guggestion one and two. All other tests pass.
+
+commit 2e52b59c79c1eb23d5aca3893256312071e8d469
+Merge: 8d3c779 8291725
+Author: bbond766 <bradleybond766@gmail.com>
+Date:   Wed Oct 28 23:12:58 2015 -0600
+
+    Merge branch 'master' of https://github.com/bbond766/ClueGame-1
+
+commit 8d3c7790cc3e259e9ce33b9521a39f0485af3fca
+Author: bbond766 <bradleybond766@gmail.com>
+Date:   Wed Oct 28 23:12:04 2015 -0600
+
+    Got test order to pass, got test human player to pass, and got test that accusing player is not queried to pass
+
+commit 829172524a036c7811fbc9ec72b2e02b9edde726
+Author: JenniferRyan BradBond <jryan@mymail.mines.edu>
+Date:   Wed Oct 28 21:41:47 2015 -0600
+
+    test
+
+commit 4b3c96c50cbda65455c88114104adf13103969ab
+Author: bbond766 <bradleybond766@gmail.com>
+Date:   Wed Oct 28 21:12:13 2015 -0600
+
+    Got testCompPlayerRandPossible passing
+
+commit 3fb2be421f929a13888222b75eddd2735bc87da2
+Merge: 4464a11 a4ae888
+Author: bbond766 <bradleybond766@gmail.com>
+Date:   Wed Oct 28 20:40:26 2015 -0600
+
+    testCompPlayerOneSuggestion passes
+
+commit 4464a11f6ee7933d5a0b13494049142fbcc23a3e
+Author: bbond766 <bradleybond766@gmail.com>
+Date:   Wed Oct 28 20:02:39 2015 -0600
+
+    Working towards making the testCompPlayerOneSuggestion pass
+
+commit a4ae88859f8bbbbe1ed22e7eb32f6e497bf67c3c
+Author: JenniferRyan BradBond <jryan@mymail.mines.edu>
+Date:   Wed Oct 28 19:50:10 2015 -0600
+
+    testTargetSelectionRoom() passes and the methods it tests are implemented correctly.
+
+commit d43202a176c767e6816c383695b97d4b5a4f8d96
+Author: JenniferRyan BradBond <jryan@mymail.mines.edu>
+Date:   Wed Oct 28 19:35:12 2015 -0600
+
+    nearly completed the testTargetSelectionRoom
+
+commit 692ac464a9d0a99c411ec12c514e5758a3f90d4d
+Author: JenniferRyan BradBond <jryan@mymail.mines.edu>
+Date:   Wed Oct 28 18:21:17 2015 -0600
+
+    Working on disprovingSuggestion
+
+commit 18b54440946b423b659e71054459f9632da37d1a
+Author: Jennifer Ryan & Bradley Bond <jryan@mymail.mines.edu>
+Date:   Wed Oct 28 14:52:51 2015 -0600
+
+    got the testAccusationCorrectness test to pass by altering method; working on testDisproveSuggestion test and method now.
+
+commit 9b3e7c570c4abdc2022aba7d3c567a91bb54e338
+Author: Bradley Bond and Jennifer Ryan <bbond@mymail.mines.edu>
+Date:   Wed Oct 28 11:48:16 2015 -0600
+
+    Working on testing suite setup and implimentation
+
+commit 42bec1a26b5c965617c8565c25917cb347666237
+Author: Jennifer Ryan & Bradley Bond <jryan@mymail.mines.edu>
+Date:   Tue Oct 27 15:53:54 2015 -0600
+
+    began working on implementing the gamePlay tests.
+
+commit 7f26e75db3d4e9b3c07a88623f9bf78df167c1d1
+Author: Bradley Bond and Jennifer Ryan <bbond@mymail.mines.edu>
+Date:   Tue Oct 27 12:53:23 2015 -0600
+
+    wrote tests to test suggestions, disproving suggestions, and selection of target for game play. Wrote implimentatoins for making suggestion, disproving suggestion, and selecting target.
+
+commit 1492446bccf83129a5614d8556d78dbf7264f98d
+Author: Bradley Bond and Jennifer Ryan <bbond@mymail.mines.edu>
+Date:   Tue Oct 27 10:52:21 2015 -0600
+
+    Created test casses and skeleton methods
+
+commit d554c655af0355a8d1fa2fe3d8936ab8ce13ffcc
+Author: Jennifer Ryan & Bradley Bond <jryan@mymail.mines.edu>
+Date:   Mon Oct 26 13:37:40 2015 -0600
+
+    Added untracked files.
+
+commit bc80337280b372f8d24e99b916ee69c11dc48d98
+Author: Jennifer Ryan & Bradley Bond <jryan@mymail.mines.edu>
+Date:   Mon Oct 26 13:26:27 2015 -0600
+
+    fixed the deal method to correctly deal the cards to the Solution.
+
+commit c3d0da1f8160322b6d1336fe897e30bd45dc68bb
+Author: Jennifer Ryan & Bradley Bond <jryan@mymail.mines.edu>
+Date:   Fri Oct 23 14:44:41 2015 -0600
+
+    updated testDeal and testAccusations now pass; implemations tested by these methods now are complete. Must return to testDeal to logic through solution testing.
+
+commit 6b3ef811911a80d0df4b74bcfc9514b27296d539
+Author: Jennifer Ryan & Bradley Bond <jryan@mymail.mines.edu>
+Date:   Fri Oct 23 14:24:26 2015 -0600
+
+    testAccusation test written; fails for all currently.
+
+commit 2cb9db99396b32e825ead17e7973d3bd141d834f
+Author: Jennifer Ryan & Bradley Bond <jryan@mymail.mines.edu>
+Date:   Fri Oct 23 13:54:11 2015 -0600
+
+    Removed previous sysos from earlier debugging; left necessary sysos for remaining deal method.
+
+commit 2d2aa3c17326f76461c7778f5e6a000936fb2a03
+Author: Jennifer Ryan & Bradley Bond <jryan@mymail.mines.edu>
+Date:   Fri Oct 23 13:52:50 2015 -0600
+
+    Implemented deal card method; testDeal junit method failing because getCardsInHand() method does not appear to be returning the ArrayList<Card> cardsInHand accurately.
+
+commit b1604408d339a16ef8e2403f14e0731b6550c461
+Author: Jennifer Ryan & Bradley Bond <jryan@mymail.mines.edu>
+Date:   Fri Oct 23 13:24:41 2015 -0600
+
+    Test cards junit test now passes; loadCards method now implemented.
+
+commit 1c6f080fb04306ae56c0b49e96482cd5f799c05f
+Author: Jennifer Ryan & Bradley Bond <jryan@mymail.mines.edu>
+Date:   Thu Oct 22 13:44:54 2015 -0600
+
+    loadPeopleTest now passes; loadPeopleConfig method now implemented.
+
+commit 4793d2952ca108134f4658502157056444ad401a
+Author: Jennifer Ryan & Bradley Bond <jryan@mymail.mines.edu>
+Date:   Thu Oct 22 13:11:38 2015 -0600
+
+    Woring on loadPlayerConfig; need to save to switch workspaces.
+
+commit 34582c5483d71e163fc43aff61fa790aedfe8d00
+Author: Jennifer Ryan & Bradley Bond <jryan@mymail.mines.edu>
+Date:   Thu Oct 22 12:58:50 2015 -0600
+
+    Created GameSetupTests to fail
+
+commit b090716f05b017dad69907b7767254f73967a1e1
+Author: Jennifer Ryan & Bradley Bond <jryan@mymail.mines.edu>
+Date:   Thu Oct 22 12:09:13 2015 -0600
+
+    Created skeleton classes and methods based on UML diagram.
+
+commit cbdc96bdb526fb6f32e2e563dcf490f81278de7f
+Merge: 6fc9b04 1bd451d
+Author: Taylor McClure <tmcclure@mymail.mines.edu>
+Date:   Thu Oct 15 11:58:25 2015 -0600
+
+    Merge branch 'master' of https://github.com/tmcclure911/ClueGame
+
+commit 6fc9b0463bfd0dc98f3759766e79a69c9038bfe6
+Author: Taylor McClure <tmcclure@mymail.mines.edu>
+Date:   Thu Oct 15 11:58:08 2015 -0600
+
+    Added updated excel board file
+
+commit 1bd451d3984cdb3b03f26187b72ccc57d7442861
+Author: jratzlaff <jaratzla@mines.edu>
+Date:   Thu Oct 15 11:57:10 2015 -0600
+
+    finalized code to work with all tests updates csv to be transverse
+
+commit 61345078518d8500b093d09b67c6eea6669b3bfd
+Author: jratzlaff <jaratzla@mines.edu>
+Date:   Thu Oct 15 10:26:01 2015 -0600
+
+    added condition to handle targets for startcells inside a room(creates an empty set before running the target finder)
+
+commit dfc15bca2a2a5708402f987b9d35fa52d2ed7af7
+Author: jratzlaff <jaratzla@mines.edu>
+Date:   Tue Oct 13 13:09:14 2015 -0600
+
+    fixed our tests to work with design changes, decided to not make CR test work because they make vastly different design decisions, such as flipping x and y
+
+commit 9bb9f4a20736e475bcb2e7f946d2dd367dd60cca
+Author: jratzlaff <jaratzla@mines.edu>
+Date:   Tue Oct 13 13:04:30 2015 -0600
+
+    updated to work with some tests, most fail currently
+
+commit 0ab96d5046710f2d4fcac49528d2190d6375163d
+Author: jratzlaff <jaratzla@mines.edu>
+Date:   Tue Oct 13 10:56:51 2015 -0600
+
+    fixed error from old junit test
+
+commit f2065453956667943bb8b05b6f4d85531c6d46d1
+Author: Taylor McClure <tmcclure@mymail.mines.edu>
+Date:   Mon Oct 12 17:45:36 2015 -0600
+
+    Added target failing tests
+
+commit 0b96d51d93273e0bdcce9118a699f4bbf2378a71
+Author: jratzlaff <jaratzla@mines.edu>
+Date:   Mon Oct 12 17:44:10 2015 -0600
+
+    finalized loading test success for part 2
+
+commit e33da8efce4d74d02b0bdce3c67d251185c1d1a6
+Author: Taylor McClure <tmcclure@mymail.mines.edu>
+Date:   Mon Oct 12 17:00:14 2015 -0600
+
+    Added adjacency tests for board
+
+commit f1d4cfc40e7eeba2a4324724f82c3ff82cee1efe
+Author: Taylor McClure <tmcclure@mymail.mines.edu>
+Date:   Mon Oct 12 16:58:36 2015 -0600
+
+    Added Adjacency Tests for Board
+
+commit 43df2ba1af999485ebea7f5fc0817f544b833d7e
+Author: jratzlaff <jaratzla@mines.edu>
+Date:   Mon Oct 12 16:57:21 2015 -0600
+
+    added functionality to loading functions
+
+commit 875e8f590bdee45e78352335786a0ec4aec53ecf
+Merge: c80e422 264ef2c
+Author: jratzlaff <jaratzla@mines.edu>
+Date:   Fri Oct 9 16:40:29 2015 -0600
+
+    Merge branch 'master' of https://github.com/tmcclure911/ClueGame
+
+commit c80e422e7482c2e6897808c0a5dbd7ca778e10ba
+Author: jratzlaff <jaratzla@mines.edu>
+Date:   Fri Oct 9 16:40:13 2015 -0600
+
+    added unit test for loadig stuff
+
+commit 264ef2cc2084754e0ee862e06c85c2af6d8560f2
+Author: Taylor McClure <tmcclure@mymail.mines.edu>
+Date:   Fri Oct 9 16:11:36 2015 -0600
+
+    Added Board Files
+
+commit c69c2c5f7685c93b06f16e8213276595a19f7aff
+Author: jratzlaff <jaratzla@mines.edu>
+Date:   Fri Oct 9 16:10:10 2015 -0600
+
+    initial commit of clue project
+
+commit 3fad263c96b56fcfef889cc8798122657ef25440
+Author: tmcclure911 <tmcclure@mymail.mines.edu>
+Date:   Fri Oct 9 16:07:44 2015 -0600
+
+    Initial commit
