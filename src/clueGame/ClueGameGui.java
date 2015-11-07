@@ -15,9 +15,7 @@ import javax.swing.JPanel;
 
 public class ClueGameGui extends JFrame{
 	private Board board;
-//	private JFrame parentFrame;
-//	private JDialog dialog;
-	
+
 	public ClueGameGui(){
 		board = new Board();
 		board.initialize();

@@ -19,8 +19,8 @@ import clueGame.DoorDirection;
 public class CR_FileInitTests {
 	// Constants that I will use to test whether the file was loaded correctly
 	public static final int NUM_ROOMS = 11;
-	public static final int NUM_ROWS = 22;
-	public static final int NUM_COLUMNS = 23;
+	public static final int NUM_ROWS = 26;
+	public static final int NUM_COLUMNS = 26;
 
 	// NOTE: I made Board static because I only want to set it up one 
 	// time (using @BeforeClass), no need to do setup before each test.
@@ -91,14 +91,14 @@ public class CR_FileInitTests {
 	{
 		int numDoors = 0;
 		int totalCells = board.getNumColumns() * board.getNumRows();
-		Assert.assertEquals(506, totalCells);
+		Assert.assertEquals(676, totalCells);
 		for (int row=0; row<board.getNumRows(); row++)
 			for (int col=0; col<board.getNumColumns(); col++) {
 				BoardCell cell = board.getCellAt(row, col);
 				if (cell.isDoorway())
 					numDoors++;
 			}
-		Assert.assertEquals(16, numDoors);
+		Assert.assertEquals(19, numDoors);
 	}
 
 	// Test a few room cells to ensure the room initial is correct.

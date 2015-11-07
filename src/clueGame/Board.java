@@ -40,7 +40,8 @@ public class Board extends JPanel{
 	public Map<BoardCell, LinkedList<BoardCell>> adjacencyList = new HashMap<BoardCell, LinkedList<BoardCell>>(); 
 	private Set<BoardCell> targets;
 	private static Map<Character, String> rooms;
-	private static ArrayList<Player> players;
+	private static ArrayList<ComputerPlayer> computerPlayers;
+	private static ArrayList<HumanPlayer> humanPlayers;
 	private ArrayList<Card> deck;
 	private Solution solution;
 	private String boardConfigFile = "board.csv";
@@ -51,14 +52,16 @@ public class Board extends JPanel{
 	{
 		super();
 		rooms = new HashMap<Character,String>();
-		players = new ArrayList<Player>();
+		computerPlayers = new ArrayList<ComputerPlayer>();
+		humanPlayers = new ArrayList<HumanPlayer>();
 		deck = new ArrayList<Card>();
 		solution = new Solution();
 	}
 	public Board(String boardConfigFile, String roomConfigFile)
 	{
 		super();
-		this.players = new ArrayList<Player>();
+		this.computerPlayers = new ArrayList<ComputerPlayer>();
+		this.humanPlayers = new ArrayList<HumanPlayer>();
 		this.boardConfigFile = boardConfigFile;
 		this.roomConfigFile = roomConfigFile;
 		rooms = new HashMap<Character,String>();
@@ -300,8 +303,7 @@ public class Board extends JPanel{
 					String playerName = test[0];
 					String color = test[1];
 					color = color.toUpperCase();
-					Color colorPlayer = null;
-					
+					Color colorPlayer = null;	
 					switch (color){
 					case "BLUE":
 						colorPlayer = Color.BLUE;
@@ -329,16 +331,17 @@ public class Board extends JPanel{
 					//human player always at index 0; can randomize; set in this way so can use in tests
 					if (!humanPlayerAssigned){
 						HumanPlayer next = new HumanPlayer(playerName, row, column, colorPlayer);
-						players.add(next);
+						humanPlayers.add(next);
 						humanPlayerAssigned = true;
+						System.out.println(next.getName() + " " + humanPlayers.get(0).getName());
 					}
 					else{
 						ComputerPlayer next = new ComputerPlayer(playerName, row, column, colorPlayer);
-						players.add(next);
+						computerPlayers.add(next);
 					}
 					
 			}
-			if (players.size() != PLAYER_NUM){
+			if (humanPlayers.size() + computerPlayers.size() != PLAYER_NUM){
 				throw new BadConfigFormatException("The number of players read in from file is incorrect.");
 			}
 		} catch (FileNotFoundException e) {
@@ -414,12 +417,18 @@ public class Board extends JPanel{
 		
 	
 		while (copyDeck.size() != 0){
-			for (int i = 0; i < players.size(); i++){
+			for (int i = 0; i < computerPlayers.size(); i++){
 				if (copyDeck.size() == 0){
 					return;
 				}
-				players.get(i).addCardToHand(copyDeck.get(0));
-				copyDeck.remove(0);
+				if(humanPlayers.get(0).getCardsInHand().size()<=computerPlayers.get(0).getCardsInHand().size()){
+					humanPlayers.get(0).addCardToHand(copyDeck.get(0));
+					copyDeck.remove(0);
+				}
+				else{
+					computerPlayers.get(i).addCardToHand(copyDeck.get(0));
+					copyDeck.remove(0);
+				}
 			}
 		}
 	}
@@ -430,17 +439,17 @@ public class Board extends JPanel{
 		calcTargets(getCellAt(i,j),k);
 		
 	}
-	public ArrayList<Player> getPlayers(){
-		return players;
+	public ArrayList<ComputerPlayer> getComputerPlayers(){
+		return computerPlayers;
 	}
 	public void movePlayer(int index){
 		int moveLength = (int) Math.floor(Math.random()* 6 + 1);
-		BoardCell bc = getCellAt(players.get(index).getColumn(), players.get(index).getRow());
+		BoardCell bc = getCellAt(computerPlayers.get(index).getColumn(), computerPlayers.get(index).getRow());
 		calcTargets(bc, moveLength); //targets updated
-		if(players.get(index).getPlayerType()){
+		if(computerPlayers.get(index).getPlayerType()){
 			//comp player
-			players.get(index).pickLocation(targets);
-			players.get(index).setRoomIn(bc.getInitial());
+			computerPlayers.get(index).pickLocation(targets);
+			computerPlayers.get(index).setRoomIn(bc.getInitial());
 	//		players.makeSuggestion();
 			
 		}
@@ -449,22 +458,34 @@ public class Board extends JPanel{
 		
 	}
 	public Card handleSuggestion(Solution suggestion, String accusingPlayer, BoardCell clicked){
-		int indexAP = players.indexOf(accusingPlayer);
+		int indexAP;
+		if(accusingPlayer == humanPlayers.get(0).getName()){
+			indexAP = 0;
+		}
+		else{
+			indexAP = computerPlayers.indexOf(accusingPlayer);
+		}
 		Card cardToShow = new Card();
 		indexAP+=2;
-		for (int i = 0; i < (players.size() - 1); i++){
+		for (int i = 0; i < (computerPlayers.size() - 1); i++){
 			indexAP+=i;
-			if (indexAP < players.size()){
-				cardToShow = players.get(indexAP).disproveSuggestion(suggestion);
-				players.get(indexAP).setHasBeenQueried(true);
+			if (indexAP < computerPlayers.size()){
+				cardToShow = computerPlayers.get(indexAP).disproveSuggestion(suggestion);
+				computerPlayers.get(indexAP).setHasBeenQueried(true);
 				if (cardToShow != null){
 					return cardToShow;
 				}
 			}
 			else{
-				indexAP = 0;
-				cardToShow = players.get(indexAP).disproveSuggestion(suggestion);
-				players.get(indexAP).setHasBeenQueried(true);
+				if(accusingPlayer == humanPlayers.get(0).getName()){
+					cardToShow = humanPlayers.get(indexAP).disproveSuggestion(suggestion);
+					humanPlayers.get(indexAP).setHasBeenQueried(true);
+				}
+				else{
+					indexAP = 0;
+					cardToShow = computerPlayers.get(indexAP).disproveSuggestion(suggestion);
+					computerPlayers.get(indexAP).setHasBeenQueried(true);
+				}
 				if (cardToShow != null){
 					return cardToShow;
 				}
@@ -475,9 +496,13 @@ public class Board extends JPanel{
 		return null;
 		//		}
 	}
-	public void setPlayers(ArrayList<Player> players) {
-		this.players = players;
+	public void setComputerPlayers(ArrayList<ComputerPlayer> players) {
+		this.computerPlayers = players;
 	}
+	public ArrayList<HumanPlayer> getHumanPlayers() {
+		return humanPlayers;
+	}
+	
 	public boolean checkAccusation(Solution accusation){
 		if (accusation.getPerson() == solution.getPerson() && accusation.getRoom() == solution.getRoom() && accusation.getWeapon() == solution.getWeapon())
 			return true;
@@ -494,13 +519,18 @@ public class Board extends JPanel{
 				getCellAt(i,j).draw(g);
 			}
 		}
-		for (int i = 0; i < NUM_PEOPLE_CARDS; i++){
-			Color color = players.get(i).getColor();
-			int col = players.get(i).getColumn();
-			int row = players.get(i).getRow();
+		for (int i = 0; i < NUM_PEOPLE_CARDS-1; i++){
+			Color color = computerPlayers.get(i).getColor();
+			int col = computerPlayers.get(i).getColumn();
+			int row = computerPlayers.get(i).getRow();			
 			g.setColor(color);
 			g.fillOval(col * (DIMENSION_X), row * (DIMENSION_Y), DIMENSION_X, DIMENSION_Y);
 		}
+		Color color = humanPlayers.get(0).getColor();
+		int col = humanPlayers.get(0).getColumn();
+		int row = humanPlayers.get(0).getRow();			
+		g.setColor(color);
+		g.fillOval(col * (DIMENSION_X), row * (DIMENSION_Y), DIMENSION_X, DIMENSION_Y);
 	}
 	
 	//ONLY INTENDED FOR TESTING
@@ -510,7 +540,10 @@ public class Board extends JPanel{
 	
 	public static void main(String [] args){
 	}
-	
+	public void setHumanPlayers(ArrayList<HumanPlayer> hPlayers) {
+		this.humanPlayers = hPlayers;
+		
+	}
 }
 //pick fn in player class called AFTER player is moved in board class; player's dice roll and calculation of targets
 //calculated here 
