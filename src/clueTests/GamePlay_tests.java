@@ -149,7 +149,7 @@ public class GamePlay_tests {
 	public void testDisproveSuggestionOnePossible(){
 		ComputerPlayer p1 = new ComputerPlayer("Test1",0,0, Color.BLACK);
 		ComputerPlayer p2 = new ComputerPlayer("Test2",0,0, Color.GREEN);
-		ArrayList<ComputerPlayer> players = new ArrayList<ComputerPlayer>();
+		ArrayList<Player> players = new ArrayList<Player>();
 		int row = 0, column = 0;
 		ArrayList<Card> cardsNotSeenTest = new ArrayList<Card>();
 		BoardCell bc = (board.getCellAt(row, column));
@@ -162,7 +162,7 @@ public class GamePlay_tests {
 		p1.setCardsNotSeen(cardsNotSeenTest);
 		p2.addCardToHand(person);
 		p1.makeSuggestion(board, bc);
-		board.setComputerPlayers(players);
+		board.setPlayers(players);
 		Card returnCard = new Card();
 		returnCard = board.handleSuggestion(p1.getSuggestion(), p1.getName(), bc);
 		assertEquals(returnCard.getCardName(), person.getCardName());
@@ -221,7 +221,7 @@ public class GamePlay_tests {
 	public void testDisproveSuggestionTwoPossible(){
 		ComputerPlayer p1 = new ComputerPlayer("Test1",0,0, Color.BLACK);
 		ComputerPlayer p2 = new ComputerPlayer("Test2",0,0, Color.GREEN);
-		ArrayList<ComputerPlayer> players = new ArrayList<ComputerPlayer>();
+		ArrayList<Player> players = new ArrayList<Player>();
 		int row = 0, column = 0;
 		ArrayList<Card> cardsNotSeenTest = new ArrayList<Card>();
 		BoardCell bc = (board.getCellAt(row, column));
@@ -235,7 +235,7 @@ public class GamePlay_tests {
 		p2.addCardToHand(person);
 		p2.addCardToHand(weapon);
 		p1.makeSuggestion(board, bc);
-		board.setComputerPlayers(players);
+		board.setPlayers(players);
 		Card returnCard = new Card();
 		int personCount = 0, weaponCount = 0;
 		for(int i = 0; i<50; i++){
@@ -254,14 +254,14 @@ public class GamePlay_tests {
 	//tests that the players are queried in the correct order
 	@Test
 	public void testOrder(){
-		ArrayList<ComputerPlayer> players = new ArrayList<ComputerPlayer>();
+		ArrayList<Player> players = new ArrayList<Player>();
 		ComputerPlayer p1 = new ComputerPlayer("Test1",0,0, Color.BLACK);
 		ComputerPlayer p2 = new ComputerPlayer("Test2",0,1, Color.BLUE);
 		ComputerPlayer p3 = new ComputerPlayer("Test3",1,0, Color.GREEN);
 		players.add(p1);
 		players.add(p2);
 		players.add(p3);
-		board.setComputerPlayers(players);
+		board.setPlayers(players);
 		BoardCell bc = board.getCellAt(0, 0);
 		Solution s = new Solution("Ms. Scarlette", "Library", "Rope");
 		assertEquals(board.handleSuggestion(s, p1.getName(),bc), null);
@@ -274,14 +274,14 @@ public class GamePlay_tests {
 	//Tests that the current player does not attempt to disprove suggestion
 	@Test
 	public void testAccusingPlayerNoCardReturn(){
-		ArrayList<ComputerPlayer> players = new ArrayList<ComputerPlayer>();
+		ArrayList<Player> players = new ArrayList<Player>();
 		ComputerPlayer p1 = new ComputerPlayer("Test1",0,0, Color.BLACK);
 		ComputerPlayer p2 = new ComputerPlayer("Test2",0,1, Color.BLUE);
 		ComputerPlayer p3 = new ComputerPlayer("Test3",1,0, Color.GREEN);
 		players.add(p1);
 		players.add(p2);
 		players.add(p3);
-		board.setComputerPlayers(players);
+		board.setPlayers(players);
 		BoardCell bc = board.getCellAt(0, 0);
 		Solution s = new Solution("Ms. Scarlette", "Library", "Rope");
 		Card card = new Card("Rope", CardType.WEAPON);
@@ -292,16 +292,14 @@ public class GamePlay_tests {
 	//tests the human player disproving a suggestion
 	@Test
 	public void testHumanPlayer(){
-		ArrayList<ComputerPlayer> players = new ArrayList<ComputerPlayer>();
-		ArrayList<HumanPlayer> hPlayers = new ArrayList<HumanPlayer>();
+		ArrayList<Player> players = new ArrayList<Player>();
 		HumanPlayer p1 = new HumanPlayer("Test1",0,0, Color.BLACK);
 		ComputerPlayer p2 = new ComputerPlayer("Test2",0,1, Color.BLUE);
 		ComputerPlayer p3 = new ComputerPlayer("Test3",1,0, Color.GREEN);
-		hPlayers.add(p1);
+		players.add(p1);
 		players.add(p2);
 		players.add(p3);
-		board.setComputerPlayers(players);
-		board.setHumanPlayers(hPlayers);
+		board.setPlayers(players);
 		BoardCell bc = board.getCellAt(0, 0);
 		Solution s = new Solution("Ms. Scarlette", "Library", "Rope");
 		Card card = new Card("Rope", CardType.WEAPON);
@@ -423,7 +421,7 @@ public class GamePlay_tests {
 		cp.makeSuggestion(board, bc);
 		assertEquals(cp.getSuggestion().person, "Ms. Scarlet");
 		assertEquals(cp.getSuggestion().weapon, "Lead Pipe");
-		assertEquals(cp.getSuggestion().room, "Conservatory");//TODO make pass
+		assertEquals(cp.getSuggestion().room, "Dining room");//TODO make pass
 	}
 	
 	@Test
@@ -451,7 +449,7 @@ public class GamePlay_tests {
 			}
 		}
 		assertEquals(cp.getSuggestion().weapon, "Lead Pipe");
-		assertEquals(cp.getSuggestion().room, "Conservatory");
+		assertEquals(cp.getSuggestion().room, "Dining room");
 		assertTrue(numMsScarlette>5);
 		assertTrue(numProfPlum>5);
 	}

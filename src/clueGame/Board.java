@@ -25,7 +25,7 @@ import javax.swing.border.TitledBorder;
 public class Board extends JPanel{
 	private int numRows,numColumns;
 	protected int rowPixel, colPixel;
-	
+
 	public final static int BOARD_SIZE = 26;
 	public final static int PIXEL_BOARD_SIZE = BOARD_SIZE*20;
 	public final static int PLAYER_NUM = 6;
@@ -35,13 +35,13 @@ public class Board extends JPanel{
 	public final static int NUM_WEAPON_CARDS = 6;
 	public static final int DIMENSION_X = Board.PIXEL_BOARD_SIZE/26;
 	public static final int DIMENSION_Y = Board.PIXEL_BOARD_SIZE/26;
-	
+
 	static BoardCell[][] gameBoard = new BoardCell[BOARD_SIZE][BOARD_SIZE];
 	public Map<BoardCell, LinkedList<BoardCell>> adjacencyList = new HashMap<BoardCell, LinkedList<BoardCell>>(); 
 	private Set<BoardCell> targets;
 	private static Map<Character, String> rooms;
-	private static ArrayList<ComputerPlayer> computerPlayers;
-	private static ArrayList<HumanPlayer> humanPlayers;
+	private static ArrayList<Player> players;
+	//private static ArrayList<HumanPlayer> humanPlayers;
 	private ArrayList<Card> deck;
 	private Solution solution;
 	private String boardConfigFile = "board.csv";
@@ -52,16 +52,16 @@ public class Board extends JPanel{
 	{
 		super();
 		rooms = new HashMap<Character,String>();
-		computerPlayers = new ArrayList<ComputerPlayer>();
-		humanPlayers = new ArrayList<HumanPlayer>();
+		players = new ArrayList<Player>();
+		//humanPlayers = new ArrayList<HumanPlayer>();
 		deck = new ArrayList<Card>();
 		solution = new Solution();
 	}
 	public Board(String boardConfigFile, String roomConfigFile)
 	{
 		super();
-		this.computerPlayers = new ArrayList<ComputerPlayer>();
-		this.humanPlayers = new ArrayList<HumanPlayer>();
+		this.players = new ArrayList<Player>();
+		//this.humanPlayers = new ArrayList<HumanPlayer>();
 		this.boardConfigFile = boardConfigFile;
 		this.roomConfigFile = roomConfigFile;
 		rooms = new HashMap<Character,String>();
@@ -80,14 +80,14 @@ public class Board extends JPanel{
 			loadPlayerConfig();
 			calcAdjancencies();
 			loadCards();
-//			dealCards();
+			//			dealCards();
 		} catch (BadConfigFormatException e) {
 			e.printStackTrace();
 		}
 		this.rowPixel = 0;
 		this.colPixel = 0;
 	}
-	
+
 	public void loadRoomConfig() throws BadConfigFormatException
 	{
 		FileReader reader;
@@ -111,9 +111,9 @@ public class Board extends JPanel{
 		} catch (FileNotFoundException e) {
 			throw new BadConfigFormatException(e.getMessage());
 		}
-		
-		
-		
+
+
+
 	}
 	public void loadBoardConfig()throws BadConfigFormatException
 	{
@@ -121,7 +121,7 @@ public class Board extends JPanel{
 			FileReader reader = new FileReader(boardConfigFile);
 			Scanner in = new Scanner(reader);
 			int i = 0;
-			
+
 			while(in.hasNextLine())
 			{
 				String a = in.nextLine();
@@ -132,7 +132,7 @@ public class Board extends JPanel{
 					throw new BadConfigFormatException("File length excedded max board size.");
 				for(int j = 0; j < test.length;j++)
 				{
-//					System.out.print('['+test[j]+','+j+','+i+"],");
+					//					System.out.print('['+test[j]+','+j+','+i+"],");
 					char initial = test[j].charAt(0);
 					if(!rooms.containsKey(initial))
 					{
@@ -166,7 +166,7 @@ public class Board extends JPanel{
 								break;
 							}
 						}
-							
+
 					}
 					else
 					{
@@ -181,7 +181,7 @@ public class Board extends JPanel{
 			throw ex;
 		}
 	}
-	
+
 	public static Map<Character, String> getRooms() {
 		return rooms;
 	}
@@ -193,13 +193,13 @@ public class Board extends JPanel{
 	}
 	public void calcAdjancencies()
 	{
-		
+
 		for(int i = 0; i < numRows;i++)
 		{
 			for(int j = 0; j < numColumns;j++)
 			{
 				LinkedList<BoardCell> temp= new LinkedList<BoardCell>();
-				
+
 				if(gameBoard[i][j].isRoom() && !gameBoard[i][j].isDoorway()){
 					adjacencyList.put(gameBoard[i][j],temp);
 					continue;
@@ -208,7 +208,7 @@ public class Board extends JPanel{
 				{
 					if(((gameBoard[i][j].initial == gameBoard[i][j+1].initial)&& !gameBoard[i][j].isRoom()) ||(gameBoard[i][j].getDoorDirection().equals(DoorDirection.RIGHT) ||gameBoard[i][j+1].getDoorDirection().equals(DoorDirection.LEFT)))
 						temp.add(gameBoard[i][j+1]);
-					
+
 				}
 				if(i+1 < numRows)
 				{
@@ -218,7 +218,7 @@ public class Board extends JPanel{
 				if(j-1 >=0)
 				{
 					if(((gameBoard[i][j].initial == gameBoard[i][j-1].initial)&& !gameBoard[i][j].isRoom()) || (gameBoard[i][j].getDoorDirection().equals(DoorDirection.LEFT) || (gameBoard[i][j-1].getDoorDirection().equals(DoorDirection.RIGHT))))
-						{temp.add(gameBoard[i][j-1]);}
+					{temp.add(gameBoard[i][j-1]);}
 				}
 				if(i-1 >=0)
 				{
@@ -229,7 +229,7 @@ public class Board extends JPanel{
 			}
 		}
 	}
-	
+
 	public BoardCell getCellAt(int xPos, int yPos)
 	{
 		return gameBoard[xPos][yPos];
@@ -240,8 +240,8 @@ public class Board extends JPanel{
 			targets = new HashSet<BoardCell>();
 			/*Line above is only used when the start cell is a non doorway inside of a room, 
 				in current gameplay this would never happen but some tests need this line, 
-			*/
-//			System.out.println(startCell);
+			 */
+			//			System.out.println(startCell);
 			Set<BoardCell> usedSpaces = new HashSet<BoardCell>();
 			usedSpaces.add(startCell);
 			for(BoardCell i: adjacencyList.get(startCell))
@@ -261,7 +261,7 @@ public class Board extends JPanel{
 	{
 		return targets;
 	}
-	
+
 	private Set<BoardCell> drawLine(Set<BoardCell> usedSpaces, BoardCell currentLocation, int spacesLeft)
 	{
 		usedSpaces.add(currentLocation);
@@ -300,48 +300,47 @@ public class Board extends JPanel{
 				String[] test = a.split(",");
 				if( test.length != 4)
 					throw new BadConfigFormatException("Player config file is not formatted correctly.");
-					String playerName = test[0];
-					String color = test[1];
-					color = color.toUpperCase();
-					Color colorPlayer = null;	
-					switch (color){
-					case "BLUE":
-						colorPlayer = Color.BLUE;
-						break;
-					case "WHITE":
-						colorPlayer = Color.WHITE;
-						break;
-					case "RED":
-						colorPlayer = Color.RED;
-						break;
-					case "YELLOW":
-						colorPlayer = Color.YELLOW;
-						break;
-					case "GREEN":
-						colorPlayer = Color.GREEN;
-						break;
-					case "PURPLE":
-						colorPlayer = Color.MAGENTA;
-						break;
-					default:
-						System.out.println("Color not found.");
-					}
-					int column = Integer.parseInt(test[2]);
-					int row = Integer.parseInt(test[3]);
-					//human player always at index 0; can randomize; set in this way so can use in tests
-					if (!humanPlayerAssigned){
-						HumanPlayer next = new HumanPlayer(playerName, row, column, colorPlayer);
-						humanPlayers.add(next);
-						humanPlayerAssigned = true;
-						System.out.println(next.getName() + " " + humanPlayers.get(0).getName());
-					}
-					else{
-						ComputerPlayer next = new ComputerPlayer(playerName, row, column, colorPlayer);
-						computerPlayers.add(next);
-					}
-					
+				String playerName = test[0];
+				String color = test[1];
+				color = color.toUpperCase();
+				Color colorPlayer = null;	
+				switch (color){
+				case "BLUE":
+					colorPlayer = Color.BLUE;
+					break;
+				case "WHITE":
+					colorPlayer = Color.WHITE;
+					break;
+				case "RED":
+					colorPlayer = Color.RED;
+					break;
+				case "YELLOW":
+					colorPlayer = Color.YELLOW;
+					break;
+				case "GREEN":
+					colorPlayer = Color.GREEN;
+					break;
+				case "PURPLE":
+					colorPlayer = Color.MAGENTA;
+					break;
+				default:
+					System.out.println("Color not found.");
+				}
+				int column = Integer.parseInt(test[2]);
+				int row = Integer.parseInt(test[3]);
+				//human player always at index 0; can randomize; set in this way so can use in tests
+				if (!humanPlayerAssigned){
+					HumanPlayer next = new HumanPlayer(playerName, row, column, colorPlayer);
+					players.add(next);
+					humanPlayerAssigned = true;
+				}
+				else{
+					ComputerPlayer next = new ComputerPlayer(playerName, row, column, colorPlayer);
+					players.add(next);
+				}
+
 			}
-			if (humanPlayers.size() + computerPlayers.size() != PLAYER_NUM){
+			if (players.size() != PLAYER_NUM){
 				throw new BadConfigFormatException("The number of players read in from file is incorrect.");
 			}
 		} catch (FileNotFoundException e) {
@@ -349,7 +348,7 @@ public class Board extends JPanel{
 			throw ex;
 		}
 	}
-	
+
 	public void loadCards() throws BadConfigFormatException {
 		//cardDeckFile.csv
 		try {
@@ -363,24 +362,24 @@ public class Board extends JPanel{
 				String[] test = a.split(",");
 				if( test.length != 2)
 					throw new BadConfigFormatException("Player config file is not formatted correctly.");
-					String cardName = test[0];
-					String type = test[1];
-					
-					switch (type){
-					case "PERSON":
-						cardType = CardType.PERSON;
-						break;
-					case "ROOM":
-						cardType = CardType.ROOM;
-						break;
-					case "WEAPON":
-						cardType = CardType.WEAPON;
-						break;
-					default:
-						System.out.println("Type not found.");
-					}
-					Card next = new Card(cardName, cardType);
-					deck.add(next);
+				String cardName = test[0];
+				String type = test[1];
+
+				switch (type){
+				case "PERSON":
+					cardType = CardType.PERSON;
+					break;
+				case "ROOM":
+					cardType = CardType.ROOM;
+					break;
+				case "WEAPON":
+					cardType = CardType.WEAPON;
+					break;
+				default:
+					System.out.println("Type not found.");
+				}
+				Card next = new Card(cardName, cardType);
+				deck.add(next);
 			}
 			if (deck.size() != DECK_SIZE){
 				throw new BadConfigFormatException("The number of cards read in from file is incorrect; deck size = " + deck.size());
@@ -395,40 +394,34 @@ public class Board extends JPanel{
 		String solnPerson;
 		String solnRoom;
 		String solnWeapon;
-	
+
 		//rand card from index 0 to NUM_PEOPLE_CARDS - 1
 		int index = (int)(Math.random() % NUM_PEOPLE_CARDS);
 		solnPerson = copyDeck.get(index).getCardName();
 		copyDeck.remove(index);
-		
+
 		//rand card from index NUM_PEOPLE_CARDS to (NUM_PEOPLE_CARDS + (NUM_ROOM_CARDS - 1))
 		index = (int)(Math.random() % NUM_ROOM_CARDS) + (NUM_PEOPLE_CARDS);
 		solnRoom = copyDeck.get(index).getCardName();
 		copyDeck.remove(index);
-		
+
 		//rand card from index (NUM_PEOPLE_CARDS + (NUM_ROOM_CARDS)) to DECK_SIZE - 1
 		index = (int)(Math.random() % NUM_WEAPON_CARDS) + (NUM_ROOM_CARDS + NUM_PEOPLE_CARDS);
 		solnWeapon = copyDeck.get(index).getCardName();
 		copyDeck.remove(index);
-		
+
 		solution.setPerson(solnPerson);
 		solution.setRoom(solnRoom);
 		solution.setWeapon(solnWeapon);
-		
-	
+
+
 		while (copyDeck.size() != 0){
-			for (int i = 0; i < computerPlayers.size(); i++){
+			for (int i = 0; i < players.size(); i++){
 				if (copyDeck.size() == 0){
 					return;
 				}
-				if(humanPlayers.get(0).getCardsInHand().size()<=computerPlayers.get(0).getCardsInHand().size()){
-					humanPlayers.get(0).addCardToHand(copyDeck.get(0));
-					copyDeck.remove(0);
-				}
-				else{
-					computerPlayers.get(i).addCardToHand(copyDeck.get(0));
-					copyDeck.remove(0);
-				}
+				players.get(i).addCardToHand(copyDeck.get(0));
+				copyDeck.remove(0);
 			}
 		}
 	}
@@ -437,72 +430,56 @@ public class Board extends JPanel{
 	}
 	public void calcTargets(int i, int j, int k) {
 		calcTargets(getCellAt(i,j),k);
-		
+
 	}
-	public ArrayList<ComputerPlayer> getComputerPlayers(){
-		return computerPlayers;
+	public ArrayList<Player> getPlayers(){
+		return players;
 	}
 	public void movePlayer(int index){
 		int moveLength = (int) Math.floor(Math.random()* 6 + 1);
-		BoardCell bc = getCellAt(computerPlayers.get(index).getColumn(), computerPlayers.get(index).getRow());
+		BoardCell bc = getCellAt(players.get(index).getColumn(), players.get(index).getRow());
 		calcTargets(bc, moveLength); //targets updated
-		if(computerPlayers.get(index).getPlayerType()){
+		if(players.get(index).getPlayerType()){
 			//comp player
-			computerPlayers.get(index).pickLocation(targets);
-			computerPlayers.get(index).setRoomIn(bc.getInitial());
-	//		players.makeSuggestion();
-			
+			players.get(index).pickLocation(targets);
+			players.get(index).setRoomIn(bc.getInitial());
+
 		}
 	}
 	public void selectAnswer(){
-		
+
 	}
 	public Card handleSuggestion(Solution suggestion, String accusingPlayer, BoardCell clicked){
 		int indexAP;
-		if(accusingPlayer == humanPlayers.get(0).getName()){
-			indexAP = 0;
-		}
-		else{
-			indexAP = computerPlayers.indexOf(accusingPlayer);
-		}
+		indexAP = players.indexOf(accusingPlayer);
 		Card cardToShow = new Card();
 		indexAP+=2;
-		for (int i = 0; i < (computerPlayers.size() - 1); i++){
+		for (int i = 0; i < (players.size() - 1); i++){
 			indexAP+=i;
-			if (indexAP < computerPlayers.size()){
-				cardToShow = computerPlayers.get(indexAP).disproveSuggestion(suggestion);
-				computerPlayers.get(indexAP).setHasBeenQueried(true);
+			if (indexAP < players.size()){
+				cardToShow = players.get(indexAP).disproveSuggestion(suggestion);
+				players.get(indexAP).setHasBeenQueried(true);
 				if (cardToShow != null){
 					return cardToShow;
 				}
 			}
 			else{
-				if(accusingPlayer == humanPlayers.get(0).getName()){
-					cardToShow = humanPlayers.get(indexAP).disproveSuggestion(suggestion);
-					humanPlayers.get(indexAP).setHasBeenQueried(true);
-				}
-				else{
-					indexAP = 0;
-					cardToShow = computerPlayers.get(indexAP).disproveSuggestion(suggestion);
-					computerPlayers.get(indexAP).setHasBeenQueried(true);
-				}
+				indexAP = 0;
+				cardToShow = players.get(indexAP).disproveSuggestion(suggestion);
+				players.get(indexAP).setHasBeenQueried(true);
 				if (cardToShow != null){
 					return cardToShow;
 				}
 			}
 		}
-		//		if (cardToShow == null){
+
 		System.out.println("No players have cards to show to disprove this accusation.");
 		return null;
-		//		}
 	}
-	public void setComputerPlayers(ArrayList<ComputerPlayer> players) {
-		this.computerPlayers = players;
+	public void setPlayers(ArrayList<Player> players) {
+		this.players = players;
 	}
-	public ArrayList<HumanPlayer> getHumanPlayers() {
-		return humanPlayers;
-	}
-	
+
 	public boolean checkAccusation(Solution accusation){
 		if (accusation.getPerson() == solution.getPerson() && accusation.getRoom() == solution.getRoom() && accusation.getWeapon() == solution.getWeapon())
 			return true;
@@ -512,37 +489,26 @@ public class Board extends JPanel{
 	@Override
 	public void paintComponent(Graphics g){
 		super.paintComponent(g);
-//		g.setColor(Color.gray);
-//		g.fillRect(0, 0, 26*26, 26*26);
 		for(int i = 0; i < Board.BOARD_SIZE; i++){
 			for(int j = 0; j<Board.BOARD_SIZE; j++){
 				getCellAt(i,j).draw(g);
 			}
 		}
-		for (int i = 0; i < NUM_PEOPLE_CARDS-1; i++){
-			Color color = computerPlayers.get(i).getColor();
-			int col = computerPlayers.get(i).getColumn();
-			int row = computerPlayers.get(i).getRow();			
+		for (int i = 0; i < NUM_PEOPLE_CARDS; i++){
+			Color color = players.get(i).getColor();
+			int col = players.get(i).getColumn();
+			int row = players.get(i).getRow();			
 			g.setColor(color);
 			g.fillOval(col * (DIMENSION_X), row * (DIMENSION_Y), DIMENSION_X, DIMENSION_Y);
 		}
-		Color color = humanPlayers.get(0).getColor();
-		int col = humanPlayers.get(0).getColumn();
-		int row = humanPlayers.get(0).getRow();			
-		g.setColor(color);
-		g.fillOval(col * (DIMENSION_X), row * (DIMENSION_Y), DIMENSION_X, DIMENSION_Y);
 	}
-	
+
 	//ONLY INTENDED FOR TESTING
 	public Solution getSolution(){
 		return this.solution;
 	}
-	
+
 	public static void main(String [] args){
-	}
-	public void setHumanPlayers(ArrayList<HumanPlayer> hPlayers) {
-		this.humanPlayers = hPlayers;
-		
 	}
 }
 //pick fn in player class called AFTER player is moved in board class; player's dice roll and calculation of targets

@@ -39,17 +39,17 @@ public class GameSetupTests {
 	public void testPeopleConfig() {
 		//loadPeopleConfig called in initialize method. 
 		//Tests 3 different players for the correct name, color and location
-		assertEquals(board.getHumanPlayers().get(0).getName(), "Ms. Peacock");
-		assertEquals(board.getComputerPlayers().get(3).getName(), "Rev. Green");
+		assertEquals(board.getPlayers().get(0).getName(), "Ms. Peacock");
+		assertEquals(board.getPlayers().get(3).getName(), "Rev. Green");
 		
-		assertEquals(board.getHumanPlayers().get(0).getRow(), 25);
-		assertEquals(board.getComputerPlayers().get(3).getRow(), 0);
+		assertEquals(board.getPlayers().get(0).getRow(), 25);
+		assertEquals(board.getPlayers().get(3).getRow(), 0);
 		
-		assertEquals(board.getHumanPlayers().get(0).getColumn(), 0);
-		assertEquals(board.getComputerPlayers().get(3).getColumn(), 25);
+		assertEquals(board.getPlayers().get(0).getColumn(), 0);
+		assertEquals(board.getPlayers().get(3).getColumn(), 25);
 		
-		assertEquals(board.getHumanPlayers().get(0).getColor(), Color.BLUE);
-		assertEquals(board.getComputerPlayers().get(3).getColor(), Color.GREEN);
+		assertEquals(board.getPlayers().get(0).getColor(), Color.BLUE);
+		assertEquals(board.getPlayers().get(3).getColor(), Color.GREEN);
 	}
 	
 	@Test
@@ -93,25 +93,19 @@ public class GameSetupTests {
 		//tests that the whole deck is dealt
 		int totalDealt = 3;
 
-		for (int i = 0; i <= board.getComputerPlayers().size(); i++){
+		for (int i = 0; i < board.getPlayers().size(); i++){
 			ArrayList<Card> hand = new ArrayList<Card>();
-			if(i == 5){
-				hand = board.getHumanPlayers().get(0).getCardsInHand();
-				totalDealt += board.getHumanPlayers().get(0).getCardsInHand().size();
-			}
-			else{
-				hand = board.getComputerPlayers().get(i).getCardsInHand();
-				totalDealt += board.getComputerPlayers().get(i).getCardsInHand().size();
-			}
+			hand = board.getPlayers().get(i).getCardsInHand();
+			totalDealt += board.getPlayers().get(i).getCardsInHand().size();
 		}
 		assertEquals(totalDealt, 21);
 		
 		//tests that all players hands are roughly equal
-		assertEquals(board.getHumanPlayers().get(0).getCardsInHand().size(), board.getComputerPlayers().get(0).getCardsInHand().size(), 1);
-		assertEquals(board.getComputerPlayers().get(0).getCardsInHand().size(), board.getComputerPlayers().get(1).getCardsInHand().size(), 1);
-		assertEquals(board.getComputerPlayers().get(1).getCardsInHand().size(), board.getComputerPlayers().get(2).getCardsInHand().size(), 1);
-		assertEquals(board.getComputerPlayers().get(2).getCardsInHand().size(), board.getComputerPlayers().get(3).getCardsInHand().size(), 1);
-		assertEquals(board.getComputerPlayers().get(3).getCardsInHand().size(), board.getComputerPlayers().get(4).getCardsInHand().size(), 1);
+		assertEquals(board.getPlayers().get(0).getCardsInHand().size(), board.getPlayers().get(0).getCardsInHand().size(), 1);
+		assertEquals(board.getPlayers().get(0).getCardsInHand().size(), board.getPlayers().get(1).getCardsInHand().size(), 1);
+		assertEquals(board.getPlayers().get(1).getCardsInHand().size(), board.getPlayers().get(2).getCardsInHand().size(), 1);
+		assertEquals(board.getPlayers().get(2).getCardsInHand().size(), board.getPlayers().get(3).getCardsInHand().size(), 1);
+		assertEquals(board.getPlayers().get(3).getCardsInHand().size(), board.getPlayers().get(4).getCardsInHand().size(), 1);
 		
 		//test if any card is held by more than one player
 		ArrayList<Integer> numPlayersHave = new ArrayList<Integer>();
@@ -132,16 +126,9 @@ public class GameSetupTests {
 				numPlayersHave.add(count);
 			}
 			
-			for(int i = 0; i<board.getComputerPlayers().size() + board.getHumanPlayers().size(); i++){
-				if(i == 0){
-					if(board.getHumanPlayers().get(i).getCardsInHand().contains(x)){
-						count++;
-					}
-				}
-				else{
-					if(board.getComputerPlayers().get(i).getCardsInHand().contains(x)){
-						count++;
-					}
+			for(int i = 0; i<board.getPlayers().size(); i++){
+				if(board.getPlayers().get(i).getCardsInHand().contains(x)){
+					count++;
 				}
 			}		
 			numPlayersHave.add(count);
